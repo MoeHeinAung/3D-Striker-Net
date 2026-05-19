@@ -1,0 +1,33 @@
+import threading
+import uvicorn
+import webview
+import sys
+import os
+from dotenv import load_dotenv
+from desktop.window import create_desktop_window
+
+# Ensure we can import backend
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+def run_backend():
+    """Runs the FastAPI server using uvicorn."""
+    # We use a string reference to avoid issues with threading and reloads
+    uvicorn.run("backend.app.main:app", host="127.0.0.1", port=8000, log_level="info", reload=False)
+
+def start_app():
+    """Bootstraps the backend and starts the desktop GUI."""
+    load_dotenv()
+    
+    # 1. Start Backend Thread
+    backend_thread = threading.Thread(target=run_backend, daemon=True)
+    backend_thread.start()
+    
+    # 2. Create Window
+    create_desktop_window()
+    
+    # 3. Start pywebview event loop
+    # debug=True allows for Inspect Element (right click) in dev
+    webview.start(debug=True)
+
+if __name__ == "__main__":
+    start_app()

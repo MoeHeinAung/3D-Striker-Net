@@ -1,0 +1,21 @@
+// Design System Variables
+$void-black: #0A0B0E;
+$obsidian: #14161C;
+$striker-blue: #00F0FF;
+$neural-violet: #8A2BE2;
+$alert-red: #FF0055;
+$success-emerald: #00FF9D;
+$steel-grey: #2D323E;
+
+$font-primary: 'Inter', sans-serif;
+$font-mono: 'JetBrains Mono', monospace;
+
+@mixin sci-fi-border {
+  border: 1px solid rgba($striker-blue, 0.2);
+  box-shadow: 0 0 10px rgba($striker-blue, 0.05);
+}
+
+@mixin glassmorphism {
+  backdrop-filter: blur(12px);
+  background: rgba($obsidian, 0.7);
+}
