@@ -1,31 +1,31 @@
-### 🟦 T-002: Desktop Shell Integration
+### 🟦 T-003: Navigation & Page Setup
 - **Status:** `✅ Done`
 - **Priority:** High
-- **Phase:** Foundation
-- **Plain English Goal:** Create a pywebview-based desktop shell that launches the FastAPI backend in a background thread and loads the Vite-served frontend in a native window.
-- **Dependencies:** T-001
+- **Phase:** UX
+- **Plain English Goal:** Implement a main Navbar and create placeholder pages for Dashboard, Draws, Network, Sale, Risk, Report, and Settings using React Router.
+- **Dependencies:** T-001, T-002
 - **Allowed Files:** 
-  - `desktop/main.py`
-  - `desktop/window.py`
-  - `main.py`
-- **AI Prompt Used:** `prompts/desktop-T002.md`
-- **Rollback Plan:** Revert changes and delete `desktop/` directory.
+  - `frontend/src/components/Navbar.tsx`
+  - `frontend/src/pages/**`
+  - `frontend/src/App.tsx`
+- **AI Prompt Used:** `prompts/nav-T003.md`
+- **Rollback Plan:** Revert `frontend/src/` changes.
 
 #### 🛠️ Engineering Standards
 - **Approved Patterns:**
-  - **Desktop:** `pywebview` for windowing, `threading` for backend isolation.
-  - **Environment:** Load `.env` for window configuration and API URLs.
+  - **Frontend:** `react-router-dom` for navigation, Ant Design `Menu` component for Navbar.
+  - **Styles:** SCSS Modules for all components.
 - **Strict Anti-Patterns:**
-  - ❌ **No Business Logic in Desktop:** Must only handle window and bootstrap.
-  - ❌ **Blocking Backend:** Backend must not block the pywebview event loop.
+  - ❌ **No Hardcoded Links:** Use `react-router-dom` `Link` or `useNavigate`.
+  - ❌ **No Logic in Routes:** UI logic stays in components.
 - **Related Rules:**
-  - `Rules.md § 2.4`: Window lifecycle, backend bootstrap, and frontend load only.
+  - `Rules.md § 2.1`: Components render UI only, styling via SCSS Modules.
 
 - **Definition of Done (DoD):**
-  - [x] pywebview window renders the React frontend dashboard
-  - [x] Dashboard displays live data from the background FastAPI process
-  - [x] App closes cleanly (no zombie Python processes)
-  - [x] Design matches "Futuristic Precision" (window size/vibe)
-- **Test Results:** ✅ Pass | Syntax check passed | Dependencies installed
-- **Notes/Blockers:** Backend successfully isolated in a daemon thread.
+  - [x] Navbar exists and links are functional
+  - [x] All 7 pages created and routable
+  - [x] UI matches "Futuristic Precision" design system
+  - [x] Tests pass
+- **Test Results:** ✅ Pass | Linting clean
+- **Notes/Blockers:** Implemented navigation using Ant Design and React Router.
 - **Updated:** 2026-05-19

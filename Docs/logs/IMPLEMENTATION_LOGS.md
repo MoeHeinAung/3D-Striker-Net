@@ -9,6 +9,7 @@
 |------|--------------|--------------------------|----------|--------------|----------|
 | T-001| `✅ Done`      | Foundation Setup         | High     | Foundation   | 2026-05-19|
 | T-002| `✅ Done`      | Desktop Shell Integration | High     | Foundation   | 2026-05-19|
+| T-003| `⬜ Not Started` | Navigation & Page Setup  | High     | UX           | 2026-05-19|
 
 ---
 ## 📝 Task Log
@@ -47,4 +48,25 @@
   - [x] Clean shutdown (closing window kills backend thread)
 - **Test Results:** ✅ Pass | Syntax check passed | Dependencies installed
 - **Notes/Blockers:** Backend successfully isolated in a daemon thread.
+- **Updated:** 2026-05-19
+
+### 🟦 T-003: Navigation & Page Setup
+- **Status:** `⬜ Not Started`
+- **Priority:** High
+- **Phase:** UX
+- **Plain English Goal:** Implement a main Navbar and create placeholder pages for Dashboard, Draws, Network, Sale, Risk, Report, and Settings using React Router.
+- **Dependencies:** T-001, T-002
+- **Allowed Files:** 
+  - `frontend/src/components/Navbar.tsx`
+  - `frontend/src/pages/**`
+  - `frontend/src/App.tsx`
+- **AI Prompt Used:** `prompts/nav-T003.md`
+- **Rollback Plan:** Revert `frontend/src/` changes.
+- **Definition of Done (DoD):**
+  - [ ] Navbar exists and links are functional
+  - [ ] All 7 pages created and routable
+  - [ ] UI matches "Futuristic Precision" design system
+  - [ ] Tests pass
+- **Test Results:** ⬜ Pending
+- **Notes/Blockers:** Requires react-router-dom configuration.
 - **Updated:** 2026-05-19
