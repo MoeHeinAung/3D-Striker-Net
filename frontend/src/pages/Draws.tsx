@@ -4,12 +4,10 @@ import { useDraws, useCreateDraw, useUpdateDraw, useDeleteDraw } from '../querie
 import { DrawStatus } from '../types/draw.js';
 import type { Draw } from '../types/draw.js';
 import dayjs from 'dayjs';
-import type { Dayjs } from 'dayjs';
 
 export const DrawsPage = () => {
   const { message } = App.useApp();
-  const { data, isLoading, refetch } = useDraws();
-  console.log("Draws Page Data:", data);
+  const { data, isLoading } = useDraws();
   const createDraw = useCreateDraw();
   const updateDraw = useUpdateDraw();
   const deleteDraw = useDeleteDraw();
@@ -17,24 +15,25 @@ export const DrawsPage = () => {
   const [editingDraw, setEditingDraw] = useState<Draw | null>(null);
   const [form] = Form.useForm();
 
-  const handleFinish = async (values: any) => {
+  const handleFinish = async (values: Record<string, unknown>) => {
     try {
       if (editingDraw) {
         await updateDraw.mutateAsync({ id: editingDraw.id, data: values });
         message.success('Draw updated');
       } else {
         await createDraw.mutateAsync({
-          open_date: values.open_date.format('YYYY-MM-DDTHH:mm:ss'),
-          cutoff_time: values.cutoff_time.format('HH:mm'),
-          note: values.note,
+          open_date: (values.open_date as dayjs.Dayjs).format('YYYY-MM-DDTHH:mm:ss'),
+          cutoff_time: (values.cutoff_time as dayjs.Dayjs).format('HH:mm'),
+          note: values.note as string,
         });
         message.success('Draw created');
       }
       setIsModalVisible(false);
       setEditingDraw(null);
       form.resetFields();
-    } catch (e: any) {
-      message.error(e.response?.data?.error?.message || 'Action failed');
+    } catch (e: unknown) {
+      const error = e as { response?: { data?: { error?: { message: string } } } };
+      message.error(error.response?.data?.error?.message || 'Action failed');
     }
   };
 

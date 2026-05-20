@@ -32,7 +32,7 @@ export const useCreateAgent = () => {
 export const useUpdateAgent = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: ({ id, data }: { id: string, data: any }) => api.patch(`/agents/${id}`, data),
+        mutationFn: ({ id, data }: { id: string, data: Record<string, unknown> }) => api.patch(`/agents/${id}`, data),
         onSuccess: () => queryClient.invalidateQueries({ queryKey: ['agents'] }),
     });
 };

@@ -17,7 +17,7 @@ export const useCreateDraw = () => {
 export const useUpdateDraw = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: ({ id, data }: { id: number, data: any }) => drawService.update(id, data),
+        mutationFn: ({ id, data }: { id: number, data: Record<string, unknown> }) => drawService.update(id, data),
         onSuccess: () => queryClient.invalidateQueries({ queryKey: ['draws'] }),
     });
 };

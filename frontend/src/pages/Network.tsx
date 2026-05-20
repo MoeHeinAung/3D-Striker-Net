@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Table, Button, Modal, Form, Input, InputNumber, Tag, App, Popconfirm } from 'antd';
+import { Table, Button, Modal, Form, Input, InputNumber, App, Popconfirm } from 'antd';
 import { useAgents, useCreateAgent, useUpdateAgent, useDeleteAgent } from '../queries/useAgents.js';
 import type { Agent } from '../queries/useAgents.js';
 
@@ -13,20 +13,21 @@ export const NetworkPage = () => {
   const [editingAgent, setEditingAgent] = useState<Agent | null>(null);
   const [form] = Form.useForm();
 
-  const handleFinish = async (values: any) => {
+  const handleFinish = async (values: Record<string, unknown>) => {
     try {
       if (editingAgent) {
         await updateAgent.mutateAsync({ id: editingAgent.id, data: values });
         message.success('Agent updated');
       } else {
-        await createAgent.mutateAsync(values);
+        await createAgent.mutateAsync(values as Omit<Agent, 'created_at'>);
         message.success('Agent created');
       }
       setIsModalVisible(false);
       setEditingAgent(null);
       form.resetFields();
-    } catch (e: any) {
-      message.error(e.message || 'Action failed');
+    } catch (e: unknown) {
+      const error = e as { message: string };
+      message.error(error.message || 'Action failed');
     }
   };
 
