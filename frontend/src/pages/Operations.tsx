@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Layout, Table, Button, Modal, Form, Input, InputNumber, App } from 'antd';
+import { Table, Button, Modal, Form, Input, InputNumber, App } from 'antd';
 import { useSales, useCreateSale } from '../queries/useSales.js';
 
 export const OperationsPage = () => {
