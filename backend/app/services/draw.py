@@ -2,7 +2,6 @@ from sqlalchemy.orm import Session
 from fastapi import HTTPException
 from backend.app.repositories.draw import DrawRepository
 from backend.app.schemas.draw import DrawCreate, DrawUpdate
-from backend.app.models.draw import DrawStatus
 
 class DrawService:
     def __init__(self, db: Session):

@@ -3,7 +3,6 @@ import { Table, Button, Modal, Form, Input, DatePicker, TimePicker, Tag, message
 import { useDraws, useCreateDraw, useUpdateDrawStatus } from '../queries/useDraws.js';
 import { DrawStatus } from '../types/draw.js';
 import type { Draw } from '../types/draw.js';
-import styles from '../styles/App.module.scss';
 import type { Dayjs } from 'dayjs';
 
 export const DrawsPage = () => {
@@ -68,7 +67,7 @@ export const DrawsPage = () => {
   ];
 
   return (
-    <div className={styles.bentoItem}>
+    <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
         <h2>Draws Management</h2>
         <Button type="primary" onClick={() => setIsModalVisible(true)}>Create Draw</Button>
