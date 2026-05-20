@@ -3,6 +3,7 @@ import { Table, Button, Modal, Form, Input, DatePicker, TimePicker, Tag, App, Po
 import { useDraws, useCreateDraw, useUpdateDraw, useDeleteDraw } from '../queries/useDraws.js';
 import { DrawStatus } from '../types/draw.js';
 import type { Draw } from '../types/draw.js';
+import dayjs from 'dayjs';
 import type { Dayjs } from 'dayjs';
 
 export const DrawsPage = () => {
@@ -44,7 +45,9 @@ export const DrawsPage = () => {
 
   const columns = [
     { title: 'ID', dataIndex: 'id', key: 'id' },
+    { title: 'Open Date', dataIndex: 'open_date', key: 'open_date' },
     { title: 'Cutoff', dataIndex: 'cutoff_time', key: 'cutoff_time' },
+    { title: 'Note', dataIndex: 'note', key: 'note' },
     {
       title: 'Status',
       dataIndex: 'status',
@@ -60,7 +63,15 @@ export const DrawsPage = () => {
       key: 'action',
       render: (_: unknown, record: Draw) => (
         <div style={{ display: 'flex', gap: '8px' }}>
-          <Button size="small" onClick={() => { setEditingDraw(record); setIsModalVisible(true); }}>Edit</Button>
+          <Button size="small" onClick={() => { 
+            setEditingDraw(record); 
+            setIsModalVisible(true);
+            form.setFieldsValue({
+              ...record,
+              open_date: record.open_date ? dayjs(record.open_date) : null,
+              cutoff_time: record.cutoff_time ? dayjs(record.cutoff_time, 'HH:mm') : null
+            });
+          }}>Edit</Button>
           <Popconfirm title="Delete this draw?" onConfirm={() => handleDelete(record.id)}>
              <Button size="small" danger>Delete</Button>
           </Popconfirm>
@@ -73,11 +84,15 @@ export const DrawsPage = () => {
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '1rem' }}>
         <h2>Operations: Draws</h2>
-        <Button type="primary" className="btn-special" onClick={() => setIsModalVisible(true)}>Create Draw</Button>
+        <Button type="primary" className="btn-special" onClick={() => {
+          setEditingDraw(null);
+          form.resetFields();
+          setIsModalVisible(true);
+        }}>Create Draw</Button>
       </div>
       
       <Table 
-        dataSource={data?.data || []} 
+        dataSource={Array.isArray(data) ? data : []} 
         columns={columns} 
         rowKey="id" 
         loading={isLoading}
@@ -94,10 +109,6 @@ export const DrawsPage = () => {
           form={form} 
           onFinish={handleFinish} 
           layout="vertical"
-          initialValues={editingDraw ? {
-              ...editingDraw,
-              open_date: editingDraw.open_date ? require('dayjs')(editingDraw.open_date) : null
-          } : {}}
         >
 
           <Form.Item name="open_date" label="Open Date" rules={[{ required: true }]}>

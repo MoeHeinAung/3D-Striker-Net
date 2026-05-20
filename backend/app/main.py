@@ -1,9 +1,9 @@
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
-from backend.app.api.router import api_router
-from backend.app.db.database import init_db
-from backend.app.schemas.base import ErrorEnvelope, ErrorDetail
+from app.api.router import api_router
+from app.db.database import init_db
+from app.schemas.base import ErrorEnvelope, ErrorDetail
 
 app = FastAPI(title="3D-Striker-Net API")
 

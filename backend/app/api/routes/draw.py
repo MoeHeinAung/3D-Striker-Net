@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from backend.app.schemas.base import SuccessEnvelope
-from backend.app.schemas.draw import DrawCreate, DrawResponse, DrawUpdate
-from backend.app.services.draw import DrawService
-from backend.app.db.database import get_db
+from app.schemas.base import SuccessEnvelope
+from app.schemas.draw import DrawCreate, DrawResponse, DrawUpdate
+from app.services.draw import DrawService
+from app.db.database import get_db
 
 router = APIRouter()
 

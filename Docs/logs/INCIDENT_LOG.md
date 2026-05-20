@@ -9,6 +9,7 @@
 |-------|--------------|----------|--------------------------------------|------------|------------|
 | I-001 | `📦 Closed`  | 🟢 Low   | Sass `@import` deprecation warning   | 2026-05-19 | 2026-05-19 |
 | I-002 | `📦 Closed`  | 🟡 Medium | ESM module resolution error (missing .js) | 2026-05-19 | 2026-05-20 |
+| I-003 | `📦 Closed`  | 🔴 Critical | Backend startup & UI rendering failure | 2026-05-20 | 2026-05-20 |
 
 **Status Options:** `⬜ Open` | `🔍 Investigating` | `🔧 Fixed` | `✅ Verified` | `📦 Closed`
 **Severity Options:** `🔴 Critical` | `🟠 High` | `🟡 Medium` | `🟢 Low`
@@ -16,7 +17,37 @@
 ---
 ## 📝 Incident Log
 
-### 🔴 I-001: Sass @import Deprecation Warning
+... [Rest of I-001 and I-002] ...
+
+### 🔴 I-003: Backend Startup & UI Rendering Failure
+- **Status:** `📦 Closed`
+- **Severity:** 🔴 Critical
+- **Detected:** 2026-05-20 12:00
+- **Plain English Description:** Backend failed to start via desktop runner due to import errors; UI rendered an empty table despite data being present in the API console.
+- **Reproduction Steps:** 
+  1. Run `python main.py` from root.
+  2. Observe `ModuleNotFoundError: No module named 'backend'` in terminal.
+  3. Navigate to Draws page; observe empty table with Status 200 in logs.
+- **Root Cause:** 
+    1. **Import Drift:** Absolute imports (`backend.app...`) failed when the working directory was `backend/`.
+    2. **DB Ghosting:** API used an empty `app.db` in the backend folder instead of the populated root DB.
+    3. **Double Unwrap:** Service layer redundant `.data` access returned `undefined` because the Axios interceptor already unwrapped the response.
+    4. **Legacy require:** Use of `require('dayjs')` in Vite caused component instability.
+- **Immediate Containment:** 
+    1. Batch updated imports to relative `app...`.
+    2. Corrected desktop runner `sys.path`.
+    3. Manually synced `app.db`.
+- **Permanent Fix:** 
+    1. Standardized all backend imports to be package-relative.
+    2. Refactored `drawService.ts` to correctly handle the Axios envelope.
+    3. Replaced all `require` calls with ESM imports in the frontend.
+    4. Added strict `Array.isArray` checks before rendering Tables.
+- **New Tests Added:** Manual verification of backend startup and UI data rendering.
+- **Rules / SSOT Updated:** Added rules regarding relative imports, Dayjs usage, and envelope handling.
+- **AI Prompt Used:** None (Surgical fix)
+- **Verification Result:** Pass | Backend starts, data renders, modal functional.
+- **Notes / Lessons:** Avoid absolute package imports in hybrid desktop/web environments; always use ESM imports in Vite.
+- **Updated:** 2026-05-20
 - **Status:** `✅ Verified`
 - **Severity:** 🟢 Low
 - **Detected:** 2026-05-19 22:00

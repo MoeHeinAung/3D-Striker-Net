@@ -1,9 +1,9 @@
 import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from backend.app.models.draw import Draw # Import models to register with Base
-from backend.app.db.base import Base
-from backend.app.core.config import settings
+from app.models.draw import Draw # Import models to register with Base
+from app.db.base import Base
+from app.core.config import settings
 
 engine = create_engine(settings.DATABASE_URL, connect_args={"check_same_thread": False})
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

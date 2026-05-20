@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from datetime import datetime
 from typing import Optional
-from backend.app.models.draw import DrawStatus
+from app.models.draw import DrawStatus
 
 class DrawBase(BaseModel):
     open_date: datetime

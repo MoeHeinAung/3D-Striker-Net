@@ -1,7 +1,7 @@
 from typing import Optional
 from sqlalchemy.orm import Session
 from sqlalchemy import select
-from backend.app.models.draw import Draw, DrawStatus
+from app.models.draw import Draw, DrawStatus
 
 class DrawRepository:
     def __init__(self, db: Session):

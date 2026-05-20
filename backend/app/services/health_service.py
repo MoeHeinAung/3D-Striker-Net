@@ -1,4 +1,4 @@
-from backend.app.schemas.health import HealthStatus
+from app.schemas.health import HealthStatus
 
 class HealthService:
     @staticmethod

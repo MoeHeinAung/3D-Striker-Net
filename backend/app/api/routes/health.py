@@ -1,7 +1,7 @@
 from fastapi import APIRouter
-from backend.app.schemas.base import SuccessEnvelope
-from backend.app.schemas.health import HealthStatus
-from backend.app.services.health_service import HealthService
+from app.schemas.base import SuccessEnvelope
+from app.schemas.health import HealthStatus
+from app.services.health_service import HealthService
 
 router = APIRouter()
 

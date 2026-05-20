@@ -1,9 +1,11 @@
 from pydantic_settings import BaseSettings
+import os
 
 class Settings(BaseSettings):
     APP_NAME: str = "3D-Striker-Net"
     DEBUG: bool = True
-    DATABASE_URL: str = "sqlite:///./app.db"
+    BACKEND_DIR: str = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    DATABASE_URL: str = f"sqlite:///{os.path.join(BACKEND_DIR, 'app.db')}"
     PORT: int = 8000
     HOST: str = "127.0.0.1"
     VITE_DEV_URL: str = "http://localhost:5173"

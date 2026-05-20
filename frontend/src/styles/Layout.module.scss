@@ -50,3 +50,21 @@
     font-size: 1.25rem;
   }
 }
+
+.ant-table {
+  color: $on-background !important;
+
+  .ant-table-thead > tr > th {
+    color: $on-background !important;
+    background: rgba(25, 33, 34, 0.5) !important;
+  }
+
+  .ant-table-tbody > tr > td {
+    color: $on-background !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+  }
+
+  .ant-table-tbody > tr:hover > td {
+    background: rgba(0, 218, 243, 0.1) !important;
+  }
+}

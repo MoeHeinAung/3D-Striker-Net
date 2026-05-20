@@ -88,5 +88,5 @@
   - [x] Table refreshes automatically after Create/Update/Delete operations.
   - [x] No console errors/warnings.
 - **Test Results:** ✅ Pass | Linting clean
-- **Notes/Blockers:** Resolved rendering issue by verifying API data structure against component props.
+- **Notes/Blockers:** Resolved rendering issue by fixing a "double unwrap" bug in the service layer and standardizing ESM imports for Dayjs. Also fixed backend import drift and desktop runner path issues.
 - **Updated:** 2026-05-20

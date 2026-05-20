@@ -1,7 +1,7 @@
 import pytest
 from fastapi.testclient import TestClient
-from backend.app.main import app
-from backend.app.db.database import engine, Base
+from app.main import app
+from app.db.database import engine, Base
 
 @pytest.fixture(scope="module", autouse=True)
 def setup_db():

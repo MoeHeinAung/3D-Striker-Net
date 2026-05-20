@@ -49,17 +49,22 @@ Agents and humans must read the latest official documentation for every library,
 - All business logic must exist under `backend/app/services/`.
 - All database queries must exist under `backend/app/repositories/`.
 - All request/response validation must use Pydantic schemas in `backend/app/schemas/`.
+- **All backend internal imports must use the `app.` prefix (e.g., `from app.core...`) instead of `backend.app.` to ensure compatibility when running from the `backend/` directory or as a module.**
 
 ### 2.3 Shared Layer (`shared/`)
 Contains **types, API contracts, and constants only**.
 
 ### 2.4 Desktop Shell (`desktop/`)
 Responsible for window lifecycle, backend bootstrap, and frontend load only. No business logic.
+- **The desktop runner must explicitly add the `backend` folder to `sys.path` and use the module path `app.main:app` for uvicorn to match the project's internal import structure.**
 
 ## 3. AI Agent Constraints
 - Follow canonical directory structure exactly.
 - No hidden business logic in React components.
 - No imports crossing layer boundaries.
+- **Frontend Logic:** Always use standard ESM imports (e.g., `import dayjs from 'dayjs'`) instead of `require()`.
+- **Data Safety:** UI Tables must always include an `Array.isArray(data)` check before rendering to prevent crashes on `undefined` or object responses.
+- **Service Layer Awareness:** Frontend services must match the Axios response interceptor behavior (avoid double-unwrapping the `SuccessEnvelope`).
 
 ## 4. Code Quality Gates
 - Backend lint: `ruff check .`
