@@ -8,15 +8,17 @@ import { SalePage } from '../pages/Sale.js';
 import { RiskPage } from '../pages/Risk.js';
 import { ReportPage } from '../pages/Report.js';
 import { SettingsPage } from '../pages/Settings.js';
+import { useUIStore } from '../store/uiStore.js';
 import styles from '../styles/Layout.module.scss';
 
 const { Content } = Layout;
 
 function App() {
+  const { theme: appTheme } = useUIStore();
   return (
     <ConfigProvider
       theme={{
-        algorithm: theme.darkAlgorithm,
+        algorithm: appTheme === 'dark' ? theme.darkAlgorithm : theme.defaultAlgorithm,
         token: {
           colorPrimary: '#00F0FF',
           colorBgBase: '#0A0B0E',
