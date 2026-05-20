@@ -1,117 +1,105 @@
 import { useState } from 'react';
-import { Table, Button, Modal, Form, Input, InputNumber, App, Popconfirm } from 'antd';
+import { Layout, Tabs, Table, Button, Modal, Form, Input, InputNumber, App, Popconfirm } from 'antd';
 import { useAgents, useCreateAgent, useUpdateAgent, useDeleteAgent } from '../queries/useAgents.js';
+import { useMasterDealers, useCreateMasterDealer, useUpdateMasterDealer, useDeleteMasterDealer } from '../queries/useMasterDealers.js';
 import type { Agent } from '../queries/useAgents.js';
+import type { MasterDealer } from '../queries/useMasterDealers.js';
+
+const { Sider, Content } = Layout;
 
 export const NetworkPage = () => {
   const { message } = App.useApp();
-  const { data, isLoading } = useAgents();
+  const [activeTab, setActiveTab] = useState('agents');
+  const [selectedEntity, setSelectedEntity] = useState<Agent | MasterDealer | null>(null);
+  
+  const agents = useAgents();
+  const dealers = useMasterDealers();
   const createAgent = useCreateAgent();
   const updateAgent = useUpdateAgent();
   const deleteAgent = useDeleteAgent();
+  const createDealer = useCreateMasterDealer();
+  const updateDealer = useUpdateMasterDealer();
+  const deleteDealer = useDeleteMasterDealer();
+  
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [editingAgent, setEditingAgent] = useState<Agent | null>(null);
   const [form] = Form.useForm();
+
+  const isAgent = activeTab === 'agents';
+  const data = isAgent ? (Array.isArray(agents.data) ? agents.data : []) : (Array.isArray(dealers.data) ? dealers.data : []);
 
   const handleFinish = async (values: Record<string, unknown>) => {
     try {
-      if (editingAgent) {
-        await updateAgent.mutateAsync({ id: editingAgent.id, data: values });
-        message.success('Agent updated');
+      if (selectedEntity) {
+        if (isAgent) await updateAgent.mutateAsync({ id: selectedEntity.id, data: values });
+        else await updateDealer.mutateAsync({ id: selectedEntity.id, data: values });
+        message.success('Updated');
       } else {
-        await createAgent.mutateAsync(values as Omit<Agent, 'created_at'>);
-        message.success('Agent created');
+        if (isAgent) await createAgent.mutateAsync(values as Omit<Agent, 'created_at'>);
+        else await createDealer.mutateAsync(values as Omit<MasterDealer, 'created_at'>);
+        message.success('Created');
       }
       setIsModalVisible(false);
-      setEditingAgent(null);
+      setSelectedEntity(null);
       form.resetFields();
-    } catch (e: unknown) {
-      const error = e as { message: string };
-      message.error(error.message || 'Action failed');
+    } catch (e: any) {
+      message.error(e.message || 'Action failed');
     }
-  };
-
-  const handleDelete = async (id: string) => {
-    await deleteAgent.mutateAsync(id);
-    message.success('Agent deleted');
   };
 
   const columns = [
     { title: 'ID', dataIndex: 'id', key: 'id' },
     { title: 'Name', dataIndex: 'name', key: 'name' },
-    { title: 'Commission', dataIndex: 'commission', key: 'commission' },
-    { title: 'JP Factor', dataIndex: 'jp_factor', key: 'jp_factor' },
-    { title: 'SP Factor', dataIndex: 'sp_factor', key: 'sp_factor' },
-    { title: 'Note', dataIndex: 'note', key: 'note' },
-    {
-      title: 'Action',
-      key: 'action',
-      render: (_: unknown, record: Agent) => (
-        <div style={{ display: 'flex', gap: '8px' }}>
-          <Button size="small" onClick={() => { 
-            setEditingAgent(record); 
-            setIsModalVisible(true);
-            form.setFieldsValue(record);
-          }}>Edit</Button>
-          <Popconfirm title="Delete this agent?" onConfirm={() => handleDelete(record.id)}>
-             <Button size="small" danger>Delete</Button>
-          </Popconfirm>
-        </div>
-      ),
-    },
   ];
 
   return (
-    <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
-        <h2>Network: Agents</h2>
-        <Button type="primary" onClick={() => {
-          setEditingAgent(null);
-          form.resetFields();
-          setIsModalVisible(true);
-        }}>Create Agent</Button>
-      </div>
-      
-      <Table 
-        dataSource={Array.isArray(data) ? data : []} 
-        columns={columns} 
-        rowKey="id" 
-        loading={isLoading}
-        pagination={false}
-      />
-
-      <Modal 
-        title={editingAgent ? "Edit Agent" : "Create New Agent"} 
-        open={isModalVisible} 
-        onCancel={() => { setIsModalVisible(false); setEditingAgent(null); form.resetFields(); }} 
-        footer={null}
-      >
-        <Form 
-          form={form} 
-          onFinish={handleFinish} 
-          layout="vertical"
-        >
-          <Form.Item name="id" label="ID (3 Letters)" rules={[{ required: true, len: 3, pattern: /^[a-zA-Z]+$/ }]}>
-            <Input disabled={!!editingAgent} />
-          </Form.Item>
-          <Form.Item name="name" label="Name" rules={[{ required: true }]}>
-            <Input />
-          </Form.Item>
-          <Form.Item name="commission" label="Commission" rules={[{ required: true }]}>
-            <InputNumber />
-          </Form.Item>
-          <Form.Item name="jp_factor" label="JP Factor" rules={[{ required: true }]}>
-            <InputNumber step={0.1} />
-          </Form.Item>
-          <Form.Item name="sp_factor" label="SP Factor" rules={[{ required: true }]}>
-            <InputNumber step={0.1} />
-          </Form.Item>
-          <Form.Item name="note" label="Note">
-            <Input.TextArea />
-          </Form.Item>
-          <Button type="primary" htmlType="submit">Submit</Button>
+    <Layout style={{ height: '100%', background: 'transparent' }}>
+      <Sider width="40%" style={{ background: 'transparent', paddingRight: '1rem' }}>
+        <Tabs 
+          activeKey={activeTab} 
+          onChange={setActiveTab}
+          items={[
+            { key: 'agents', label: 'Agents' },
+            { key: 'dealers', label: 'Master Dealers' }
+          ]}
+        />
+        <Button block type="primary" style={{ marginBottom: '1rem' }} onClick={() => { setSelectedEntity(null); setIsModalVisible(true); }}>
+          Create New {isAgent ? 'Agent' : 'Dealer'}
+        </Button>
+        <Table 
+          dataSource={data} 
+          columns={columns} 
+          rowKey="id" 
+          onRow={(record) => ({ onClick: () => setSelectedEntity(record as Agent | MasterDealer) })}
+        />
+      </Sider>
+      <Content style={{ padding: '1rem', background: 'rgba(25, 33, 34, 0.3)' }}>
+        {selectedEntity ? (
+          <div>
+            <h3>{selectedEntity.name} ({selectedEntity.id})</h3>
+            <p>Commission: {selectedEntity.commission}</p>
+            <p>JP Factor: {selectedEntity.jp_factor}</p>
+            <p>SP Factor: {selectedEntity.sp_factor}</p>
+            <Button onClick={() => { form.setFieldsValue(selectedEntity); setIsModalVisible(true); }}>Edit</Button>
+            <Popconfirm title="Delete?" onConfirm={() => {
+                if (isAgent) deleteAgent.mutate(selectedEntity.id);
+                else deleteDealer.mutate(selectedEntity.id);
+                setSelectedEntity(null);
+            }}>
+                <Button danger>Delete</Button>
+            </Popconfirm>
+          </div>
+        ) : <p>Select an item to view details</p>}
+      </Content>
+      <Modal open={isModalVisible} onCancel={() => setIsModalVisible(false)} footer={null}>
+        <Form form={form} onFinish={handleFinish} layout="vertical">
+            <Form.Item name="id" label="ID" rules={[{ required: true, len: 3, pattern: /^[a-zA-Z]+$/ }]}><Input /></Form.Item>
+            <Form.Item name="name" label="Name" rules={[{ required: true }]}><Input /></Form.Item>
+            <Form.Item name="commission" label="Commission" rules={[{ required: true }]}><InputNumber /></Form.Item>
+            <Form.Item name="jp_factor" label="JP Factor" rules={[{ required: true }]}><InputNumber /></Form.Item>
+            <Form.Item name="sp_factor" label="SP Factor" rules={[{ required: true }]}><InputNumber /></Form.Item>
+            <Button type="primary" htmlType="submit">Submit</Button>
         </Form>
       </Modal>
-    </div>
+    </Layout>
   );
 };
