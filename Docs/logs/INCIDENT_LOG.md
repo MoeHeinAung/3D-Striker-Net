@@ -8,6 +8,7 @@
 | ID    | Status       | Severity | Description                          | Detected   | Closed     |
 |-------|--------------|----------|--------------------------------------|------------|------------|
 | I-001 | `✅ Verified`  | 🟢 Low   | Sass `@import` deprecation warning   | 2026-05-19 | 2026-05-19 |
+| I-002 | `✅ Verified`  | 🟡 Medium | ESM module resolution error (missing .js) | 2026-05-19 | 2026-05-20 |
 
 **Status Options:** `⬜ Open` | `🔍 Investigating` | `🔧 Fixed` | `✅ Verified` | `📦 Closed`
 **Severity Options:** `🔴 Critical` | `🟠 High` | `🟡 Medium` | `🟢 Low`
@@ -32,3 +33,21 @@
 - **Verification Result:** Pass | Warning removed from terminal logs.
 - **Notes / Lessons:** All future SCSS files must strictly follow `@use` syntax to ensure Dart Sass 3.0.0+ compatibility.
 - **Updated:** 2026-05-19
+
+### 🔴 I-002: ESM Module Resolution Error
+- **Status:** `✅ Verified`
+- **Severity:** 🟡 Medium
+- **Detected:** 2026-05-20 00:10
+- **Plain English Description:** Runtime error: "Uncaught SyntaxError: The requested module '/src/types/draw.ts' does not provide an export named 'Draw'".
+- **Reproduction Steps:** 
+  1. Open Draws page in browser.
+  2. Check browser console for module resolution errors.
+- **Root Cause:** Vite/ESM module system required explicit `.js` file extensions for local TypeScript module imports in the browser runtime.
+- **Immediate Containment:** Updated import paths in `frontend/src/services/drawService.ts`, `frontend/src/queries/useDraws.ts`, and `frontend/src/pages/Draws.tsx` to include `.js` extension.
+- **Permanent Fix:** Enforced strict ESM import path conventions in project rules.
+- **New Tests Added:** N/A (UI smoke test verification).
+- **Rules / SSOT Updated:** Added rule mandating explicit file extensions for ESM imports where required.
+- **AI Prompt Used:** None (Self-initiated fix)
+- **Verification Result:** Pass | UI functional, console error cleared.
+- **Notes / Lessons:** Always verify ESM import resolution when dealing with local TypeScript file imports in Vite/ESM projects.
+- **Updated:** 2026-05-20

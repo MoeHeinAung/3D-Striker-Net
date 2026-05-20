@@ -1,13 +1,13 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Layout } from 'antd';
-import { Navbar } from './components/Navbar';
-import { DashboardPage } from './pages/Dashboard';
-import { DrawsPage } from './pages/Draws';
-import { NetworkPage } from './pages/Network';
-import { SalePage } from './pages/Sale';
-import { RiskPage } from './pages/Risk';
-import { ReportPage } from './pages/Report';
-import { SettingsPage } from './pages/Settings';
+import { Navbar } from './components/Navbar.js';
+import { DashboardPage } from './pages/Dashboard.js';
+import { DrawsPage } from './pages/Draws.js';
+import { NetworkPage } from './pages/Network.js';
+import { SalePage } from './pages/Sale.js';
+import { RiskPage } from './pages/Risk.js';
+import { ReportPage } from './pages/Report.js';
+import { SettingsPage } from './pages/Settings.js';
 import styles from './styles/App.module.scss';
 
 const { Content } = Layout;

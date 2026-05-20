@@ -1,8 +1,13 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from backend.app.api.router import api_router
+from backend.app.db.database import init_db
 
 app = FastAPI(title="3D-Striker-Net API")
+
+@app.on_event("startup")
+def startup_event():
+    init_db()
 
 # Configure CORS
 app.add_middleware(

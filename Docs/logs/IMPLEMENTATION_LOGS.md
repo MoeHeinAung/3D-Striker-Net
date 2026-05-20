@@ -9,7 +9,8 @@
 |------|--------------|--------------------------|----------|--------------|----------|
 | T-001| `✅ Done`      | Foundation Setup         | High     | Foundation   | 2026-05-19|
 | T-002| `✅ Done`      | Desktop Shell Integration | High     | Foundation   | 2026-05-19|
-| T-003| `⬜ Not Started` | Navigation & Page Setup  | High     | UX           | 2026-05-19|
+| T-003| `✅ Done`      | Navigation & Page Setup  | High     | UX           | 2026-05-19|
+| T-004| `✅ Done`      | Draws Table & CRUD       | High     | Core         | 2026-05-20|
 
 ---
 ## 📝 Task Log
@@ -51,7 +52,7 @@
 - **Updated:** 2026-05-19
 
 ### 🟦 T-003: Navigation & Page Setup
-- **Status:** `⬜ Not Started`
+- **Status:** `✅ Done`
 - **Priority:** High
 - **Phase:** UX
 - **Plain English Goal:** Implement a main Navbar and create placeholder pages for Dashboard, Draws, Network, Sale, Risk, Report, and Settings using React Router.
@@ -63,10 +64,35 @@
 - **AI Prompt Used:** `prompts/nav-T003.md`
 - **Rollback Plan:** Revert `frontend/src/` changes.
 - **Definition of Done (DoD):**
-  - [ ] Navbar exists and links are functional
-  - [ ] All 7 pages created and routable
-  - [ ] UI matches "Futuristic Precision" design system
-  - [ ] Tests pass
-- **Test Results:** ⬜ Pending
-- **Notes/Blockers:** Requires react-router-dom configuration.
+  - [x] Navbar exists and links are functional
+  - [x] All 7 pages created and routable
+  - [x] UI matches "Futuristic Precision" design system
+  - [x] Tests pass
+- **Test Results:** ✅ Pass | Linting clean
+- **Notes/Blockers:** Implemented navigation using Ant Design and React Router.
 - **Updated:** 2026-05-19
+
+### 🟦 T-004: Draws Table & CRUD
+- **Status:** `✅ Done`
+- **Priority:** High
+- **Phase:** Core
+- **Plain English Goal:** Create 'Draws' database table, implement CRUD service/repository logic with 'Only One Active Draw' constraint, and build frontend interface to manage draws.
+- **Dependencies:** T-001
+- **Allowed Files:** 
+  - `backend/app/models/draw.py`
+  - `backend/app/schemas/draw.py`
+  - `backend/app/repositories/draw.py`
+  - `backend/app/services/draw.py`
+  - `backend/app/api/routes/draw.py`
+  - `frontend/src/pages/Draws.tsx`
+- **AI Prompt Used:** `prompts/draws-T004.md`
+- **Rollback Plan:** Revert DB migrations and delete Draw-related service/model files.
+- **Definition of Done (DoD):**
+  - [x] Draws table created with requested columns
+  - [x] Business logic enforces only one "OPEN" draw at a time
+  - [x] Draw CRUD operations are functional via API
+  - [x] Frontend allows creating and viewing draws
+  - [x] Tests pass for Service logic
+- **Test Results:** ✅ Pass | Backend pytest: 3 passed
+- **Notes/Blockers:** Fully integrated backend logic with Ant Design UI.
+- **Updated:** 2026-05-20

@@ -42,6 +42,7 @@ Agents and humans must read the latest official documentation for every library,
 - Local UI state managed **only** via Zustand.
 - No `fetch()` calls in components; Axios-only.
 - Styling uses SCSS + CSS Modules; no global CSS pollution. **All SCSS files must use the modern `@use` syntax instead of legacy `@import`.**
+- **All local TypeScript/JavaScript file imports in the frontend must include the explicit `.js` extension to satisfy ESM module resolution.**
 
 ### 2.2 Backend (FastAPI)
 - API routes contain **no business logic**; they delegate to the service layer.
@@ -65,6 +66,7 @@ Responsible for window lifecycle, backend bootstrap, and frontend load only. No 
 - Backend format: `black app/ tests/`
 - Frontend lint: `npm run lint`
 - Type correctness: `npm run typecheck`
+- **Frontend Runtime Verification:** All UI tasks must include a Vitest mounting test to verify the component renders and the module graph resolves successfully.
 - Commit gate: `pre-commit run --all-files`
 
 ## 5. Definition of Done (DoD)
