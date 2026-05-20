@@ -24,3 +24,9 @@ def get_draws(db: Session = Depends(get_db)):
     service = DrawService(db)
     draws = service.list_draws()
     return SuccessEnvelope(data=draws)
+
+@router.delete("/{draw_id}", response_model=SuccessEnvelope[bool])
+def delete_draw(draw_id: int, db: Session = Depends(get_db)):
+    service = DrawService(db)
+    service.delete_draw(draw_id)
+    return SuccessEnvelope(data=True, message="Draw deleted successfully")

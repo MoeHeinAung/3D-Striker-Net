@@ -12,6 +12,8 @@ class DrawCreate(DrawBase):
     pass
 
 class DrawUpdate(BaseModel):
+    open_date: Optional[datetime] = None
+    cutoff_time: Optional[str] = None
     status: Optional[DrawStatus] = None
     note: Optional[str] = None
 

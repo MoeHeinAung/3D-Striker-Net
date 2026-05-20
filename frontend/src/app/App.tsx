@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Layout, ConfigProvider, theme } from 'antd';
+import { Layout, ConfigProvider, theme, App as AntApp } from 'antd';
 import { Navbar } from '../components/Navbar.js';
 import { DashboardPage } from '../pages/Dashboard.js';
 import { DrawsPage } from '../pages/Draws.js';
@@ -40,22 +40,24 @@ function App() {
         }
       }}
     >
-      <Router>
-        <Layout className={styles.layout}>
-          <Navbar />
-          <Content className={styles.content}>
-            <Routes>
-              <Route path="/" element={<div className={styles.bentoItem}><DashboardPage /></div>} />
-              <Route path="/draws" element={<div className={styles.bentoItem}><DrawsPage /></div>} />
-              <Route path="/network" element={<div className={styles.bentoItem}><NetworkPage /></div>} />
-              <Route path="/sale" element={<div className={styles.bentoItem}><SalePage /></div>} />
-              <Route path="/risk" element={<div className={styles.bentoItem}><RiskPage /></div>} />
-              <Route path="/report" element={<div className={styles.bentoItem}><ReportPage /></div>} />
-              <Route path="/settings" element={<div className={styles.bentoItem}><SettingsPage /></div>} />
-            </Routes>
-          </Content>
-        </Layout>
-      </Router>
+      <AntApp>
+        <Router>
+          <Layout className={styles.layout}>
+            <Navbar />
+            <Content className={styles.content}>
+              <Routes>
+                <Route path="/" element={<div className={styles.bentoItem}><DashboardPage /></div>} />
+                <Route path="/draws" element={<div className={styles.bentoItem}><DrawsPage /></div>} />
+                <Route path="/network" element={<div className={styles.bentoItem}><NetworkPage /></div>} />
+                <Route path="/sale" element={<div className={styles.bentoItem}><SalePage /></div>} />
+                <Route path="/risk" element={<div className={styles.bentoItem}><RiskPage /></div>} />
+                <Route path="/report" element={<div className={styles.bentoItem}><ReportPage /></div>} />
+                <Route path="/settings" element={<div className={styles.bentoItem}><SettingsPage /></div>} />
+              </Routes>
+            </Content>
+          </Layout>
+        </Router>
+      </AntApp>
     </ConfigProvider>
   );
 }

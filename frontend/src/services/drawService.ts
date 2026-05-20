@@ -20,5 +20,13 @@ export const drawService = {
   updateStatus: async (id: number, status: string) => {
     const res = await api.patch<SuccessEnvelope<Draw>>(`/draws/${id}`, { status });
     return res.data;
+  },
+  update: async (id: number, data: Partial<Draw>) => {
+    const res = await api.patch<SuccessEnvelope<Draw>>(`/draws/${id}`, data);
+    return res.data;
+  },
+  delete: async (id: number) => {
+    const res = await api.delete<SuccessEnvelope<boolean>>(`/draws/${id}`);
+    return res.data;
   }
 };

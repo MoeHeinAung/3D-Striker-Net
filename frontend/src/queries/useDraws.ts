@@ -14,10 +14,19 @@ export const useCreateDraw = () => {
   });
 };
 
-export const useUpdateDrawStatus = () => {
+export const useUpdateDraw = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: ({ id, status }: { id: number, status: string }) => drawService.updateStatus(id, status),
+        mutationFn: ({ id, data }: { id: number, data: any }) => drawService.update(id, data),
         onSuccess: () => queryClient.invalidateQueries({ queryKey: ['draws'] }),
     });
 };
+
+export const useDeleteDraw = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (id: number) => drawService.delete(id),
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: ['draws'] }),
+    });
+};
+

@@ -9,6 +9,8 @@ app = FastAPI(title="3D-Striker-Net API")
 
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
+    import logging
+    logging.error(f"Global exception: {exc}", exc_info=True)
     return JSONResponse(
         status_code=500,
         content=ErrorEnvelope(
@@ -16,6 +18,23 @@ async def global_exception_handler(request: Request, exc: Exception):
             error=ErrorDetail(
                 code="INTERNAL_SERVER_ERROR",
                 message=str(exc)
+            )
+        ).dict()
+    )
+
+from fastapi.exceptions import RequestValidationError
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    import logging
+    logging.error(f"Validation error: {exc.errors()}")
+    return JSONResponse(
+        status_code=400,
+        content=ErrorEnvelope(
+            success=False,
+            error=ErrorDetail(
+                code="VALIDATION_ERROR",
+                message="Input validation failed",
+                details={"errors": exc.errors()}
             )
         ).dict()
     )

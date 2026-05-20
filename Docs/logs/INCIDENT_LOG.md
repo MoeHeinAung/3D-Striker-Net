@@ -7,8 +7,8 @@
 ## 📊 Quick Dashboard
 | ID    | Status       | Severity | Description                          | Detected   | Closed     |
 |-------|--------------|----------|--------------------------------------|------------|------------|
-| I-001 | `✅ Verified`  | 🟢 Low   | Sass `@import` deprecation warning   | 2026-05-19 | 2026-05-19 |
-| I-002 | `✅ Verified`  | 🟡 Medium | ESM module resolution error (missing .js) | 2026-05-19 | 2026-05-20 |
+| I-001 | `📦 Closed`  | 🟢 Low   | Sass `@import` deprecation warning   | 2026-05-19 | 2026-05-19 |
+| I-002 | `📦 Closed`  | 🟡 Medium | ESM module resolution error (missing .js) | 2026-05-19 | 2026-05-20 |
 
 **Status Options:** `⬜ Open` | `🔍 Investigating` | `🔧 Fixed` | `✅ Verified` | `📦 Closed`
 **Severity Options:** `🔴 Critical` | `🟠 High` | `🟡 Medium` | `🟢 Low`

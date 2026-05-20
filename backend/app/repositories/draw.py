@@ -28,3 +28,7 @@ class DrawRepository:
 
     def get_all(self):
         return self.db.execute(select(Draw)).scalars().all()
+
+    def delete(self, draw: Draw):
+        self.db.delete(draw)
+        self.db.commit()

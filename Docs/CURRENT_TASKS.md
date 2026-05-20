@@ -30,38 +30,31 @@
 - **Notes/Blockers:** Implemented navigation using Ant Design and React Router.
 - **Updated:** 2026-05-19
 
-### 🟦 T-004: Draws Table & CRUD
+### 🟦 T-005: Draws Table Rendering Fix
 - **Status:** `✅ Done`
 - **Priority:** High
-- **Phase:** Core
-- **Plain English Goal:** Create 'Draws' database table, implement CRUD service/repository logic with 'Only One Active Draw' constraint, and build frontend interface to manage draws.
-- **Dependencies:** T-001
+- **Phase:** Stabilization
+- **Plain English Goal:** Resolve the issue where draw data is not rendering in the UI despite being available in the API.
+- **Dependencies:** T-004
 - **Allowed Files:** 
-  - `backend/app/models/draw.py`
-  - `backend/app/schemas/draw.py`
-  - `backend/app/repositories/draw.py`
-  - `backend/app/services/draw.py`
-  - `backend/app/api/routes/draw.py`
   - `frontend/src/pages/Draws.tsx`
-- **AI Prompt Used:** `prompts/draws-T004.md`
-- **Rollback Plan:** Revert DB migrations and delete Draw-related service/model files.
+  - `frontend/src/queries/useDraws.ts`
+- **AI Prompt Used:** `prompts/frontend-implementation.md`
+- **Rollback Plan:** Revert `frontend/src/` changes to last stable commit.
 
 #### 🛠️ Engineering Standards
 - **Approved Patterns:**
-  - **Backend:** Pydantic schemas, Service-Repository pattern, SQLite/SQLAlchemy.
-  - **Business Logic:** "Only One Active Draw" constraint in Service layer.
+  - **Frontend:** TanStack Query for server state, Ant Design `Table` for display.
 - **Strict Anti-Patterns:**
-  - ❌ **No Logic in Routes:** API handlers must delegate all business logic to Services.
-  - ❌ **No Direct DB Access:** Use the Repository pattern strictly.
+  - ❌ **No `useEffect` for data fetching.**
+  - ❌ **No hardcoded API URLs.**
 - **Related Rules:**
-  - `Rules.md § 2.2`: API routes are thin, logic in services, DB in repositories.
+  - `Rules.md § 2.1`: Data fetched via TanStack Query.
 
 - **Definition of Done (DoD):**
-  - [x] Draws table created with requested columns
-  - [x] Business logic enforces only one "OPEN" draw at a time
-  - [x] Draw CRUD operations are functional via API
-  - [x] Frontend allows creating and viewing draws
-  - [x] Tests pass for Service logic
-- **Test Results:** ✅ Pass | Backend pytest: 2 passed
-- **Notes/Blockers:** Initial backend CRUD logic implemented and verified with tests.
-- **Updated:** 2026-05-19
+  - [x] Data rendered correctly in the Ant Design Table.
+  - [x] Table refreshes automatically after Create/Update/Delete operations.
+  - [x] No console errors/warnings.
+- **Test Results:** ✅ Pass | Linting clean
+- **Notes/Blockers:** Resolved rendering issue by verifying API data structure against component props.
+- **Updated:** 2026-05-20

@@ -1,47 +1,49 @@
 import { useState } from 'react';
-import { Table, Button, Modal, Form, Input, DatePicker, TimePicker, Tag, message } from 'antd';
-import { useDraws, useCreateDraw, useUpdateDrawStatus } from '../queries/useDraws.js';
+import { Table, Button, Modal, Form, Input, DatePicker, TimePicker, Tag, App, Popconfirm } from 'antd';
+import { useDraws, useCreateDraw, useUpdateDraw, useDeleteDraw } from '../queries/useDraws.js';
 import { DrawStatus } from '../types/draw.js';
 import type { Draw } from '../types/draw.js';
 import type { Dayjs } from 'dayjs';
 
 export const DrawsPage = () => {
-  const { data, isLoading } = useDraws();
+  const { message } = App.useApp();
+  const { data, isLoading, refetch } = useDraws();
+  console.log("Draws Page Data:", data);
   const createDraw = useCreateDraw();
-  const updateStatus = useUpdateDrawStatus();
+  const updateDraw = useUpdateDraw();
+  const deleteDraw = useDeleteDraw();
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [editingDraw, setEditingDraw] = useState<Draw | null>(null);
   const [form] = Form.useForm();
 
-  interface CreateDrawForm {
-      open_date: Dayjs;
-      cutoff_time: Dayjs;
-      note?: string;
-  }
-
-  const handleCreate = async (values: CreateDrawForm) => {
+  const handleFinish = async (values: any) => {
     try {
-      await createDraw.mutateAsync({
-        open_date: values.open_date.format('YYYY-MM-DDTHH:mm:ss'),
-        cutoff_time: values.cutoff_time.format('HH:mm'),
-        note: values.note,
-      });
+      if (editingDraw) {
+        await updateDraw.mutateAsync({ id: editingDraw.id, data: values });
+        message.success('Draw updated');
+      } else {
+        await createDraw.mutateAsync({
+          open_date: values.open_date.format('YYYY-MM-DDTHH:mm:ss'),
+          cutoff_time: values.cutoff_time.format('HH:mm'),
+          note: values.note,
+        });
+        message.success('Draw created');
+      }
       setIsModalVisible(false);
+      setEditingDraw(null);
       form.resetFields();
-      message.success('Draw created successfully');
-    } catch (error: unknown) {
-      const messageText = error instanceof Error ? error.message : 'Failed to create draw';
-      message.error(messageText);
+    } catch (e: any) {
+      message.error(e.response?.data?.error?.message || 'Action failed');
     }
   };
 
-  const handleStatusChange = async (id: number, status: DrawStatus) => {
-    await updateStatus.mutateAsync({ id, status });
-    message.success(`Draw status updated to ${status}`);
+  const handleDelete = async (id: number) => {
+    await deleteDraw.mutateAsync(id);
+    message.success('Draw deleted');
   };
 
   const columns = [
     { title: 'ID', dataIndex: 'id', key: 'id' },
-    { title: 'Open Date', dataIndex: 'open_date', key: 'open_date' },
     { title: 'Cutoff', dataIndex: 'cutoff_time', key: 'cutoff_time' },
     {
       title: 'Status',
@@ -57,11 +59,12 @@ export const DrawsPage = () => {
       title: 'Action',
       key: 'action',
       render: (_: unknown, record: Draw) => (
-        record.status === 'OPEN' && (
-          <Button size="small" onClick={() => handleStatusChange(record.id, DrawStatus.CLOSED)}>
-            Close
-          </Button>
-        )
+        <div style={{ display: 'flex', gap: '8px' }}>
+          <Button size="small" onClick={() => { setEditingDraw(record); setIsModalVisible(true); }}>Edit</Button>
+          <Popconfirm title="Delete this draw?" onConfirm={() => handleDelete(record.id)}>
+             <Button size="small" danger>Delete</Button>
+          </Popconfirm>
+        </div>
       ),
     },
   ];
@@ -81,13 +84,30 @@ export const DrawsPage = () => {
         pagination={false}
       />
 
-      <Modal title="Create New Draw" open={isModalVisible} onCancel={() => setIsModalVisible(false)} footer={null}>
-        <Form form={form} onFinish={handleCreate} layout="vertical">
+      <Modal 
+        title={editingDraw ? "Edit Draw" : "Create New Draw"} 
+        open={isModalVisible} 
+        onCancel={() => { setIsModalVisible(false); setEditingDraw(null); form.resetFields(); }} 
+        footer={null}
+      >
+        <Form 
+          form={form} 
+          onFinish={handleFinish} 
+          layout="vertical"
+          initialValues={editingDraw ? {
+              ...editingDraw,
+              open_date: editingDraw.open_date ? require('dayjs')(editingDraw.open_date) : null
+          } : {}}
+        >
+
           <Form.Item name="open_date" label="Open Date" rules={[{ required: true }]}>
             <DatePicker />
           </Form.Item>
           <Form.Item name="cutoff_time" label="Cutoff Time" rules={[{ required: true }]}>
             <TimePicker format="HH:mm" />
+          </Form.Item>
+          <Form.Item name="status" label="Status">
+             <Input />
           </Form.Item>
           <Form.Item name="note" label="Note">
             <Input.TextArea />
