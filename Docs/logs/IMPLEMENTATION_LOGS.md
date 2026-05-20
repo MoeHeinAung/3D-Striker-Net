@@ -90,3 +90,29 @@
 - **Test Results:** ✅ Pass | Linting clean
 - **Notes/Blockers:** Resolved rendering issue by fixing a "double unwrap" bug in the service layer and standardizing ESM imports for Dayjs. Also fixed backend import drift and desktop runner path issues.
 - **Updated:** 2026-05-20
+
+### 🟦 T-006: Agents Management
+- **Status:** `✅ Done`
+- **Priority:** High
+- **Phase:** Core
+- **Plain English Goal:** Create Agents database table (id [3 letters], name, commission, jp_factor, sp_factor, note, created_at) and implement CRUD in the Network page.
+- **Dependencies:** None
+- **Allowed Files:** 
+  - `backend/app/models/agent.py`
+  - `backend/app/schemas/agent.py`
+  - `backend/app/repositories/agent.py`
+  - `backend/app/services/agent.py`
+  - `backend/app/api/routes/agent.py`
+  - `frontend/src/pages/Network.tsx`
+  - `frontend/src/queries/useAgents.ts`
+- **AI Prompt Used:** `prompts/agents-T006.md`
+- **Rollback Plan:** Revert `backend/` and `frontend/` changes to last stable commit.
+- **Definition of Done (DoD):**
+  - [x] Tests pass
+  - [x] Agents table rendered correctly in Network page.
+  - [x] Errors match SSOT format
+  - [x] No unapproved dependencies
+  - [x] Pre-commit hooks pass
+- **Test Results:** ✅ Pass | Linting clean
+- **Notes/Blockers:** Fully implemented CRUD with Pydantic validation for ID (3 chars).
+- **Updated:** 2026-05-20

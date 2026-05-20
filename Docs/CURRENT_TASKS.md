@@ -1,34 +1,29 @@
-### 🟦 T-006: Agents Management
+### 🟦 T-007: Master Dealer Management & Network Redesign
 - **Status:** `⬜ Not Started`
 - **Priority:** High
 - **Phase:** Core
-- **Plain English Goal:** Create Agents database table (id [3 letters], name, commission, jp_factor, sp_factor, note, created_at) and implement CRUD in the Network page.
-- **Dependencies:** None
+- **Plain English Goal:** Create Master Dealer DB table, implement CRUD, and redesign Network page with a two-section layout (left: tabbed lists for Agents/Master Dealers; right: details).
+- **Dependencies:** T-006
 - **Allowed Files:** Auto-generated via file scanner
-- **AI Prompt Used:** `prompts/agents-T006.md`
+- **AI Prompt Used:** `prompts/dealers-T007.md`
 - **Rollback Plan:** Revert `backend/` and `frontend/` changes to last stable commit.
 
 #### 🛠️ Engineering Standards
 - **Approved Patterns:**
-  - **Frontend:** TanStack Query for server state, Zustand for UI state, Axios for HTTP, SCSS Modules for styling.
-  - **Backend:** FastAPI thin routes, Business logic in Services, DB access in Repositories (SQLAlchemy).
-  - **Contracts:** JSON success/error envelopes as defined in `SSOT.md § 5`.
+  - **Frontend:** TanStack Query, Zustand, Ant Design Tabs/Table/Layout, CSS Modules.
+  - **Backend:** Standard 5-layer architecture, Pydantic validation.
 - **Strict Anti-Patterns:**
-  - ❌ **No UI Logic in Backend:** Routes must not import frontend code.
-  - ❌ **No DB in UI:** Frontend must never access SQLite directly.
-  - ❌ **No Logic in Routes:** API handlers must delegate all business logic to Services.
-  - ❌ **No Raw SQL outside Repositories:** Keep SQLAlchemy usage isolated.
-  - ❌ **No `fetch()`:** Use Axios in Frontend and HTTPX in Backend.
+  - ❌ **No UI Logic in Backend.**
+  - ❌ **No hardcoded layouts.**
 - **Related Rules:**
-  - Follow 5-layer architecture: Frontend -> API -> Service -> Repository -> DB.
-  - All request/response validation must use Pydantic schemas.
+  - `Rules.md § 2.1` (Thin components), `Rules.md § 2.2` (Thin routes).
 
 - **Definition of Done (DoD):**
   - [ ] Tests pass (`pytest -q && npm test -- --run`)
-  - [ ] Agents table rendered correctly in Network page.
-  - [ ] Errors match SSOT format
-  - [ ] No unapproved dependencies
-  - [ ] Pre-commit hooks pass
+  - [ ] Agents and Master Dealers tabbed successfully in Network page left section.
+  - [ ] Right section shows dynamic details of active selection.
+  - [ ] Master Dealer CRUD functional.
+  - [ ] Layout matches "Futuristic Precision" design system.
 - **Test Results:** ⬜ Pending
 - **Notes/Blockers:** None
 - **Updated:** 2026-05-20

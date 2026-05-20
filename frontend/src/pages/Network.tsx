@@ -41,8 +41,9 @@ export const NetworkPage = () => {
       setIsModalVisible(false);
       setSelectedEntity(null);
       form.resetFields();
-    } catch (e: any) {
-      message.error(e.message || 'Action failed');
+    } catch (e: unknown) {
+      const error = e as { message: string };
+      message.error(error.message || 'Action failed');
     }
   };
 
