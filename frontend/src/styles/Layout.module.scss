@@ -8,40 +8,45 @@
   overflow: hidden;
 }
 
+:global(body) {
+  background-image:
+    linear-gradient(rgba(0, 218, 243, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 218, 243, 0.05) 1px, transparent 1px);
+  background-size: 32px 32px;
+  background-color: $background;
+  color: $on-background;
+  font-family: $font-body;
+}
+
 .layout {
   height: 100vh;
   width: 100vw;
-  background-color: $void-black;
-  background-image:
-    linear-gradient(rgba($striker-blue, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba($striker-blue, 0.02) 1px, transparent 1px);
-  background-size: 40px 40px;
+  background: transparent;
   display: flex;
   flex-direction: column;
-  color: white;
 }
 
 .content {
   flex: 1;
   padding: 1rem;
   overflow-y: auto;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  gap: 1rem;
-  height: calc(100vh - 64px);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  height: calc(100vh - 48px);
+  margin-top: 48px;
 }
 
 .bentoItem {
-  @include sci-fi-border;
-  @include glassmorphism;
-  @include scanner-animation;
-  padding: 1rem;
-  overflow-y: auto;
+  @include glass-panel;
+  @include corner-accent;
+  padding: 1.5rem;
 
   h2 {
     @include hud-text;
-    @include neon-glow($striker-blue);
+    @include neon-glow($surface-tint);
     margin-bottom: 1.5rem;
+    color: $primary;
+    font-size: 1.25rem;
   }
 }

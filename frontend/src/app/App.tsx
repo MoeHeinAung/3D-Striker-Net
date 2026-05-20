@@ -15,17 +15,29 @@ const { Content } = Layout;
 
 function App() {
   const { theme: appTheme } = useUIStore();
+
   return (
     <ConfigProvider
       theme={{
         algorithm: appTheme === 'dark' ? theme.darkAlgorithm : theme.defaultAlgorithm,
         token: {
-          colorPrimary: '#00F0FF',
-          colorBgBase: '#0A0B0E',
-          colorSurface: '#14161C',
-          borderRadius: 2,
+          colorPrimary: '#00daf3',
+          colorBgBase: '#0d1516',
+          colorBgContainer: '#192122',
+          colorTextBase: '#dce4e5',
+          borderRadius: 0,
           fontFamily: 'Inter, sans-serif',
         },
+        components: {
+          Button: {
+            borderRadius: 0,
+            colorPrimary: '#00daf3',
+          },
+          Table: {
+            colorBgContainer: 'transparent',
+            colorHeaderBg: 'rgba(25, 33, 34, 0.3)',
+          }
+        }
       }}
     >
       <Router>

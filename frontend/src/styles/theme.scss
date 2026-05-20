@@ -1,57 +1,135 @@
-// Design System Variables
-$void-black: #0A0B0E;
-$obsidian: #14161C;
-$striker-blue: #00F0FF;
-$neural-violet: #8A2BE2;
-$alert-red: #FF0055;
-$success-emerald: #00FF9D;
-$steel-grey: #2D323E;
+// Quantum Admin Design System
+$background: #0d1516;
+$surface: #0d1930;
+$primary: #c3f5ff;
+$primary-container: #00e5ff;
+$secondary: #a5c8ff;
+$tertiary: #aeffbb;
+$error: #ffb4ab;
+$on-background: #dce4e5;
+$on-surface: #dce4e5;
+$on-surface-variant: #bac9cc;
+$outline: #849396;
+$surface-tint: #00daf3;
 
-$font-primary: 'Inter', sans-serif;
-$font-mono: 'JetBrains Mono', monospace;
+$font-header: 'Inter', sans-serif;
+$font-data: 'Space Grotesk', sans-serif;
+$font-body: 'Inter', sans-serif;
 
-@mixin sci-fi-border {
-  border: 1px solid rgba($striker-blue, 0.2);
-  box-shadow: 0 0 10px rgba($striker-blue, 0.05);
+@mixin glass-panel {
+  background: rgba(10, 21, 37, 0.4);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0 !important;
 }
 
-@mixin glassmorphism {
-  backdrop-filter: blur(12px);
-  background: rgba($obsidian, 0.7);
+@mixin corner-accent {
+  position: relative;
+  &::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    width: 48px;
+    height: 16px;
+    border-top: 2px solid $surface-tint;
+    border-left: 2px solid $surface-tint;
+    z-index: 10;
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    right: -1px;
+    width: 48px;
+    height: 16px;
+    border-bottom: 2px solid $surface-tint;
+    border-right: 2px solid $surface-tint;
+    z-index: 10;
+  }
 }
 
-@mixin hud-text {
+@mixin trapezoid-header {
+  clip-path: polygon(0 0, 100% 0, 90% 100%, 10% 100%);
+  background: #0A1525;
+  height: 64px !important;
+  position: relative;
+  box-shadow: inset 0 -20px 30px -10px rgba($surface-tint, 0.3);
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 10%;
+    width: 80%;
+    height: 2px;
+    background: $surface-tint;
+    box-shadow: 0 0 10px rgba($surface-tint, 0.8), 0 0 20px rgba($surface-tint, 0.5);
+  }
+}
+
+@mixin btn-special {
+  background: transparent;
+  border: 1px solid $surface-tint;
+  color: $surface-tint;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  font-family: $font-mono;
-}
-
-@mixin neon-glow($color) {
-  text-shadow: 0 0 5px rgba($color, 0.5), 0 0 10px rgba($color, 0.2);
-}
-
-@mixin scanner-animation {
+  letter-spacing: 1px;
   position: relative;
   overflow: hidden;
+  transition: all 0.3s ease;
+  z-index: 1;
+  border-radius: 0 !important;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent 0%, rgba($surface-tint, 0.2) 20%, $surface-tint 100%);
+    transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: -1;
+  }
+
+  &:hover {
+    color: #00363d;
+    box-shadow: 0 0 20px rgba($surface-tint, 0.5);
+    &::before {
+      left: 0;
+    }
+  }
+}
+
+@mixin hologram-effect {
+  position: relative;
+  background: radial-gradient(circle at center, rgba($surface-tint, 0.1) 0%, transparent 70%);
+  animation: pulse-hologram 4s infinite ease-in-out;
 
   &::after {
     content: "";
     position: absolute;
-    top: -100%;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-      to bottom,
-      transparent,
-      rgba($striker-blue, 0.05),
-      transparent
-    );
-    animation: scan 4s linear infinite;
+    top: 0; left: 0; right: 0; height: 2px;
+    background: rgba($surface-tint, 0.2);
+    animation: scanline 3s infinite linear;
+    pointer-events: none;
   }
 }
 
-@keyframes scan {
-  0% { top: -100%; }
-  100% { top: 100%; }
+@keyframes pulse-hologram {
+  0%, 100% { opacity: 0.6; filter: drop-shadow(0 0 2px $surface-tint); }
+  50% { opacity: 0.9; filter: drop-shadow(0 0 8px $surface-tint); }
 }
+
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+// Legacy mixins for compatibility during migration
+@mixin sci-fi-border { @include corner-accent; @include glass-panel; }
+@mixin glassmorphism { @include glass-panel; }
+@mixin hud-text { font-family: $font-header; text-transform: uppercase; letter-spacing: 0.1em; }
+@mixin neon-glow($color) { text-shadow: 0 0 5px rgba($color, 0.5), 0 0 10px rgba($color, 0.2); }
+@mixin scanner-animation { @include hologram-effect; }

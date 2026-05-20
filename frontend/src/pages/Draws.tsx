@@ -68,9 +68,9 @@ export const DrawsPage = () => {
 
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
-        <h2>Draws Management</h2>
-        <Button type="primary" onClick={() => setIsModalVisible(true)}>Create Draw</Button>
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '1rem' }}>
+        <h2>Operations: Draws</h2>
+        <Button type="primary" className="btn-special" onClick={() => setIsModalVisible(true)}>Create Draw</Button>
       </div>
       
       <Table 
