@@ -18,9 +18,8 @@
 
 .logoContainer {
   position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
   width: 500px;
+  height: 100%;
   @include trapezoid-header;
   display: flex;
   align-items: center;
@@ -35,6 +34,7 @@
   font-size: 20px;
   letter-spacing: 4px;
   text-transform: uppercase;
+  line-height: normal;
 }
 
 .navSection {

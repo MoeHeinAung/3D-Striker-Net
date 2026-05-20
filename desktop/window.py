@@ -14,8 +14,7 @@ def create_desktop_window():
     window = webview.create_window(
         title=title,
         url=url,
-        width=1280,
-        height=800,
+        maximized=True,
         min_size=(1024, 768),
         background_color='#0A0B0E',
         text_select=False,
