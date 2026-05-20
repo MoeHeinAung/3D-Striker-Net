@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { Table, Button, Modal, Form, Input, InputNumber, App, Popconfirm } from 'antd';
+import { Layout, Table, Button, Modal, Form, Input, InputNumber, App } from 'antd';
 import { useSales, useCreateSale } from '../queries/useSales.js';
-import type { Sale } from '../queries/useSales.js';
 
 export const OperationsPage = () => {
   const { message } = App.useApp();
@@ -31,8 +30,9 @@ export const OperationsPage = () => {
       message.success('Sales created');
       setIsModalVisible(false);
       form.resetFields();
-    } catch (e: any) {
-      message.error(e.message || 'Action failed');
+    } catch (e: unknown) {
+      const error = e as { message: string };
+      message.error(error.message || 'Action failed');
     }
   };
 

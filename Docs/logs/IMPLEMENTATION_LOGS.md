@@ -91,6 +91,32 @@
 - **Notes/Blockers:** Resolved rendering issue by fixing a "double unwrap" bug in the service layer and standardizing ESM imports for Dayjs. Also fixed backend import drift and desktop runner path issues.
 - **Updated:** 2026-05-20
 
+### 🟦 T-007: Master Dealer Management & Network Redesign
+- **Status:** `✅ Done`
+- **Priority:** High
+- **Phase:** Core
+- **Plain English Goal:** Create Master Dealer DB table, implement CRUD, and redesign Network page with a two-section layout (left: tabbed lists for Agents/Master Dealers; right: details).
+- **Dependencies:** T-006
+- **Allowed Files:** 
+  - `backend/app/models/master_dealer.py`
+  - `backend/app/schemas/master_dealer.py`
+  - `backend/app/repositories/master_dealer.py`
+  - `backend/app/services/master_dealer.py`
+  - `backend/app/api/routes/master_dealer.py`
+  - `frontend/src/pages/Network.tsx`
+  - `frontend/src/queries/useMasterDealers.ts`
+- **AI Prompt Used:** `prompts/dealers-T007.md`
+- **Rollback Plan:** Revert `backend/` and `frontend/` changes to last stable commit.
+- **Definition of Done (DoD):**
+  - [x] Tests pass
+  - [x] Agents and Master Dealers tabbed successfully in Network page left section.
+  - [x] Right section shows dynamic details of active selection.
+  - [x] Master Dealer CRUD functional.
+  - [x] Layout matches "Futuristic Precision" design system.
+- **Test Results:** ✅ Pass | Linting clean
+- **Notes/Blockers:** Fully implemented master dealer management and updated the Network page UI.
+- **Updated:** 2026-05-20
+
 ### 🟦 T-006: Agents Management
 - **Status:** `✅ Done`
 - **Priority:** High
@@ -115,4 +141,30 @@
   - [x] Pre-commit hooks pass
 - **Test Results:** ✅ Pass | Linting clean
 - **Notes/Blockers:** Fully implemented CRUD with Pydantic validation for ID (3 chars).
+- **Updated:** 2026-05-20
+
+### 🟦 T-007: Master Dealer Management & Network Redesign
+- **Status:** `✅ Done`
+- **Priority:** High
+- **Phase:** Core
+- **Plain English Goal:** Create Master Dealer DB table, implement CRUD, and redesign Network page with a two-section layout (left: tabbed lists for Agents/Master Dealers; right: details).
+- **Dependencies:** T-006
+- **Allowed Files:** 
+  - `backend/app/models/master_dealer.py`
+  - `backend/app/schemas/master_dealer.py`
+  - `backend/app/repositories/master_dealer.py`
+  - `backend/app/services/master_dealer.py`
+  - `backend/app/api/routes/master_dealer.py`
+  - `frontend/src/pages/Network.tsx`
+  - `frontend/src/queries/useMasterDealers.ts`
+- **AI Prompt Used:** `prompts/dealers-T007.md`
+- **Rollback Plan:** Revert `backend/` and `frontend/` changes to last stable commit.
+- **Definition of Done (DoD):**
+  - [x] Tests pass
+  - [x] Agents and Master Dealers tabbed successfully in Network page left section.
+  - [x] Right section shows dynamic details of active selection.
+  - [x] Master Dealer CRUD functional.
+  - [x] Layout matches "Futuristic Precision" design system.
+- **Test Results:** ✅ Pass | Linting clean
+- **Notes/Blockers:** Fully implemented master dealer management and updated the Network page UI.
 - **Updated:** 2026-05-20
