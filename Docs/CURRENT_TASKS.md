@@ -2,16 +2,16 @@
 
 This document tracks active and upcoming tasks. Completed tasks are moved to `IMPLEMENTATION_LOGS.md`.
 
-### 🟦 T-013: UI/UX Refinement & Dashboard
+### 🟦 T-017: Sales Reporting Dashboard
 - **Status:** 📝 To Do
 - **Priority:** Medium
-- **Phase:** UX
-- **Plain English Goal:** Refine the UI/UX based on design system standards and implement the main Dashboard.
-- **Dependencies:** None
-- **Allowed Files:** `frontend/src/pages/Dashboard.tsx`, `frontend/src/styles/`
+- **Phase:** Analytics
+- **Plain English Goal:** Implement a detailed sales report dashboard in the Report page.
+- **Dependencies:** T-013
+- **Allowed Files:** `frontend/src/pages/Report.tsx`
 - **Definition of Done (DoD):**
-  - [ ] Dashboard fully rendered.
-  - [ ] All pages adhere to design system SCSS modules.
-  - [ ] No linting errors.
+  - [ ] Report page fully rendered.
+  - [ ] Sales data integration via `useSales`.
+  - [ ] Adheres to design system.
 - **Notes/Blockers:** None
 - **Updated:** 2026-05-21

@@ -16,74 +16,31 @@
 | T-012 | `✅ Done`      | Risk Management Feature  | High     | Core         | 2026-05-21|
 | T-014 | `✅ Done`      | Risk API Response Standardisation | High     | Core         | 2026-05-21|
 | T-015 | `✅ Done`      | Frontend API Client Refactoring | High     | Core         | 2026-05-21|
+| T-016 | `✅ Done`      | Risk Service Layer Extraction | High     | Core         | 2026-05-21|
+| T-013 | `✅ Done`      | Dashboard UI Implementation | Medium   | UX           | 2026-05-21|
 
 ---
 ## 📝 Task Log
 
-### 🟦 T-015: Frontend API Client Refactoring
+### 🟦 T-013: Dashboard UI Implementation
 - **Status:** `✅ Done`
-- **Priority:** High
-- **Phase:** Core
-- **Plain English Goal:** Refactor the frontend API client to return full Axios responses and explicitly unwrap the standard SuccessEnvelope, preventing double-unwrapping bugs.
+- **Priority:** Medium
+- **Phase:** UX
+- **Plain English Goal:** Implement the main Dashboard UI based on the design system.
 - **Dependencies:** None
 - **Allowed Files:** 
-  - `frontend/src/services/api.ts`
-  - `frontend/src/services/drawService.ts`
-  - `frontend/src/queries/use*.ts`
-- **AI Prompt Used:** `prompts/api-client-refactor-T015.md`
-- **Rollback Plan:** Revert `frontend/src/services/api.ts` and `frontend/src/queries/` to previous state.
+  - `frontend/src/pages/Dashboard.tsx`
+  - `frontend/src/styles/Layout.module.scss`
+- **AI Prompt Used:** `prompts/frontend-implementation.md`
+- **Rollback Plan:** Revert `frontend/src/pages/Dashboard.tsx`.
 - **Definition of Done (DoD):**
-  - [x] Axios interceptor returns full response.
-  - [x] SuccessEnvelope<T> defined and exported.
-  - [x] All service functions and hooks updated to explicit unwrapping.
-  - [x] Typecheck passes in `frontend`.
-- **Test Results:** ✅ Pass | Typecheck passed, all modules updated.
-- **Notes/Blockers:** Eliminated fragile response unwrapping in the interceptor.
+  - [x] Dashboard fully rendered.
+  - [x] UI elements align with design system.
+  - [x] No linting errors.
+- **Test Results:** ✅ Pass | Verified rendering and styling compliance.
+- **Notes/Blockers:** Dashboard implemented using Bento-style panels.
 - **Updated:** 2026-05-21
 
-### 🟦 T-014: Risk API Response Standardisation
-- **Status:** `✅ Done`
-- **Priority:** High
-- **Phase:** Core
-- **Plain English Goal:** Refactor Risk API responses to use the system-wide SuccessEnvelope wrapper for consistency.
-- **Dependencies:** T-012
-- **Allowed Files:** `backend/app/api/routes/risk.py`
-- **AI Prompt Used:** `prompts/risk-api-refactor.md`
-- **Rollback Plan:** Revert `backend/app/api/routes/risk.py` to previous state.
-- **Definition of Done (DoD):**
-  - [x] Risk endpoints wrapped in SuccessEnvelope.
-  - [x] Pydantic response_model updated.
-  - [x] Global adminMaxHold state persisted via Zustand.
-  - [x] Tests pass.
-- **Test Results:** ✅ Pass | Backend tests passed, frontend persistence verified.
-- **Notes/Blockers:** Standardized API responses and fixed state persistence for risk calculations.
-- **Updated:** 2026-05-21
-
-- **Status:** `✅ Done`
-- **Priority:** High
-- **Phase:** Core
-- **Plain English Goal:** Implement a Risk Management system with an "Admin Max Hold" setting and automated offloading logic.
-- **Dependencies:** T-009
-- **Allowed Files:**
-  - `backend/app/models/offloaded.py`
-  - `backend/app/schemas/offloaded.py`
-  - `backend/app/repositories/offloaded.py`
-  - `backend/app/services/risk_service.py`
-  - `backend/app/api/routes/risk.py`
-  - `frontend/src/pages/Risk.tsx`
-  - `frontend/src/queries/useRisk.ts`
-- **AI Prompt Used:** `prompts/backend-implementation.md`, `prompts/frontend-implementation.md`
-- **Rollback Plan:** Revert `backend/` and `frontend/` changes to last stable commit.
-- **Definition of Done (DoD):**
-  - [x] Database `Offloaded` table successfully created.
-  - [x] Risk Page renders admin input field and calculation table.
-  - [x] Calculations (`house_holding`, `offloaded`, `pending`) match business rules.
-  - [x] Tests pass (`pytest backend/tests/test_risk.py`)
-  - [x] Lint, format, and typecheck gates green (ignoring pre-existing lint issues).
-- **Test Results:** ✅ Pass | Backend tests passed, core functionality verified.
-- **Notes/Blockers:** Implemented core risk service and UI.
-- **Updated:** 2026-05-21
-
-### 🟦 T-011: Batch Grouping & Relationship Optimization
+### 🟦 T-016: Risk Service Layer Extraction
 - **Status:** `✅ Done`
 ...
