@@ -1,7 +1,5 @@
-import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
-
-const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+import { api } from '../services/api.js';
 
 export interface RiskData {
   ticket: string;
@@ -15,10 +13,10 @@ export const useRiskSummary = (adminMaxHold: number, enabled: boolean = true) =>
   return useQuery<RiskData[]>({
     queryKey: ['risk-summary', adminMaxHold],
     queryFn: async () => {
-      const { data } = await axios.get(`${API_URL}/risk/summary`, {
+      const response = await api.get('/risk/summary', {
         params: { admin_max_hold: adminMaxHold },
       });
-      return data;
+      return response;
     },
     enabled: enabled && adminMaxHold > 0,
   });
