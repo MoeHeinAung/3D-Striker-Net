@@ -22,6 +22,8 @@ def create_desktop_window(port):
     )
     
     # Inject API URL context
-    window.evaluate_js(f"window.VITE_API_URL = 'http://127.0.0.1:{port}'")
+    def on_loaded():
+        window.evaluate_js(f"window.VITE_API_URL = 'http://127.0.0.1:{port}'")
+    window.events.loaded += on_loaded
     
     return window
