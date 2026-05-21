@@ -1,7 +1,10 @@
 import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from app.models.draw import Draw # Import models to register with Base
+from app.models.draw import Draw
+from app.models.agent import Agent
+from app.models.master_dealer import MasterDealer
+from app.models.sale import Sale
 from app.db.base import Base
 from app.core.config import settings
 

@@ -7,7 +7,6 @@ export interface Sale {
   agent_id: string;
   ticket: string;
   amount: number;
-  batch_id: string;
   note?: string;
   created_at: string;
 }
@@ -29,6 +28,7 @@ export const useCreateSale = () => {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['sales'] }),
   });
 };
+
 export const useUpdateSale = () => {
     const queryClient = useQueryClient();
     return useMutation({

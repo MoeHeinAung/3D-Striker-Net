@@ -10,6 +10,5 @@ class Sale(Base):
     agent_id = Column(String(3), ForeignKey("agents.id"), nullable=False)
     ticket = Column(String(3), nullable=False)
     amount = Column(Float, nullable=False)
-    batch_id = Column(String, nullable=False)
     note = Column(String, nullable=True)
     created_at = Column(DateTime, server_default=func.now())
