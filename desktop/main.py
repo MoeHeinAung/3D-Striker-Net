@@ -20,21 +20,24 @@ def find_available_port(start=8000, end=9000):
             continue
     raise Exception(f"No available port in range {start}-{end}")
 
-def run_backend():
+def run_backend(port):
     """Runs the FastAPI server using uvicorn."""
     # Ensure backend is in path
     backend_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "backend")
     sys.path.append(backend_path)
     
     # We use a string reference to avoid issues with threading and reloads
-    uvicorn.run("app.main:app", host="127.0.0.1", port=8000, log_level="info", reload=False)
+    uvicorn.run("app.main:app", host="127.0.0.1", port=port, log_level="info", reload=False)
 
 def start_app():
     """Bootstraps the backend and starts the desktop GUI."""
     load_dotenv()
     
-    # 1. Start Backend Thread
-    backend_thread = threading.Thread(target=run_backend, daemon=True)
+    # Resolve port
+    resolved_port = find_available_port()
+    
+    # 1. Start Backend Thread with resolved port
+    backend_thread = threading.Thread(target=run_backend, args=(resolved_port,), daemon=True)
     backend_thread.start()
     
     # 2. Create Window
