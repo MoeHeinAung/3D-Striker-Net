@@ -3,11 +3,22 @@ import uvicorn
 import webview
 import sys
 import os
+import socket
 from dotenv import load_dotenv
 from desktop.window import create_desktop_window
 
 # Ensure we can import backend
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+def find_available_port(start=8000, end=9000):
+    for port in range(start, end + 1):
+        try:
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+                s.bind(('127.0.0.1', port))
+                return port
+        except OSError:
+            continue
+    raise Exception(f"No available port in range {start}-{end}")
 
 def run_backend():
     """Runs the FastAPI server using uvicorn."""
