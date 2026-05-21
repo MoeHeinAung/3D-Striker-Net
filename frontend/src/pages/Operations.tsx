@@ -1,113 +1,114 @@
 import { useState } from 'react';
 import { Table, Button, Modal, Form, Input, InputNumber, App, Popconfirm } from 'antd';
-import { useSales, useCreateSale, useUpdateSale, useDeleteSale } from '../queries/useSales.js';
-import type { Sale } from '../queries/useSales.js';
+import { useBatches, useCreateBatch, useDeleteBatch } from '../queries/useBatches.js';
+import type { Batch } from '../queries/useBatches.js';
 
 export const OperationsPage = () => {
   const { message } = App.useApp();
-  const { data, isLoading } = useSales();
-  const createSale = useCreateSale();
-  const updateSale = useUpdateSale();
-  const deleteSale = useDeleteSale();
+  const { data: batches, isLoading } = useBatches();
+  const createBatch = useCreateBatch();
+  const deleteBatch = useDeleteBatch();
+  
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [editingSale, setEditingSale] = useState<Sale | null>(null);
   const [form] = Form.useForm();
 
   const handleFinish = async (values: Record<string, unknown>) => {
     try {
-      if (editingSale) {
-        await updateSale.mutateAsync({ id: editingSale.id, data: values });
-        message.success('Sale updated');
-      } else {
-        const bulkText = values.bulk_input as string;
-        const lines = bulkText.split('\n');
-        
-        for (const line of lines) {
-          if (!line.trim()) continue;
-          const [ticket, amount] = line.split('-').map(s => s.trim());
-          if (ticket && amount) {
-            await createSale.mutateAsync({
-              draw_id: values.draw_id as number,
-              agent_id: values.agent_id as string,
-              ticket,
-              amount: parseFloat(amount),
-              note: values.note as string
-            });
-          }
+      const bulkText = values.bulk_input as string;
+      const lines = bulkText.split('\n');
+      const salesIn: any[] = [];
+      
+      for (const line of lines) {
+        if (!line.trim()) continue;
+        const [ticket, amount] = line.split('-').map(s => s.trim());
+        if (ticket && amount) {
+          salesIn.push({
+            ticket,
+            amount: parseFloat(amount),
+            note: values.note as string
+          });
         }
-        message.success('Sales created');
       }
+
+      if (salesIn.length === 0) {
+        message.warning('No valid sales found in input');
+        return;
+      }
+
+      await createBatch.mutateAsync({
+        batch_in: {
+          draw_id: values.draw_id as number,
+          agent_id: values.agent_id as string,
+          note: values.note as string
+        },
+        sales_in: salesIn
+      });
+
+      message.success('Batch created successfully');
       setIsModalVisible(false);
-      setEditingSale(null);
       form.resetFields();
-    } catch (e: unknown) {
-      const error = e as { message: string };
-      message.error(error.message || 'Action failed');
+    } catch (e: any) {
+      message.error(e.message || 'Action failed');
     }
   };
 
-  const handleDelete = async (id: number) => {
-    await deleteSale.mutateAsync(id);
-    message.success('Sale deleted');
-  };
-
   const columns = [
-    { title: 'ID', dataIndex: 'id', key: 'id' },
-    { title: 'Draw', dataIndex: 'draw_id', key: 'draw_id' },
+    { title: 'Batch #', dataIndex: 'id', key: 'id', render: (id: number) => `BATCH-${id}` },
+    { title: 'Draw ID', dataIndex: 'draw_id', key: 'draw_id' },
     { title: 'Agent', dataIndex: 'agent_id', key: 'agent_id' },
-    { title: 'Ticket', dataIndex: 'ticket', key: 'ticket' },
-    { title: 'Amount', dataIndex: 'amount', key: 'amount' },
+    { title: 'Total Amount', dataIndex: 'total_amount', key: 'total_amount', render: (amt: number) => `฿${amt.toLocaleString()}` },
+    { title: 'Time', dataIndex: 'created_at', key: 'created_at', render: (date: string) => new Date(date).toLocaleString() },
     {
       title: 'Action',
       key: 'action',
-      render: (_: unknown, record: Sale) => (
-        <div style={{ display: 'flex', gap: '8px' }}>
-          <Button size="small" onClick={() => { 
-            setEditingSale(record); 
-            setIsModalVisible(true);
-            form.setFieldsValue(record);
-          }}>Edit</Button>
-          <Popconfirm title="Delete this sale?" onConfirm={() => handleDelete(record.id)}>
-             <Button size="small" danger>Delete</Button>
-          </Popconfirm>
-        </div>
+      render: (_: unknown, record: Batch) => (
+        <Popconfirm title="Delete entire batch?" onConfirm={() => deleteBatch.mutate(record.id)}>
+          <Button size="small" danger>Delete</Button>
+        </Popconfirm>
       ),
     },
   ];
 
   return (
-    <div>
+    <div style={{ padding: '1rem' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
-        <h2>Operations: Sales</h2>
-        <Button type="primary" onClick={() => { setEditingSale(null); form.resetFields(); setIsModalVisible(true); }}>Bulk Sale</Button>
+        <h2>Operations: Sales Batches</h2>
+        <Button type="primary" onClick={() => setIsModalVisible(true)}>New Bulk Sale</Button>
       </div>
       
       <Table 
-        dataSource={Array.isArray(data) ? data : []} 
+        dataSource={Array.isArray(batches) ? batches : []} 
         columns={columns} 
         rowKey="id" 
         loading={isLoading}
-        pagination={false}
+        expandable={{
+          expandedRowRender: (record) => (
+            <Table 
+              dataSource={record.sales}
+              pagination={false}
+              size="small"
+              columns={[
+                { title: 'Ticket', dataIndex: 'ticket', key: 'ticket' },
+                { title: 'Amount', dataIndex: 'amount', key: 'amount', render: (amt: number) => `฿${amt.toLocaleString()}` },
+                { title: 'Note', dataIndex: 'note', key: 'note' },
+              ]}
+              rowKey="id"
+            />
+          ),
+        }}
       />
 
-      <Modal open={isModalVisible} onCancel={() => setIsModalVisible(false)} footer={null}>
+      <Modal title="Create New Batch Sale" open={isModalVisible} onCancel={() => setIsModalVisible(false)} footer={null}>
         <Form form={form} onFinish={handleFinish} layout="vertical">
-            <Form.Item name="draw_id" label="Draw ID" rules={[{ required: true }]}><InputNumber disabled={!!editingSale} /></Form.Item>
-            <Form.Item name="agent_id" label="Agent ID" rules={[{ required: true, len: 3 }]}><Input /></Form.Item>
-            
-            {editingSale && (
-              <>
-                <Form.Item name="ticket" label="Ticket (000-999)" rules={[{ required: true, pattern: /^\d{3}$/ }]}><Input /></Form.Item>
-                <Form.Item name="amount" label="Amount" rules={[{ required: true }]}><InputNumber /></Form.Item>
-              </>
-            )}
-
-            {!editingSale && (
-                <Form.Item name="bulk_input" label="Bulk Input (ticket - amount)" rules={[{ required: true }]}>
-                    <Input.TextArea rows={5} placeholder="123 - 1000&#10;456 - 2000" />
-                </Form.Item>
-            )}
-            <Button type="primary" htmlType="submit">Submit</Button>
+            <Form.Item name="draw_id" label="Draw ID" rules={[{ required: true }]}><InputNumber style={{ width: '100%' }} /></Form.Item>
+            <Form.Item name="agent_id" label="Agent ID" rules={[{ required: true, len: 3 }]}><Input placeholder="ABC" /></Form.Item>
+            <Form.Item name="bulk_input" label="Bulk Input (ticket - amount)" rules={[{ required: true }]}>
+                <Input.TextArea rows={8} placeholder="123 - 1000&#10;456 - 2000" />
+            </Form.Item>
+            <Form.Item name="note" label="Batch Note">
+                <Input.TextArea />
+            </Form.Item>
+            <Button type="primary" block htmlType="submit">Submit Batch</Button>
         </Form>
       </Modal>
     </div>

@@ -1,21 +1,21 @@
 from pydantic import BaseModel, Field
 from datetime import datetime
-from typing import Optional
+from typing import Optional, List
+from app.schemas.sale import SaleResponse
 
-class SaleBase(BaseModel):
+class BatchBase(BaseModel):
     draw_id: int
     agent_id: str = Field(..., min_length=3, max_length=3)
-    batch_id: Optional[int] = None
-    ticket: str = Field(..., pattern=r"^\d{3}$")
-    amount: float
+    total_amount: float = 0.0
     note: Optional[str] = None
 
-class SaleCreate(SaleBase):
+class BatchCreate(BatchBase):
     pass
 
-class SaleResponse(SaleBase):
+class BatchResponse(BatchBase):
     id: int
     created_at: datetime
+    sales: List[SaleResponse] = []
 
     class Config:
         from_attributes = True
