@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useEffect } from 'react';
 import { Layout, ConfigProvider, theme, App as AntApp } from 'antd';
 import { Navbar } from '../components/Navbar.js';
 import { DashboardPage } from '../pages/Dashboard.js';
@@ -15,6 +16,23 @@ const { Content } = Layout;
 
 function App() {
   const { theme: appTheme } = useUIStore();
+
+  useEffect(() => {
+    // Check if window.VITE_API_URL is set and test connection
+    const checkConnection = async () => {
+        if (!window.VITE_API_URL) return;
+
+        try {
+            const response = await fetch(`${window.VITE_API_URL}/health`);
+            if (!response.ok) {
+                alert("Failed to connect to backend on resolved port.");
+            }
+        } catch (e) {
+            alert("Failed to connect to backend on resolved port.");
+        }
+    };
+    checkConnection();
+  }, []);
 
   return (
     <ConfigProvider
