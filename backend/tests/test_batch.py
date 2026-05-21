@@ -1,4 +1,5 @@
 import pytest
+from fastapi import HTTPException
 from app.db.base import Base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -71,3 +72,21 @@ def test_delete_batch_cascades_to_sales(db):
     assert db.query(Batch).filter(Batch.id == batch_id).first() is None
     # Verify sales are deleted (cascade)
     assert len(db.query(Sale).filter(Sale.batch_id == batch_id).all()) == 0
+
+def test_cutoff_time_validation_date_aware(db):
+    service = BatchService(db)
+    
+    # Create a draw in the past
+    past_draw = Draw(id=2, status=DrawStatus.OPEN.value, cutoff_time="23:59", open_date=date(2000, 1, 1))
+    db.add(past_draw)
+    db.commit()
+    
+    batch_in = BatchCreate(draw_id=2, agent_id="ABC")
+    sales_in = [{"ticket": "123", "amount": 1000}]
+    
+    with pytest.raises(HTTPException) as excinfo:
+        service.create_batch_with_sales(batch_in, sales_in)
+    
+    assert excinfo.value.status_code == 400
+    assert "cutoff time" in excinfo.value.detail.lower()
+    assert "2000-01-01" in excinfo.value.detail

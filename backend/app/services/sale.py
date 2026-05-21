@@ -65,10 +65,18 @@ class SaleService:
         if draw.status != DrawStatus.OPEN.value:
             raise HTTPException(status_code=400, detail="Sale not allowed for non-active draw.")
         
-        # Simple string time comparison for HH:mm
-        now = datetime.now().strftime("%H:%M")
-        if now > draw.cutoff_time:
-            raise HTTPException(status_code=400, detail="Sales cutoff time has passed.")
+        # Combine draw date with cutoff time
+        try:
+            cutoff_h, cutoff_m = map(int, draw.cutoff_time.split(':'))
+            # draw.open_date is expected to be a datetime object from SQLAlchemy
+            cutoff_datetime = draw.open_date.replace(hour=cutoff_h, minute=cutoff_m, second=0, microsecond=0)
+            
+            if datetime.now() > cutoff_datetime:
+                raise HTTPException(status_code=400, detail=f"Sales cutoff time ({draw.cutoff_time}) for draw date {draw.open_date.date()} has passed.")
+        except (ValueError, AttributeError) as e:
+            # Fallback or error handling if date/time format is invalid
+            raise HTTPException(status_code=500, detail=f"Internal error validating cutoff time: {str(e)}")
+            
         return draw
 
     def list(self):

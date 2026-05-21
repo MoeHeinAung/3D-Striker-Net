@@ -10,11 +10,28 @@ export interface ParsedTicket {
   type: 'standard' | 'dual' | 'r-indicator';
   isValid: boolean;
   errorMessage?: string;
+  isIgnored?: boolean;
 }
 
 export const parseTicketLine = (line: string): ParsedTicket | null => {
   const text = line.trim();
   if (!text) return null;
+
+  // Rule: Ignore if contains text (a-z), parentheses, or only one digit in total
+  const hasText = /[a-zA-Z]/.test(text) && !/[Rr®]/.test(text); // Allow 'R' for indicator
+  const hasParentheses = /[()]/.test(text);
+  const digitCount = (text.match(/\d/g) || []).length;
+  const onlyOneDigit = digitCount === 1;
+
+  if (hasText || hasParentheses || onlyOneDigit) {
+    return {
+      ticket: '',
+      amount: 0,
+      type: 'standard',
+      isValid: true,
+      isIgnored: true
+    };
+  }
 
   // 1. Extract Prefix (Ticket)
   const prefix = text.substring(0, 3);
