@@ -1,28 +1,27 @@
-# Business Logic: Risk Management
+# Business Logic Documentation
 
-## Overview
-The system allows Administrators to manage their risk exposure by setting a maximum holding amount per ticket. Any sales amount exceeding this threshold must be offloaded to master dealers.
+This document records the business rules and logic extracted from project requirements and specifications.
 
-## Core Rules
+## API Response Handling
 
-### 1. Admin/House Max Hold Amount
-- **Definition:** The maximum amount the House is willing to hold for a single ticket.
-- **Persistence:** This value must persist across sessions and only update via manual administrative input.
+### Success Envelope Standard
+All successful API responses must follow the standard envelope structure:
+- `success`: boolean (true for success)
+- `data`: The actual payload of the response
+- `message`: A string containing information about the operation
 
-### 2. Offloaded Data (Table: `Offloaded`)
-- Records individual offload transactions.
-- Columns: `id`, `draw_id`, `master_dealer_id`, `batch_id`, `ticket`, `amount`, `note`, `created_at`.
+### Frontend API Client Design
+The frontend API client (Axios instance) must follow these design rules:
+1. **No Fragile Unwrapping**: The Axios response interceptor must NOT automatically unwrap `response.data`. It must return the full Axios response object.
+2. **Explicit Unwrapping**: Service functions and query hooks are responsible for explicitly unwrapping the standard envelope to access the payload.
+3. **Consistent Pattern**: The standard pattern for data fetching is:
+   ```typescript
+   const res = await api.get<SuccessEnvelope<T>>('/path');
+   return res.data.data;
+   ```
+4. **Error Normalization**: The response interceptor must normalize error messages from the backend `SuccessEnvelope` (error variant) or fallback to a default error message.
 
-### 3. Risk Calculation Formulas (Per Ticket)
-
-- **`house_holding_amount`**:
-  - `min(sum_of_sales_amount, Admin_House_Max_Hold_Amount)`
-
-- **`offloaded_amount`**:
-  - `sum(amount)` for all records in the `Offloaded` table associated with the specific ticket.
-
-- **`pending_amount`**:
-  - If `sum_of_sales_amount > Admin_House_Max_Hold_Amount`:
-    - `sum_of_sales_amount - (Admin_House_Max_Hold_Amount + offloaded_amount)`
-  - Otherwise:
-    - `0`
+## Architectural Constraints
+- **Layered Design**: Maintain strict separation between Frontend (React), Backend API (FastAPI), and Backend Core (Services/Repositories).
+- **No Direct DB Access**: Frontend must never access the database directly.
+- **Thin Components**: UI components must remain thin, delegating logic to services and hooks.

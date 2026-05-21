@@ -15,9 +15,31 @@
 | T-011 | `✅ Done`      | Batch Grouping & Relationship Optimization | High     | Core         | 2026-05-21|
 | T-012 | `✅ Done`      | Risk Management Feature  | High     | Core         | 2026-05-21|
 | T-014 | `✅ Done`      | Risk API Response Standardisation | High     | Core         | 2026-05-21|
+| T-015 | `✅ Done`      | Frontend API Client Refactoring | High     | Core         | 2026-05-21|
 
 ---
 ## 📝 Task Log
+
+### 🟦 T-015: Frontend API Client Refactoring
+- **Status:** `✅ Done`
+- **Priority:** High
+- **Phase:** Core
+- **Plain English Goal:** Refactor the frontend API client to return full Axios responses and explicitly unwrap the standard SuccessEnvelope, preventing double-unwrapping bugs.
+- **Dependencies:** None
+- **Allowed Files:** 
+  - `frontend/src/services/api.ts`
+  - `frontend/src/services/drawService.ts`
+  - `frontend/src/queries/use*.ts`
+- **AI Prompt Used:** `prompts/api-client-refactor-T015.md`
+- **Rollback Plan:** Revert `frontend/src/services/api.ts` and `frontend/src/queries/` to previous state.
+- **Definition of Done (DoD):**
+  - [x] Axios interceptor returns full response.
+  - [x] SuccessEnvelope<T> defined and exported.
+  - [x] All service functions and hooks updated to explicit unwrapping.
+  - [x] Typecheck passes in `frontend`.
+- **Test Results:** ✅ Pass | Typecheck passed, all modules updated.
+- **Notes/Blockers:** Eliminated fragile response unwrapping in the interceptor.
+- **Updated:** 2026-05-21
 
 ### 🟦 T-014: Risk API Response Standardisation
 - **Status:** `✅ Done`

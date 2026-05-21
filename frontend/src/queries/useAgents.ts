@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { api } from '../services/api.js';
+import { api, type SuccessEnvelope } from '../services/api.js';
 
 export interface Agent {
   id: string;
@@ -15,7 +15,8 @@ export const useAgents = () => {
   return useQuery({
     queryKey: ['agents'],
     queryFn: async () => {
-      return await api.get('/agents/');
+      const res = await api.get<SuccessEnvelope<Agent[]>>('/agents/');
+      return res.data.data;
     },
   });
 };
@@ -23,7 +24,10 @@ export const useAgents = () => {
 export const useCreateAgent = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (data: Omit<Agent, 'created_at'>) => api.post('/agents/', data),
+    mutationFn: async (data: Omit<Agent, 'created_at'>) => {
+      const res = await api.post<SuccessEnvelope<Agent>>('/agents/', data);
+      return res.data.data;
+    },
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['agents'] }),
   });
 };
@@ -31,7 +35,10 @@ export const useCreateAgent = () => {
 export const useUpdateAgent = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: ({ id, data }: { id: string, data: Record<string, unknown> }) => api.patch(`/agents/${id}`, data),
+        mutationFn: async ({ id, data }: { id: string, data: Record<string, unknown> }) => {
+            const res = await api.patch<SuccessEnvelope<Agent>>(`/agents/${id}`, data);
+            return res.data.data;
+        },
         onSuccess: () => queryClient.invalidateQueries({ queryKey: ['agents'] }),
     });
 };
@@ -39,7 +46,10 @@ export const useUpdateAgent = () => {
 export const useDeleteAgent = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (id: string) => api.delete(`/agents/${id}`),
+        mutationFn: async (id: string) => {
+            const res = await api.delete<SuccessEnvelope<boolean>>(`/agents/${id}`);
+            return res.data.data;
+        },
         onSuccess: () => queryClient.invalidateQueries({ queryKey: ['agents'] }),
     });
 };

@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { api } from '../services/api.js';
+import { api, type SuccessEnvelope } from '../services/api.js';
 
 export interface HealthStatus {
   status: string;
@@ -7,15 +7,12 @@ export interface HealthStatus {
   database: string;
 }
 
-export interface SuccessEnvelope<T> {
-  success: boolean;
-  data: T;
-  message: string;
-}
-
 export const useHealth = () => {
   return useQuery<HealthStatus>({
     queryKey: ['health'],
-    queryFn: () => api.get('/health'),
+    queryFn: async () => {
+      const res = await api.get<SuccessEnvelope<HealthStatus>>('/health');
+      return res.data.data;
+    },
   });
 };

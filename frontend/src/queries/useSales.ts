@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { api } from '../services/api.js';
+import { api, type SuccessEnvelope } from '../services/api.js';
 
 export interface Sale {
   id: number;
@@ -15,7 +15,8 @@ export const useSales = () => {
   return useQuery({
     queryKey: ['sales'],
     queryFn: async () => {
-      return await api.get('/sales/');
+      const res = await api.get<SuccessEnvelope<Sale[]>>('/sales/');
+      return res.data.data;
     },
   });
 };
@@ -23,7 +24,10 @@ export const useSales = () => {
 export const useCreateBatchSale = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (data: Omit<Sale, 'id' | 'created_at'>[]) => api.post('/sales/batch', data),
+        mutationFn: async (data: Omit<Sale, 'id' | 'created_at'>[]) => {
+            const res = await api.post<SuccessEnvelope<Sale[]>>('/sales/batch', data);
+            return res.data.data;
+        },
         onSuccess: () => queryClient.invalidateQueries({ queryKey: ['sales'] }),
     });
 };
@@ -31,7 +35,10 @@ export const useCreateBatchSale = () => {
 export const useUpdateSale = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: ({ id, data }: { id: number, data: Record<string, unknown> }) => api.patch(`/sales/${id}`, data),
+        mutationFn: async ({ id, data }: { id: number, data: Record<string, unknown> }) => {
+            const res = await api.patch<SuccessEnvelope<Sale>>(`/sales/${id}`, data);
+            return res.data.data;
+        },
         onSuccess: () => queryClient.invalidateQueries({ queryKey: ['sales'] }),
     });
 };
@@ -39,7 +46,10 @@ export const useUpdateSale = () => {
 export const useDeleteSale = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (id: number) => api.delete(`/sales/${id}`),
+        mutationFn: async (id: number) => {
+            const res = await api.delete<SuccessEnvelope<null>>(`/sales/${id}`);
+            return res.data.data;
+        },
         onSuccess: () => queryClient.invalidateQueries({ queryKey: ['sales'] }),
     });
 };

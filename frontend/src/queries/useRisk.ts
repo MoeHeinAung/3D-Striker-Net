@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { api } from '../services/api.js';
+import { api, type SuccessEnvelope } from '../services/api.js';
 
 export interface RiskData {
   ticket: string;
@@ -13,9 +13,10 @@ export const useRiskSummary = (adminMaxHold: number, enabled: boolean = true) =>
   return useQuery<RiskData[]>({
     queryKey: ['risk-summary', adminMaxHold],
     queryFn: async () => {
-      return await api.get('/risk/summary', {
+      const res = await api.get<SuccessEnvelope<RiskData[]>>('/risk/summary', {
         params: { admin_max_hold: adminMaxHold },
       });
+      return res.data.data;
     },
     enabled: enabled && adminMaxHold > 0,
   });

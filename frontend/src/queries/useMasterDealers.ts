@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { api } from '../services/api.js';
+import { api, type SuccessEnvelope } from '../services/api.js';
 
 export interface MasterDealer {
   id: string;
@@ -15,7 +15,8 @@ export const useMasterDealers = () => {
   return useQuery({
     queryKey: ['master-dealers'],
     queryFn: async () => {
-      return await api.get('/master-dealers/');
+      const res = await api.get<SuccessEnvelope<MasterDealer[]>>('/master-dealers/');
+      return res.data.data;
     },
   });
 };
@@ -23,7 +24,10 @@ export const useMasterDealers = () => {
 export const useCreateMasterDealer = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (data: Omit<MasterDealer, 'created_at'>) => api.post('/master-dealers/', data),
+    mutationFn: async (data: Omit<MasterDealer, 'created_at'>) => {
+      const res = await api.post<SuccessEnvelope<MasterDealer>>('/master-dealers/', data);
+      return res.data.data;
+    },
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['master-dealers'] }),
   });
 };
@@ -31,7 +35,10 @@ export const useCreateMasterDealer = () => {
 export const useUpdateMasterDealer = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: ({ id, data }: { id: string, data: Record<string, unknown> }) => api.patch(`/master-dealers/${id}`, data),
+        mutationFn: async ({ id, data }: { id: string, data: Record<string, unknown> }) => {
+            const res = await api.patch<SuccessEnvelope<MasterDealer>>(`/master-dealers/${id}`, data);
+            return res.data.data;
+        },
         onSuccess: () => queryClient.invalidateQueries({ queryKey: ['master-dealers'] }),
     });
 };
@@ -39,7 +46,10 @@ export const useUpdateMasterDealer = () => {
 export const useDeleteMasterDealer = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (id: string) => api.delete(`/master-dealers/${id}`),
+        mutationFn: async (id: string) => {
+            const res = await api.delete<SuccessEnvelope<null>>(`/master-dealers/${id}`);
+            return res.data.data;
+        },
         onSuccess: () => queryClient.invalidateQueries({ queryKey: ['master-dealers'] }),
     });
 };
