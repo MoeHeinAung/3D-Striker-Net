@@ -41,6 +41,13 @@ class BatchService:
         self.db.refresh(batch)
         return batch
 
+    def update_batch(self, batch_id: int, note: str):
+        batch = self.repository.get_by_id(batch_id)
+        if not batch:
+            raise HTTPException(status_code=404, detail="Batch not found.")
+        batch.note = note
+        return self.repository.update(batch)
+
     def delete_batch(self, batch_id: int):
         batch = self.repository.get_by_id(batch_id)
         if not batch:

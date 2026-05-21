@@ -17,6 +17,10 @@ def create_batch(batch_in: BatchCreate, sales_in: List[dict], db: Session = Depe
     # This expects a body with batch info and a list of sales
     return SuccessEnvelope(data=BatchService(db).create_batch_with_sales(batch_in, sales_in))
 
+@router.patch("/{batch_id}", response_model=SuccessEnvelope[BatchResponse])
+def update_batch(batch_id: int, note: str, db: Session = Depends(get_db)):
+    return SuccessEnvelope(data=BatchService(db).update_batch(batch_id, note))
+
 @router.delete("/{batch_id}", response_model=SuccessEnvelope[bool])
 def delete_batch(batch_id: int, db: Session = Depends(get_db)):
     BatchService(db).delete_batch(batch_id)

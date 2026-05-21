@@ -30,6 +30,14 @@ export const useCreateBatch = () => {
   });
 };
 
+export const useUpdateBatch = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: ({ id, note }: { id: number, note: string }) => api.patch(`/batches/${id}?note=${encodeURIComponent(note)}`),
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: ['batches'] }),
+    });
+};
+
 export const useDeleteBatch = () => {
     const queryClient = useQueryClient();
     return useMutation({
