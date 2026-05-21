@@ -94,10 +94,16 @@ export const OperationsPage = () => {
         <Form form={form} onFinish={handleFinish} layout="vertical">
             <Form.Item name="draw_id" label="Draw ID" rules={[{ required: true }]}><InputNumber disabled={!!editingSale} /></Form.Item>
             <Form.Item name="agent_id" label="Agent ID" rules={[{ required: true, len: 3 }]}><Input /></Form.Item>
-            <Form.Item name="ticket" label="Ticket (000-999)" rules={[{ required: !editingSale, pattern: /^\d{3}$/ }]}><Input disabled={!!editingSale} /></Form.Item>
-            <Form.Item name="amount" label="Amount" rules={[{ required: true }]}><InputNumber /></Form.Item>
+            
+            {editingSale && (
+              <>
+                <Form.Item name="ticket" label="Ticket (000-999)" rules={[{ required: true, pattern: /^\d{3}$/ }]}><Input /></Form.Item>
+                <Form.Item name="amount" label="Amount" rules={[{ required: true }]}><InputNumber /></Form.Item>
+              </>
+            )}
+
             {!editingSale && (
-                <Form.Item name="bulk_input" label="Bulk Input (ticket - amount)">
+                <Form.Item name="bulk_input" label="Bulk Input (ticket - amount)" rules={[{ required: true }]}>
                     <Input.TextArea rows={5} placeholder="123 - 1000&#10;456 - 2000" />
                 </Form.Item>
             )}
