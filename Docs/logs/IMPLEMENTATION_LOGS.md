@@ -168,3 +168,26 @@
 - **Test Results:** ✅ Pass | Linting clean
 - **Notes/Blockers:** Fully implemented master dealer management and updated the Network page UI.
 - **Updated:** 2026-05-20
+
+### ?? T-008: Sales Management Implementation
+- **Status:** ? Not Started
+- **Priority:** High
+- **Phase:** Core
+- **Plain English Goal:** Implement Sale table (id, draw_id, agent_id, ticket [000-999], amount, notes, created_at) with CRUD, active draw validation, and bulk ticket entry support.
+- **Dependencies:** T-004, T-006
+- **Allowed Files:** 
+  - ackend/app/models/sale.py, ackend/app/schemas/sale.py, ackend/app/repositories/sale.py, ackend/app/services/sale.py, ackend/app/api/routes/sale.py, rontend/src/pages/Operations.tsx, rontend/src/queries/useSales.ts
+- **AI Prompt Used:** prompts/sales-T008.md
+- **Rollback Plan:** Revert ackend/ and rontend/ changes to last stable commit.
+- **Definition of Done (DoD):**
+  - [ ] Tests pass (pytest backend/tests/ -q && npm test -- --run)
+  - [ ] Sale CRUD operations fully operational.
+  - [ ] Active Draw validation correctly enforces cutoff times.
+  - [ ] Bulk ticket entry parsing works for multi-line inputs.
+  - [ ] Errors match SSOT format.
+  - [ ] Pre-commit hooks pass.
+- **Test Results:** ? Pending | Logs: 	ests/test_sale.log
+- **Notes/Blockers:** None
+- **Updated:** 2026-05-21
+
+- **Test Results:** ? Pass | Tests verified using pytest.

@@ -1,5 +1,5 @@
 ### 🟦 T-008: Sales Management Implementation
-- **Status:** `⬜ Not Started`
+- **Status:** `✅ Done`
 - **Priority:** High
 - **Phase:** Core
 - **Plain English Goal:** Implement Sale table (id, draw_id, agent_id, ticket [000-999], amount, notes, created_at) with CRUD, active draw validation, and bulk ticket entry support.

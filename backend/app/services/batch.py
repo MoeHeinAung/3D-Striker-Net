@@ -21,14 +21,21 @@ class BatchService:
         # 1. Validate Draw status/cutoff (using SaleService logic)
         self.sale_service.validate_draw(batch_in.draw_id)
 
-        # 2. Create Batch Record
+        # 2. Validate ticket format for each sale
+        import re
+        ticket_pattern = re.compile(r"^\d{3}$")
+        for s_data in sales_in:
+            if not ticket_pattern.match(str(s_data['ticket'])):
+                raise HTTPException(status_code=400, detail=f"Invalid ticket format: {s_data['ticket']}. Must be 3-digit numeric string.")
+
+        # 3. Create Batch Record
         # Calculate total amount if not provided
-        total = sum(s['amount'] for s in sales_in)
+        total = sum(float(s['amount']) for s in sales_in)
         batch_data = batch_in.model_dump()
         batch_data['total_amount'] = total
         batch = self.repository.create(batch_data)
 
-        # 3. Create Individual Sale Records
+        # 4. Create Individual Sale Records
         for s_data in sales_in:
             sale_data = {
                 **s_data,
