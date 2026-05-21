@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { api, type SuccessEnvelope } from '../services/api.js';
+import { queryKeys } from './queryKeys.js';
 
 export interface MasterDealer {
   id: string;
@@ -13,7 +14,7 @@ export interface MasterDealer {
 
 export const useMasterDealers = () => {
   return useQuery({
-    queryKey: ['master-dealers'],
+    queryKey: queryKeys.masterDealers.all,
     queryFn: async () => {
       const res = await api.get<SuccessEnvelope<MasterDealer[]>>('/master-dealers/');
       return res.data.data;
@@ -28,7 +29,7 @@ export const useCreateMasterDealer = () => {
       const res = await api.post<SuccessEnvelope<MasterDealer>>('/master-dealers/', data);
       return res.data.data;
     },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['master-dealers'] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKeys.masterDealers.all }),
   });
 };
 
@@ -39,7 +40,7 @@ export const useUpdateMasterDealer = () => {
             const res = await api.patch<SuccessEnvelope<MasterDealer>>(`/master-dealers/${id}`, data);
             return res.data.data;
         },
-        onSuccess: () => queryClient.invalidateQueries({ queryKey: ['master-dealers'] }),
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKeys.masterDealers.all }),
     });
 };
 
@@ -50,6 +51,6 @@ export const useDeleteMasterDealer = () => {
             const res = await api.delete<SuccessEnvelope<null>>(`/master-dealers/${id}`);
             return res.data.data;
         },
-        onSuccess: () => queryClient.invalidateQueries({ queryKey: ['master-dealers'] }),
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKeys.masterDealers.all }),
     });
 };

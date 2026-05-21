@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { api, type SuccessEnvelope } from '../services/api.js';
 import type { Sale } from './useSales.js';
+import { queryKeys } from './queryKeys.js';
 
 export interface Batch {
   id: number;
@@ -14,7 +15,7 @@ export interface Batch {
 
 export const useBatches = () => {
   return useQuery({
-    queryKey: ['batches'],
+    queryKey: queryKeys.batches.all,
     queryFn: async () => {
       const res = await api.get<SuccessEnvelope<Batch[]>>('/batches/');
       return res.data.data;
@@ -29,7 +30,7 @@ export const useCreateBatch = () => {
       const res = await api.post<SuccessEnvelope<Batch>>('/batches/', data);
       return res.data.data;
     },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['batches'] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKeys.batches.all }),
   });
 };
 
@@ -40,7 +41,7 @@ export const useUpdateBatch = () => {
             const res = await api.patch<SuccessEnvelope<Batch>>(`/batches/${id}?note=${encodeURIComponent(note)}`);
             return res.data.data;
         },
-        onSuccess: () => queryClient.invalidateQueries({ queryKey: ['batches'] }),
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKeys.batches.all }),
     });
 };
 
@@ -51,6 +52,6 @@ export const useDeleteBatch = () => {
             const res = await api.delete<SuccessEnvelope<null>>(`/batches/${id}`);
             return res.data.data;
         },
-        onSuccess: () => queryClient.invalidateQueries({ queryKey: ['batches'] }),
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKeys.batches.all }),
     });
 };

@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { api, type SuccessEnvelope } from '../services/api.js';
+import { queryKeys } from './queryKeys.js';
 
 export interface Sale {
   id: number;
@@ -13,7 +14,7 @@ export interface Sale {
 
 export const useSales = () => {
   return useQuery({
-    queryKey: ['sales'],
+    queryKey: queryKeys.sales.all,
     queryFn: async () => {
       const res = await api.get<SuccessEnvelope<Sale[]>>('/sales/');
       return res.data.data;
@@ -28,7 +29,7 @@ export const useCreateBatchSale = () => {
             const res = await api.post<SuccessEnvelope<Sale[]>>('/sales/batch', data);
             return res.data.data;
         },
-        onSuccess: () => queryClient.invalidateQueries({ queryKey: ['sales'] }),
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKeys.sales.all }),
     });
 };
 
@@ -39,7 +40,7 @@ export const useUpdateSale = () => {
             const res = await api.patch<SuccessEnvelope<Sale>>(`/sales/${id}`, data);
             return res.data.data;
         },
-        onSuccess: () => queryClient.invalidateQueries({ queryKey: ['sales'] }),
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKeys.sales.all }),
     });
 };
 
@@ -50,6 +51,6 @@ export const useDeleteSale = () => {
             const res = await api.delete<SuccessEnvelope<null>>(`/sales/${id}`);
             return res.data.data;
         },
-        onSuccess: () => queryClient.invalidateQueries({ queryKey: ['sales'] }),
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKeys.sales.all }),
     });
 };
