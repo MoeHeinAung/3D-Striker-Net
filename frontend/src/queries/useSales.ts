@@ -21,12 +21,12 @@ export const useSales = () => {
   });
 };
 
-export const useCreateSale = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: (data: Omit<Sale, 'id' | 'created_at'>) => api.post('/sales/', data),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['sales'] }),
-  });
+export const useCreateBatchSale = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (data: Omit<Sale, 'id' | 'created_at'>[]) => api.post('/sales/batch', data),
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: ['sales'] }),
+    });
 };
 
 export const useUpdateSale = () => {

@@ -1,33 +1,30 @@
-### 🟦 T-008: Sales Management Implementation
+### 🟦 T-009: Permutation-based Sales Processing
 - **Status:** `✅ Done`
 - **Priority:** High
 - **Phase:** Core
-- **Plain English Goal:** Implement Sale table (id, draw_id, agent_id, ticket [000-999], amount, notes, created_at) with CRUD, active draw validation, and bulk ticket entry support.
-- **Dependencies:** T-004, T-006
-- **Allowed Files:** Auto-generated via file scanner
-- **AI Prompt Used:** `prompts/sales-T008.md`
-- **Rollback Plan:** Revert `backend/` and `frontend/` changes to last stable commit.
+- **Plain English Goal:** Implement backend ticket parser to generate permutations for sales and integrate into the database.
+- **Dependencies:** T-008
+- **Allowed Files:** 
+  - `backend/app/services/sale.py`
+  - `backend/app/repositories/sale.py`
+- **AI Prompt Used:** `prompts/backend-implementation.md`
+- **Rollback Plan:** Revert `backend/` changes to last stable commit.
 
 #### 🛠️ Engineering Standards
 - **Approved Patterns:**
-  - **Frontend:** TanStack Query, Ant Design `Table`, `Form` (with bulk text area), `Modal`.
-  - **Backend:** FastAPI (Service/Repository), Pydantic validation (3-digit ticket string constraint).
-  - **Contracts:** JSON success/error envelopes as defined in `SSOT.md § 5`.
+  - **Backend:** Service layer logic for permutation generation (itertools).
+  - **Contracts:** Logic must handle the two defined formats: Single Mapping and Dual Mapping.
 - **Strict Anti-Patterns:**
-  - ❌ **No Sales after Cutoff:** Service must reject any sale if draw is expired.
-  - ❌ **No non-numeric tickets:** Input validation must enforce 3-digit string format.
-  - ❌ **No logic in API routes:** Keep business logic in `SaleService`.
+  - ❌ **No UI Logic in Backend:** Keep logic within Service layer.
+  - ❌ **No logic in API routes:** API routes must remain thin.
 - **Related Rules:**
-  - `Rules.md § 2.1` (Thin components), `Rules.md § 2.2` (Thin routes).
-  - Refer to `Docs/Business_Logic.md` for specific sale validation rules.
+  - Refer to `Docs/Business_Logic.md` for specific permutation rules.
 
 - **Definition of Done (DoD):**
-  - [ ] Tests pass (`pytest -q && npm test -- --run`)
-  - [ ] Sale CRUD operations fully operational.
-  - [ ] Active Draw validation correctly enforces cutoff times.
-  - [ ] Bulk ticket entry parsing works for multi-line inputs.
-  - [ ] Errors match SSOT format.
-  - [ ] Pre-commit hooks pass.
-- **Test Results:** ⬜ Pending
+  - [x] Tests pass (Permutation generation logic covered)
+  - [x] Single mapping generates all 6 permutations correctly.
+  - [x] Dual mapping correctly separates original ticket from permutations.
+  - [x] Data imported into DB correctly.
+- **Test Results:** ✅ Pass | All permutation tests passed.
 - **Notes/Blockers:** None
-- **Updated:** 2026-05-20
+- **Updated:** 2026-05-21

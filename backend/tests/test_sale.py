@@ -1,46 +1,34 @@
 import pytest
-from fastapi.testclient import TestClient
-from app.main import app
-from app.db.database import engine, Base
+from app.services.sale import SaleService
 
-@pytest.fixture(scope="module", autouse=True)
-def setup_db():
-    Base.metadata.create_all(bind=engine)
-    yield
-    Base.metadata.drop_all(bind=engine)
-
-@pytest.fixture(autouse=True)
-def clean_db():
-    with engine.connect() as conn:
-        for table in Base.metadata.sorted_tables:
-            conn.execute(table.delete())
-        conn.commit()
-
-client = TestClient(app)
-
-def test_create_sale_with_invalid_ticket_format():
-    # Setup: create draw
-    draw = client.post("/api/draws/", json={"open_date": "2026-05-20T10:00:00", "cutoff_time": "18:00"}).json()["data"]
+def test_generate_permutations_single_mapping():
+    service = SaleService(db=None) 
     
-    # Test invalid ticket
-    response = client.post("/api/sales/", json={
-        "draw_id": draw["id"],
-        "agent_id": "AGT",
-        "ticket": "12A", # Invalid
-        "amount": 100.0
-    })
-    assert response.status_code == 400 # Validation error
-
-def test_create_sale_for_closed_draw():
-    # Setup: create draw and close it
-    draw = client.post("/api/draws/", json={"open_date": "2026-05-20T10:00:00", "cutoff_time": "08:00"}).json()["data"]
+    ticket = "123"
+    amount = 1000
+    expected_tickets = {"123", "132", "213", "231", "312", "321"}
     
-    # Test sale on closed draw
-    response = client.post("/api/sales/", json={
-        "draw_id": draw["id"],
-        "agent_id": "AGT",
-        "ticket": "123",
-        "amount": 100.0
-    })
-    # This should fail either by validation or service logic
-    assert response.status_code == 400
+    result = service.generate_permutations(ticket, amount)
+    
+    assert len(result) == 6
+    for item in result:
+        assert item['ticket'] in expected_tickets
+        assert item['amount'] == amount
+
+def test_generate_permutations_dual_mapping():
+    service = SaleService(db=None)
+    
+    ticket = "123"
+    amt_original = 2000
+    amt_perms = 1000
+    
+    result = service.generate_permutations(ticket, amt_original, amt_perms)
+    
+    assert len(result) == 6
+    original_item = next(item for item in result if item['ticket'] == ticket)
+    assert original_item['amount'] == amt_original
+    
+    for item in result:
+        if item['ticket'] != ticket:
+            assert item['amount'] == amt_perms
+

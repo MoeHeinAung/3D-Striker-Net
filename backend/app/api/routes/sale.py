@@ -15,6 +15,10 @@ def list_items(db: Session = Depends(get_db)):
 def create_item(in_data: SaleCreate, db: Session = Depends(get_db)):
     return SuccessEnvelope(data=SaleService(db).create(in_data))
 
+@router.post("/batch", response_model=SuccessEnvelope[list[SaleResponse]])
+def create_batch(in_data: list[SaleCreate], db: Session = Depends(get_db)):
+    return SuccessEnvelope(data=SaleService(db).create_batch(in_data))
+
 @router.patch("/{item_id}", response_model=SuccessEnvelope[SaleResponse])
 def update_item(item_id: int, update_data: SaleBase, db: Session = Depends(get_db)):
     return SuccessEnvelope(data=SaleService(db).update(item_id, update_data))

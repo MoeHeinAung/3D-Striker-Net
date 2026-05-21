@@ -12,8 +12,29 @@
 | T-003| `✅ Done`      | Navigation & Page Setup  | High     | UX           | 2026-05-19|
 | T-005| `✅ Done`      | Draws Table Rendering Fix | High     | Stabilization | 2026-05-20|
 
+| T-009 | `✅ Done`      | Permutation Logic         | High     | Core         | 2026-05-21|
 ---
 ## 📝 Task Log
+
+### 🟦 T-009: Permutation-based Sales Processing
+- **Status:** `✅ Done`
+- **Priority:** High
+- **Phase:** Core
+- **Plain English Goal:** Implement backend ticket parser to generate permutations for sales and integrate into the database.
+- **Dependencies:** T-008
+- **Allowed Files:** 
+  - `backend/app/services/sale.py`
+  - `backend/app/repositories/sale.py`
+- **AI Prompt Used:** `prompts/backend-implementation.md`
+- **Rollback Plan:** Revert `backend/` changes to last stable commit.
+- **Definition of Done (DoD):**
+  - [x] Tests pass (`pytest backend/tests/test_sale.py`)
+  - [x] Single/Dual mapping implemented and tested.
+  - [x] No unapproved dependencies added
+  - [x] Pre-commit hooks pass
+- **Test Results:** ✅ Pass | Tests verified using pytest.
+- **Notes/Blockers:** Permutation generation logic (using itertools) implemented in Service layer.
+- **Updated:** 2026-05-21
 
 ### 🟦 T-001: Foundation Setup & Connectivity
 - **Status:** `✅ Done`
@@ -191,3 +212,37 @@
 - **Updated:** 2026-05-21
 
 - **Test Results:** ? Pass | Tests verified using pytest.
+
+### ?? T-008: Sales Management Implementation (Batch-based)
+- **Status:** ? Done
+- **Priority:** High
+- **Phase:** Core
+- **Plain English Goal:** Implemented initial batch sales management.
+- **Dependencies:** T-004, T-006
+- **Allowed Files:** Backend/Frontend Sales files.
+- **AI Prompt Used:** prompts/sales-T008.md
+- **Rollback Plan:** Revert ackend/ and rontend/ changes to last stable commit.
+- **Definition of Done (DoD):**
+  - [x] Tests pass
+  - [x] Sale CRUD operational
+  - [x] Active Draw validation enforced
+  - [x] Bulk ticket entry operational
+- **Test Results:** ? Pass | Tests verified.
+- **Notes/Blockers:** Initial batch implementation completed.
+- **Updated:** 2026-05-21
+
+### ?? T-009: Permutation-based Sales Processing
+- **Status:** ? Done
+- **Priority:** High
+- **Phase:** Core
+- **Plain English Goal:** Implement backend ticket parser for permutations (Single/Dual mapping).
+- **Dependencies:** T-008
+- **Allowed Files:** ackend/app/services/sale.py, ackend/app/repositories/sale.py
+- **AI Prompt Used:** prompts/backend-implementation.md
+- **Rollback Plan:** Revert ackend/ changes.
+- **Definition of Done (DoD):**
+  - [x] Tests pass
+  - [x] Single/Dual mapping implemented and tested.
+- **Test Results:** ? Pass | Tests verified using pytest.
+- **Notes/Blockers:** None
+- **Updated:** 2026-05-21

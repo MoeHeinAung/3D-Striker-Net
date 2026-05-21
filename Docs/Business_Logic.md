@@ -16,3 +16,7 @@
 
 ## 4. Multi-entry Rules
 - **Duplicate Tickets:** A single agent is permitted to sell the same ticket number multiple times. Each entry is treated as an independent sale.
+
+## 5. Permutation Logic
+- **Single Mapping:** Ticket ABC = 1000 generates all permutations of ABC at 1000.
+- **Dual Mapping:** Ticket ABC = 2000 / 1000 maps ABC to 2000 and all other permutations to 1000.
