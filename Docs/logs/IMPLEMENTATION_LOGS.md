@@ -14,11 +14,29 @@
 | T-010 | `✅ Done`      | Advanced Ticket Formatting | High     | Core         | 2026-05-21|
 | T-011 | `✅ Done`      | Batch Grouping & Relationship Optimization | High     | Core         | 2026-05-21|
 | T-012 | `✅ Done`      | Risk Management Feature  | High     | Core         | 2026-05-21|
+| T-014 | `✅ Done`      | Risk API Response Standardisation | High     | Core         | 2026-05-21|
 
 ---
 ## 📝 Task Log
 
-### 🟦 T-012: Risk Management Feature
+### 🟦 T-014: Risk API Response Standardisation
+- **Status:** `✅ Done`
+- **Priority:** High
+- **Phase:** Core
+- **Plain English Goal:** Refactor Risk API responses to use the system-wide SuccessEnvelope wrapper for consistency.
+- **Dependencies:** T-012
+- **Allowed Files:** `backend/app/api/routes/risk.py`
+- **AI Prompt Used:** `prompts/risk-api-refactor.md`
+- **Rollback Plan:** Revert `backend/app/api/routes/risk.py` to previous state.
+- **Definition of Done (DoD):**
+  - [x] Risk endpoints wrapped in SuccessEnvelope.
+  - [x] Pydantic response_model updated.
+  - [x] Global adminMaxHold state persisted via Zustand.
+  - [x] Tests pass.
+- **Test Results:** ✅ Pass | Backend tests passed, frontend persistence verified.
+- **Notes/Blockers:** Standardized API responses and fixed state persistence for risk calculations.
+- **Updated:** 2026-05-21
+
 - **Status:** `✅ Done`
 - **Priority:** High
 - **Phase:** Core

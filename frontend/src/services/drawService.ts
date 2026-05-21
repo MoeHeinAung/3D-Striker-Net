@@ -1,32 +1,21 @@
-// Version: 1.0.1
+// Version: 1.0.2
 import { api } from './api.js';
 import type { Draw, DrawCreate } from '../types/draw.js';
 
-export interface SuccessEnvelope<T> {
-  success: boolean;
-  data: T;
-  message: string;
-}
-
 export const drawService = {
   list: async () => {
-    const res = await api.get<SuccessEnvelope<Draw[]>>('/draws/');
-    return res.data;
+    return await api.get<Draw[]>('/draws/');
   },
   create: async (data: DrawCreate) => {
-    const res = await api.post<SuccessEnvelope<Draw>>('/draws/', data);
-    return res.data;
+    return await api.post<Draw>('/draws/', data);
   },
   updateStatus: async (id: number, status: string) => {
-    const res = await api.patch<SuccessEnvelope<Draw>>(`/draws/${id}`, { status });
-    return res.data;
+    return await api.patch<Draw>(`/draws/${id}`, { status });
   },
   update: async (id: number, data: Partial<Draw>) => {
-    const res = await api.patch<SuccessEnvelope<Draw>>(`/draws/${id}`, data);
-    return res.data;
+    return await api.patch<Draw>(`/draws/${id}`, data);
   },
   delete: async (id: number) => {
-    const res = await api.delete<SuccessEnvelope<boolean>>(`/draws/${id}`);
-    return res.data;
+    return await api.delete<boolean>(`/draws/${id}`);
   }
 };

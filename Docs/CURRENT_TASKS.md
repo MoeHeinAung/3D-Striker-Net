@@ -11,3 +11,21 @@
   - [ ] No linting errors.
 - **Notes/Blockers:** None
 - **Updated:** 2026-05-21
+
+### 🟦 T-014: Risk API Response Standardisation
+- **Status:** `✅ Done`
+- **Priority:** High
+- **Phase:** Core
+- **Plain English Goal:** Refactor Risk API responses to use the system-wide SuccessEnvelope wrapper for consistency.
+- **Dependencies:** None
+- **Allowed Files:** `backend/app/api/routes/risk.py`
+- **AI Prompt Used:** `prompts/risk-api-refactor.md`
+- **Rollback Plan:** Revert `backend/app/api/routes/risk.py` to previous state.
+- **Definition of Done (DoD):**
+  - [x] Risk endpoints wrapped in SuccessEnvelope.
+  - [x] Pydantic response_model updated.
+  - [x] No underlying business logic changes.
+  - [x] Tests pass (`pytest backend/tests/test_risk.py`).
+- **Test Results:** ✅ Pass
+- **Notes/Blockers:** None.
+- **Updated:** 2026-05-21

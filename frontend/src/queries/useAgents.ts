@@ -15,8 +15,7 @@ export const useAgents = () => {
   return useQuery({
     queryKey: ['agents'],
     queryFn: async () => {
-      const res = await api.get('/agents/');
-      return res.data;
+      return await api.get('/agents/');
     },
   });
 };

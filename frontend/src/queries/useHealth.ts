@@ -14,7 +14,7 @@ export interface SuccessEnvelope<T> {
 }
 
 export const useHealth = () => {
-  return useQuery<SuccessEnvelope<HealthStatus>>({
+  return useQuery<HealthStatus>({
     queryKey: ['health'],
     queryFn: () => api.get('/health'),
   });

@@ -15,8 +15,23 @@
 **Status Options:** `⬜ Open` | `🔍 Investigating` | `🔧 Fixed` | `✅ Verified` | `📦 Closed`
 **Severity Options:** `🔴 Critical` | `🟠 High` | `🟡 Medium` | `🟢 Low`
 
----
-## 📝 Incident Log
+### 🟡 I-005: Application-Wide UI Crash After API Refactor
+- **Status:** `📦 Closed`
+- **Severity:** 🔴 Critical
+- **Detected:** 2026-05-21 13:30
+- **Plain English Description:** Multiple pages crashed (Risk, Draws, Sales, Batches) due to inconsistent data structures and "double-unwrapping" after standardizing API envelopes.
+- **Reproduction Steps:**
+  1. Open any page (Draws, Operations, Network, Risk).
+  2. Observe crashes or empty tables due to `undefined` query data.
+- **Root Cause:** Standardizing backend responses to `SuccessEnvelope` introduced a mismatch. The initial fix (global Axios interceptor) caused "double-unwrapping" in existing query hooks that were still manually accessing `.data`.
+- **Immediate Containment:** Refined the Axios interceptor to safely handle non-enveloped data and performed a deep audit of all query hooks.
+- **Permanent Fix:** Systematically refactored all frontend services (`drawService.ts`) and query hooks (`useBatches.ts`, `useSales.ts`, `useAgents.ts`, `useMasterDealers.ts`, `useHealth.ts`) to remove manual unwrapping, allowing the global interceptor to handle data extraction consistently across the entire application.
+- **New Tests Added:** None (Manual validation via TypeScript compiler check).
+- **Rules / SSOT Updated:** None.
+- **Verification Result:** Pass | All pages render successfully, data loads without errors, and TypeScript check passes.
+- **Notes / Lessons:** Global architectural changes (like envelope standardization) require a full-stack synchronization. Response interceptors are powerful but require that the consuming layer (services/hooks) be updated to expect the processed output.
+- **Updated:** 2026-05-21
+
 
 ... [Rest of I-001 and I-002] ...
 

@@ -15,8 +15,7 @@ export const useSales = () => {
   return useQuery({
     queryKey: ['sales'],
     queryFn: async () => {
-      const res = await api.get('/sales/');
-      return res.data.data;
+      return await api.get('/sales/');
     },
   });
 };

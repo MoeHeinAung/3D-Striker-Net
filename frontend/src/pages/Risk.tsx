@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Card, InputNumber, Table, Typography } from 'antd';
 import { useRiskSummary } from '../queries/useRisk';
+import { useUIStore } from '../store/uiStore';
 import styles from '../styles/Layout.module.scss';
 
 const { Title } = Typography;
 
 export const RiskPage: React.FC = () => {
-  const [adminMaxHold, setAdminMaxHold] = useState<number>(1000);
+  const { adminMaxHold, setAdminMaxHold } = useUIStore();
   
   const columns = [
     { title: 'Ticket', dataIndex: 'ticket', key: 'ticket' },
@@ -25,7 +26,7 @@ export const RiskPage: React.FC = () => {
         <Typography.Text>Admin/House Max Hold Amount: </Typography.Text>
         <InputNumber 
           value={adminMaxHold} 
-          onChange={(val) => val && setAdminMaxHold(val)} 
+          onChange={(val) => val !== null && setAdminMaxHold(val)} 
           min={0}
         />
       </Card>

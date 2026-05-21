@@ -13,10 +13,9 @@ export const useRiskSummary = (adminMaxHold: number, enabled: boolean = true) =>
   return useQuery<RiskData[]>({
     queryKey: ['risk-summary', adminMaxHold],
     queryFn: async () => {
-      const response = await api.get('/risk/summary', {
+      return await api.get('/risk/summary', {
         params: { admin_max_hold: adminMaxHold },
       });
-      return response;
     },
     enabled: enabled && adminMaxHold > 0,
   });

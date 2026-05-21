@@ -15,8 +15,7 @@ export const useMasterDealers = () => {
   return useQuery({
     queryKey: ['master-dealers'],
     queryFn: async () => {
-      const res = await api.get('/master-dealers/');
-      return res.data;
+      return await api.get('/master-dealers/');
     },
   });
 };

@@ -11,7 +11,14 @@ export const api = axios.create({
 
 // Response interceptor for standard success/error envelopes
 api.interceptors.response.use(
-  (response) => response.data,
+  (response) => {
+    // Check if the response follows the SuccessEnvelope structure { success: boolean, data: any }
+    if (response.data && typeof response.data === 'object' && 'success' in response.data) {
+      return response.data.data;
+    }
+    // For responses that are not envelopes, return the raw data
+    return response.data;
+  },
   (error) => {
     const message = error.response?.data?.error?.message || 'An unexpected error occurred';
     return Promise.reject(new Error(message));

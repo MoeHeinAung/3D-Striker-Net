@@ -16,8 +16,7 @@ export const useBatches = () => {
   return useQuery({
     queryKey: ['batches'],
     queryFn: async () => {
-      const res = await api.get('/batches/');
-      return res.data;
+      return await api.get('/batches/');
     },
   });
 };
