@@ -1,20 +1,22 @@
-# Business Logic — 3D-Striker-Net
+# Business Logic: API Migration Strategy
 
-This document outlines the core business rules for the 3D-Striker-Net application.
+This document tracks the business rules and requirements for migrating to a canonical API namespace.
 
-## 1. Sales Rules
-- Sales are processed in batches via `/sales/batch` (POST).
-- Each sale record includes `draw_id`, `agent_id`, `ticket`, `amount`, and optional `note`.
-- Sales must be associated with an active draw and an agent.
+## 1. API Prefix Strategy
+- Canonical namespace: `/api` (or `/api/v1`)
+- Current state: Root mount (e.g., `/health`, `/draws`) and API mount (e.g., `/api/health`, `/api/draws`) exist simultaneously.
+- Goal: Single canonical path, eliminate double-mounting.
 
-## 2. Risk Management
-- Risk data is summarized by `adminMaxHold`.
-- Risk summary is only enabled if `adminMaxHold` is greater than 0.
+## 2. Migration Phases
+- Phase A: Compatibility & Transition
+    - Maintain dual mounts (zero downtime).
+    - Log warnings for root-mount access.
+    - Frontend transition to `/api`.
+- Phase B: Cleanup
+    - Remove root mount.
+    - Standardize all traffic to `/api`.
 
-## 3. Draw Management
-- Draws are the primary organizational entity for sales and batches.
-- Lifecycle management (Create, Update, Delete) is provided for individual draw records.
-
-## 4. Batch Processing
-- Batches group multiple sales together for a single draw.
-- A batch includes `draw_id`, `agent_id`, `total_amount`, optional `note`, and a collection of individual sales.
+## 3. Risk Mitigation & Verification
+- Telemetry/Log monitoring of root-mount traffic.
+- Success Metrics: Zero traffic to root-mount endpoints in logs for X period.
+- No client-side breakage.

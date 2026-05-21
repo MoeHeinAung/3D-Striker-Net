@@ -3,10 +3,10 @@
 Tracking all completed work and technical decisions.
 
 ## 2026-05-21
-### T-016: Centralized Query Key Normalization
-- **Goal:** Refactor query key management to use a centralized source of truth.
+### T-017: Sales Reporting Dashboard
+- **Goal:** Implement a detailed sales report dashboard in the Report page.
 - **Actions:**
-  - Created `frontend/src/queries/queryKeys.ts`.
-  - Replaced all hardcoded query keys in `frontend/src/queries/` with `queryKeys` constants.
-  - Documented business logic in `Docs/Business_Logic.md`.
+  - Integrated `useSales` hook.
+  - Implemented data display following design system requirements.
 - **Status:** Done
+

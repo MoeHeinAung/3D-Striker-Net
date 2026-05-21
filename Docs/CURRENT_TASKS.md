@@ -2,16 +2,20 @@
 
 This document tracks active and upcoming tasks. Completed tasks are moved to `IMPLEMENTATION_LOGS.md`.
 
-### 🟦 T-017: Sales Reporting Dashboard
+### 🟦 T-018: API Canonical Path Migration
 - **Status:** 📝 To Do
-- **Priority:** Medium
-- **Phase:** Analytics
-- **Plain English Goal:** Implement a detailed sales report dashboard in the Report page.
-- **Dependencies:** T-013
-- **Allowed Files:** `frontend/src/pages/Report.tsx`
+- **Priority:** High
+- **Phase:** Stabilization
+- **Plain English Goal:** Establish `/api` as the single canonical path for all backend endpoints and remove root-mount endpoints.
+- **Dependencies:** None
+- **Allowed Files:** 
+  - `backend/app/api/router.py`
+  - `backend/app/main.py`
+  - `frontend/src/services/api.ts`
 - **Definition of Done (DoD):**
-  - [ ] Report page fully rendered.
-  - [ ] Sales data integration via `useSales`.
-  - [ ] Adheres to design system.
-- **Notes/Blockers:** None
+  - [ ] All traffic routed through `/api`.
+  - [ ] Warning logs implemented for legacy endpoints.
+  - [ ] Frontend client uses canonical path.
+  - [ ] All tests passing.
+- **Notes/Blockers:** Requires dual-mount during transition.
 - **Updated:** 2026-05-21

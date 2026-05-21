@@ -52,6 +52,18 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+import logging
+logger = logging.getLogger(__name__)
+
+@app.middleware("http")
+async def log_legacy_api_access(request: Request, call_next):
+    if not request.url.path.startswith("/api") and not request.url.path.startswith("/docs") and not request.url.path.startswith("/openapi.json"):
+        # Log all access to non-prefixed routes that aren't system/docs
+        if request.url.path != "/":
+            logger.warning(f"[DEPRECATION] Access to legacy non-prefixed path: {request.url.path}")
+    
+    return await call_next(request)
+
 app.include_router(api_router)
 app.include_router(api_router, prefix="/api")
 
