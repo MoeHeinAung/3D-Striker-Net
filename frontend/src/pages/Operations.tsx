@@ -16,7 +16,7 @@ export const OperationsPage = () => {
     try {
       const bulkText = values.bulk_input as string;
       const lines = bulkText.split('\n');
-      const salesIn: any[] = [];
+      const salesIn: Record<string, unknown>[] = [];
       
       for (const line of lines) {
         if (!line.trim()) continue;
@@ -47,8 +47,9 @@ export const OperationsPage = () => {
       message.success('Batch created successfully');
       setIsModalVisible(false);
       form.resetFields();
-    } catch (e: any) {
-      message.error(e.message || 'Action failed');
+    } catch (e: unknown) {
+      const error = e as { message: string };
+      message.error(error.message || 'Action failed');
     }
   };
 

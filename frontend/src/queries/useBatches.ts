@@ -25,7 +25,7 @@ export const useBatches = () => {
 export const useCreateBatch = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (data: { batch_in: any, sales_in: any[] }) => api.post('/batches/', data),
+    mutationFn: (data: { batch_in: Record<string, unknown>, sales_in: Record<string, unknown>[] }) => api.post('/batches/', data),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['batches'] }),
   });
 };
