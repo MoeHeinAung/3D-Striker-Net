@@ -20,3 +20,6 @@
 ## 5. Permutation Logic
 - **Single Mapping:** Ticket ABC = 1000 generates all permutations of ABC at 1000.
 - **Dual Mapping:** Ticket ABC = 2000 / 1000 maps ABC to 2000 and all other permutations to 1000.
+- **R Indicator:** Tickets containing 'R' or '®' followed by an amount are parsed using permutation logic.
+- **Dual Amount:** Tickets containing a separator (`/`, `=`, `-`, `+`, `~`) between two amounts are treated as Dual Mapping.
+- **Standard Formatting:** Standard tickets format to `[ticket] = [amount]`.

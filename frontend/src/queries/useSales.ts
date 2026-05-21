@@ -16,7 +16,7 @@ export const useSales = () => {
     queryKey: ['sales'],
     queryFn: async () => {
       const res = await api.get('/sales/');
-      return res.data;
+      return res.data.data;
     },
   });
 };

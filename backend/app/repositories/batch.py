@@ -1,4 +1,4 @@
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, selectinload
 from sqlalchemy import select
 from app.models.batch import Batch
 
@@ -7,7 +7,9 @@ class BatchRepository:
         self.db = db
 
     def get_all(self):
-        return self.db.execute(select(Batch)).scalars().all()
+        return self.db.execute(
+            select(Batch).options(selectinload(Batch.sales))
+        ).scalars().all()
 
     def create(self, data: dict) -> Batch:
         batch = Batch(**data)
@@ -17,7 +19,7 @@ class BatchRepository:
         return batch
 
     def get_by_id(self, batch_id: int):
-        return self.db.query(Batch).filter(Batch.id == batch_id).first()
+        return self.db.query(Batch).options(selectinload(Batch.sales)).filter(Batch.id == batch_id).first()
 
     def update(self, batch: Batch):
         self.db.commit()

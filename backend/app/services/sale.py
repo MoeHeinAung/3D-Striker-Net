@@ -2,6 +2,7 @@ from sqlalchemy.orm import Session
 from fastapi import HTTPException
 from datetime import datetime
 from itertools import permutations
+import re
 from app.repositories.sale import SaleRepository
 from app.repositories.draw import DrawRepository
 from app.schemas.sale import SaleCreate, SaleBase
@@ -26,6 +27,29 @@ class SaleService:
             results.append({"ticket": p, "amount": amt})
             
         return results
+
+    def parse_line(self, line: str):
+        """
+        Parses a single line of ticket input according to Business_Logic.md:
+        - Dual Mapping: 123 = 2000/1000
+        - R Indicator: 123 R 1000
+        - Standard: 123 = 1000
+        """
+        line = line.strip()
+        if not line:
+            return None
+        
+        prefix = line[:3]
+        body = re.sub(r'[/\~\+\.\=\s]+$', '', line[3:])
+        
+        # Dual Mapping
+        dual_match = re.search(r'(\d+)[Rr\/\s\=\-\.\+\~]+(\d+)', body)
+        if dual_match:
+            return self.generate_permutations(prefix, int(dual_match.group(1)), int(dual_match.group(2)))
+            
+        # R Indicator / Standard
+        amt = int(re.sub(r'[^0-9]', '', body))
+        return self.generate_permutations(prefix, amt)
 
     def create_batch(self, sales: list[SaleCreate]):
         self.validate_draw(sales[0].draw_id)

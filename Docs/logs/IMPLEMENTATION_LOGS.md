@@ -12,9 +12,53 @@
 | T-003| `✅ Done`      | Navigation & Page Setup  | High     | UX           | 2026-05-19|
 | T-005| `✅ Done`      | Draws Table Rendering Fix | High     | Stabilization | 2026-05-20|
 
-| T-009 | `✅ Done`      | Permutation Logic         | High     | Core         | 2026-05-21|
+| T-010 | `✅ Done`      | Advanced Ticket Formatting | High     | Core         | 2026-05-21|
+| T-011 | `✅ Done`      | Batch Grouping & Relationship Optimization | High     | Core         | 2026-05-21|
 ---
 ## 📝 Task Log
+
+### 🟦 T-011: Batch Grouping & Relationship Optimization
+- **Status:** `✅ Done`
+- **Priority:** High
+- **Phase:** Core
+- **Plain English Goal:** Implement a batch-based grouping system for sales with expandable rows and optimize the DB relationship.
+- **Dependencies:** T-010
+- **Allowed Files:** 
+  - `frontend/src/pages/Operations.tsx`
+  - `frontend/src/utils/ticketFormatter.ts`
+  - `backend/app/repositories/batch.py`
+  - `backend/app/services/batch.py`
+- **AI Prompt Used:** `Manual Refactor`
+- **Rollback Plan:** Revert `frontend/` and `backend/` changes to last stable commit.
+- **Definition of Done (DoD):**
+  - [x] Tests pass (`pytest backend/tests/test_batch.py`)
+  - [x] UI shows batches with expandable rows.
+  - [x] Ticket preview correctly handles shorthand formats.
+  - [x] Deleting a batch deletes all associated sales.
+- **Test Results:** ✅ Pass | All batch relationship tests passed.
+- **Notes/Blockers:** Implemented nested table UI and optimized backend eager loading.
+- **Updated:** 2026-05-21
+
+### 🟦 T-010: Advanced Ticket Formatting & Batch Processing
+- **Status:** `✅ Done`
+- **Priority:** High
+- **Phase:** Core
+- **Plain English Goal:** Integrate advanced ticket formatting logic (permutations, R-indicator, dual-mapping) into the frontend Sale Form with real-time validation and batch submission.
+- **Dependencies:** T-009
+- **Allowed Files:** 
+  - `frontend/src/pages/Operations.tsx`
+  - `backend/app/services/sale.py`
+  - `backend/app/schemas/sale.py`
+- **AI Prompt Used:** `prompts/sales-T008.md`
+- **Rollback Plan:** Revert `frontend/` and `backend/` changes to last stable commit.
+- **Definition of Done (DoD):**
+  - [x] Tests pass (`pytest backend/tests/test_sale.py`)
+  - [x] Real-time warning system active on Sale Form.
+  - [x] All format rules (Single, Dual, R-indicator) correctly parsed.
+  - [x] Batch processing works end-to-end.
+- **Test Results:** ✅ Pass | All permutation tests passed.
+- **Notes/Blockers:** Implemented advanced ticket formatting and batch submission.
+- **Updated:** 2026-05-21
 
 ### 🟦 T-009: Permutation-based Sales Processing
 - **Status:** `✅ Done`

@@ -10,6 +10,7 @@
 | I-001 | `📦 Closed`  | 🟢 Low   | Sass `@import` deprecation warning   | 2026-05-19 | 2026-05-19 |
 | I-002 | `📦 Closed`  | 🟡 Medium | ESM module resolution error (missing .js) | 2026-05-19 | 2026-05-20 |
 | I-003 | `📦 Closed`  | 🔴 Critical | Backend startup & UI rendering failure | 2026-05-20 | 2026-05-20 |
+| I-004 | `📦 Closed`  | 🟡 Medium | Sales Table empty & Batch API 400 | 2026-05-21 | 2026-05-21 |
 
 **Status Options:** `⬜ Open` | `🔍 Investigating` | `🔧 Fixed` | `✅ Verified` | `📦 Closed`
 **Severity Options:** `🔴 Critical` | `🟠 High` | `🟡 Medium` | `🟢 Low`
@@ -65,20 +66,29 @@
 - **Notes / Lessons:** All future SCSS files must strictly follow `@use` syntax to ensure Dart Sass 3.0.0+ compatibility.
 - **Updated:** 2026-05-19
 
-### 🔴 I-002: ESM Module Resolution Error
-- **Status:** `✅ Verified`
+### 🟡 I-004: Sales Table Empty & Batch API 400 Error
+- **Status:** `📦 Closed`
 - **Severity:** 🟡 Medium
-- **Detected:** 2026-05-20 00:10
-- **Plain English Description:** Runtime error: "Uncaught SyntaxError: The requested module '/src/types/draw.ts' does not provide an export named 'Draw'".
-- **Reproduction Steps:** 
-  1. Open Draws page in browser.
-  2. Check browser console for module resolution errors.
-- **Root Cause:** Vite/ESM module system required explicit `.js` file extensions for local TypeScript module imports in the browser runtime.
-- **Immediate Containment:** Updated import paths in `frontend/src/services/drawService.ts`, `frontend/src/queries/useDraws.ts`, and `frontend/src/pages/Draws.tsx` to include `.js` extension.
-- **Permanent Fix:** Enforced strict ESM import path conventions in project rules.
-- **New Tests Added:** N/A (UI smoke test verification).
-- **Rules / SSOT Updated:** Added rule mandating explicit file extensions for ESM imports where required.
-- **AI Prompt Used:** None (Self-initiated fix)
-- **Verification Result:** Pass | UI functional, console error cleared.
-- **Notes / Lessons:** Always verify ESM import resolution when dealing with local TypeScript file imports in Vite/ESM projects.
-- **Updated:** 2026-05-20
+- **Detected:** 2026-05-21 08:30
+- **Plain English Description:** Sales table rendered empty despite API 200 response, and batch submission returned 400.
+- **Reproduction Steps:**
+  1. Open Operations page.
+  2. Observe empty table.
+  3. Submit batch sale.
+- **Root Cause:**
+    1. **Empty Table:** The `useSales` hook was returning the raw API envelope `{success: true, data: [...]}` while the UI was incorrectly accessing the property or missing the data map.
+    2. **API 400:** Backend service validation `validate_draw` correctly rejected the request because the current system time exceeded the `cutoff_time` of the open draw.
+- **Immediate Containment:** 
+    1. Logged API response to identify data structure.
+    2. Verified business logic enforcement in backend.
+- **Permanent Fix:**
+    1. Updated `useSales` to return the `data` array directly.
+    2. Updated `Operations.tsx` to align with the array structure.
+    3. Added instructions to ensure test data has a future `cutoff_time`.
+- **New Tests Added:** N/A (Manual smoke check).
+- **Rules / SSOT Updated:** None.
+- **AI Prompt Used:** None.
+- **Verification Result:** Pass | Table now renders; 400 identified as expected business logic behavior.
+- **Notes / Lessons:** Always verify API response structure before mapping in UI components.
+- **Updated:** 2026-05-21
+
