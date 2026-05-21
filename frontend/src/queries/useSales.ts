@@ -25,6 +25,18 @@ export const useCreateSale = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (data: Omit<Sale, 'id' | 'created_at'>) => api.post('/sales/', data),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['sales'] }),
-  });
+export const useUpdateSale = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: ({ id, data }: { id: number, data: Record<string, unknown> }) => api.patch(`/sales/${id}`, data),
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: ['sales'] }),
+    });
+};
+
+export const useDeleteSale = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (id: number) => api.delete(`/sales/${id}`),
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: ['sales'] }),
+    });
 };
