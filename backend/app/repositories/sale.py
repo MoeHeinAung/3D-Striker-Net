@@ -9,6 +9,10 @@ class SaleRepository:
     def get_all(self):
         return self.db.execute(select(Sale)).scalars().all()
 
+    def get_aggregated_sales_by_ticket(self):
+        from sqlalchemy import func
+        return self.db.query(Sale.ticket, func.sum(Sale.amount).label("total_sales")).group_by(Sale.ticket).all()
+
     def create(self, data: dict) -> Sale:
         sale = Sale(**data)
         self.db.add(sale)
