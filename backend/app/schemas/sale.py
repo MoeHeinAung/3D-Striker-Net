@@ -7,6 +7,7 @@ class SaleBase(BaseModel):
     agent_id: str = Field(..., min_length=3, max_length=3)
     ticket: str = Field(..., pattern=r"^\d{3}$")
     amount: float
+    batch_id: str
     note: Optional[str] = None
 
 class SaleCreate(SaleBase):
