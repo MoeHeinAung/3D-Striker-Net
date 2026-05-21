@@ -1,7 +1,7 @@
 import webview
 import os
 
-def create_desktop_window():
+def create_desktop_window(port):
     """
     Creates and configures the main desktop window for 3D-Striker-Net.
     Settings are derived from SSOT.md and design-system.md.
@@ -20,5 +20,8 @@ def create_desktop_window():
         text_select=False,
         confirm_close=True
     )
+    
+    # Inject API URL context
+    window.evaluate_js(f"window.VITE_API_URL = 'http://127.0.0.1:{port}'")
     
     return window

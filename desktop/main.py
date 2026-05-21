@@ -41,7 +41,7 @@ def start_app():
     backend_thread.start()
     
     # 2. Create Window
-    create_desktop_window()
+    create_desktop_window(resolved_port)
     
     # 3. Start pywebview event loop
     # debug=True allows for Inspect Element (right click) in dev
