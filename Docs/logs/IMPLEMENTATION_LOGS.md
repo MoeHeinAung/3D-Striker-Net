@@ -1,12 +1,9 @@
-# 📜 Implementation Logs
+# 📋 Implementation Logs
 
-Tracking all completed work and technical decisions.
+This document tracks completed tasks and their resolution details.
 
-## 2026-05-21
-### T-017: Sales Reporting Dashboard
-- **Goal:** Implement a detailed sales report dashboard in the Report page.
-- **Actions:**
-  - Integrated `useSales` hook.
-  - Implemented data display following design system requirements.
-- **Status:** Done
-
+### 2026-05-21: InputNumber Logic Refactor (T-019)
+- **Status:** Completed
+- **Goal:** Fixed InputNumber on Risk page to correctly handle 0.
+- **Resolution:** Updated `Risk.tsx` to use null-safe check instead of truthy check.
+- **Verified:** Yes

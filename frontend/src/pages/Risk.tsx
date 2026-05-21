@@ -26,7 +26,11 @@ export const RiskPage: React.FC = () => {
         <Typography.Text>Admin/House Max Hold Amount: </Typography.Text>
         <InputNumber 
           value={adminMaxHold} 
-          onChange={(val) => val !== null && setAdminMaxHold(val)} 
+          onChange={(val) => {
+            if (val !== null) {
+              setAdminMaxHold(val);
+            }
+          }} 
           min={0}
         />
       </Card>

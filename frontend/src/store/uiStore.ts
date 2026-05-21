@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist, createJSONStorage } from 'zustand/middleware';
 
 interface UIState {
   sidebarOpen: boolean;
@@ -9,11 +10,19 @@ interface UIState {
   setAdminMaxHold: (amount: number) => void;
 }
 
-export const useUIStore = create<UIState>((set) => ({
-  sidebarOpen: true,
-  toggleSidebar: () => set((state) => ({ sidebarOpen: !state.sidebarOpen })),
-  theme: 'dark',
-  setTheme: (theme) => set({ theme }),
-  adminMaxHold: 1000,
-  setAdminMaxHold: (amount) => set({ adminMaxHold: amount }),
-}));
+export const useUIStore = create<UIState>()(
+  persist(
+    (set) => ({
+      sidebarOpen: true,
+      toggleSidebar: () => set((state) => ({ sidebarOpen: !state.sidebarOpen })),
+      theme: 'dark',
+      setTheme: (theme) => set({ theme }),
+      adminMaxHold: 1000,
+      setAdminMaxHold: (amount) => set({ adminMaxHold: amount }),
+    }),
+    {
+      name: 'ui-storage',
+      storage: createJSONStorage(() => localStorage),
+    }
+  )
+);
