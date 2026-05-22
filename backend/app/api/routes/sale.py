@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from app.schemas.base import SuccessEnvelope
 from app.schemas.sale import SaleCreate, SaleResponse, SaleBase
+from app.schemas.risk import RiskSummary
 from app.services.sale import SaleService
 from app.db.database import get_db
 
@@ -27,3 +28,7 @@ def update_item(item_id: int, update_data: SaleBase, db: Session = Depends(get_d
 def delete_item(item_id: int, db: Session = Depends(get_db)):
     SaleService(db).delete(item_id)
     return SuccessEnvelope(data=True)
+
+@router.get("/risk/{draw_id}", response_model=SuccessEnvelope[list[RiskSummary]])
+def get_risk_summary(draw_id: int, db: Session = Depends(get_db)):
+    return SuccessEnvelope(data=SaleService(db).get_draw_risk_summary(draw_id))

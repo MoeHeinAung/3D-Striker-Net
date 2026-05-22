@@ -1,10 +1,14 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import select
 from app.models.sale import Sale
+from app.models.risk import SalesByTicketPerDraw
 
 class SaleRepository:
     def __init__(self, db: Session):
         self.db = db
+
+    def get_sales_by_ticket(self, draw_id: int):
+        return self.db.query(SalesByTicketPerDraw).filter(SalesByTicketPerDraw.draw_id == draw_id).all()
 
     def get_all(self):
         return self.db.execute(select(Sale)).scalars().all()

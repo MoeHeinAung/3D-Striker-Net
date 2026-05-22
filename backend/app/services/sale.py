@@ -104,3 +104,6 @@ class SaleService:
             raise HTTPException(status_code=404, detail="Sale not found.")
         self.validate_draw(sale.draw_id)
         self.repository.delete(sale)
+
+    def get_draw_risk_summary(self, draw_id: int):
+        return self.repository.get_sales_by_ticket(draw_id)
