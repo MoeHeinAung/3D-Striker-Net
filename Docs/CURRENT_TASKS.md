@@ -2,27 +2,29 @@
 
 ## 🚨 Active Development
 
-### 🟦 T-012: Add House Holding Amount to Draws
-- **Status:** `✅ Done`
+### 🟦 T-013: Add Holding column to Risk View
+- **Status:** `🕒 Planned`
 - **Priority:** High
 - **Phase:** Core
-- **Plain English Goal:** Add `house_holding_amount` column to the `draws` table, API, and UI.
+- **Plain English Goal:** Add `Holding` column to the `Risk` table, adjacent to `Total Amount`.
 - **Dependencies:** None
 - **Allowed Files:** 
-  - `backend/app/models/draw.py`
-  - `backend/app/schemas/draw.py`
-  - `frontend/src/pages/Draws.tsx`
-  - `frontend/src/types/draw.ts`
-- **AI Prompt Used:** `Docs/prompts/draws-T004-mod.md`
+  - `backend/app/db/migrations/001_create_risk_view.sql`
+  - `backend/app/models/risk.py`
+  - `backend/app/schemas/risk.py`
+  - `backend/app/repositories/risk.py`
+  - `frontend/src/pages/Risk.tsx`
+  - `frontend/src/types/risk.ts`
+- **AI Prompt Used:** `Docs/prompts/backend-implementation.md` / `Docs/prompts/frontend-implementation.md`
 - **Rollback Plan:** Revert `backend/` and `frontend/` changes to last stable commit.
 - **Definition of Done (DoD):**
-  - [x] Database schema updated (add migration or alter table if needed).
-  - [x] Backend Pydantic models updated to include `house_holding_amount`.
-  - [x] Frontend type definition `Draw` updated.
-  - [x] UI Form updated with `InputNumber` for `house_holding_amount`.
-  - [x] Test cases updated in `backend/tests/test_draw.py` to cover the new field.
-  - [x] All tests passing.
-  - [x] Linting and type checking passing.
-- **Test Results:** ✅ Pass | All tests passed.
-- **Notes/Blockers:** Implementation complete and verified.
-- **Updated:** 2026-05-22
+  - [ ] Database migration for Risk View updated.
+  - [ ] Pydantic models updated for Risk.
+  - [ ] Repository logic updated to include the `Holding` calculation.
+  - [ ] Frontend UI Table updated to include `Holding` column.
+  - [ ] Tests covering risk calculation and holding logic added.
+  - [ ] All tests passing.
+  - [ ] Linting and type checking passing.
+- **Test Results:** ? Pending
+- **Notes/Blockers:** Requires risk calculation logic: `min(house_holding_amount, total_amount)`.
+- **Updated:** 2026-05-23
