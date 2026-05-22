@@ -16,6 +16,12 @@ export const RiskPage = () => {
       render: (ticket: string) => formatTicket(ticket),
     },
     {
+      title: 'Holding',
+      dataIndex: 'holding',
+      key: 'holding',
+      render: (holding: number) => holding.toLocaleString(),
+    },
+    {
       title: 'Total Amount',
       dataIndex: 'total_amount',
       key: 'total_amount',
