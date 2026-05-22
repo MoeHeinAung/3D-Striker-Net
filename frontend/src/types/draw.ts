@@ -9,6 +9,7 @@ export type Draw = {
   open_date: string;
   cutoff_time: string;
   status: DrawStatus;
+  house_holding_amount: number;
   note?: string;
   created_at: string;
 }
@@ -16,5 +17,6 @@ export type Draw = {
 export type DrawCreate = {
   open_date: string;
   cutoff_time: string;
+  house_holding_amount?: number;
   note?: string;
 }

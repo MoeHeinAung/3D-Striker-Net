@@ -1,31 +1,28 @@
-### 🟦 T-011: Batch Grouping & Relationship Optimization
+# CURRENT_TASKS.md
+
+## 🚨 Active Development
+
+### 🟦 T-012: Add House Holding Amount to Draws
 - **Status:** `✅ Done`
 - **Priority:** High
 - **Phase:** Core
-- **Plain English Goal:** Implement a batch-based grouping system for sales with expandable rows and optimize the DB relationship.
-- **Dependencies:** T-010
+- **Plain English Goal:** Add `house_holding_amount` column to the `draws` table, API, and UI.
+- **Dependencies:** None
 - **Allowed Files:** 
-  - `frontend/src/pages/Operations.tsx`
-  - `frontend/src/utils/ticketFormatter.ts`
-  - `backend/app/repositories/batch.py`
-  - `backend/app/services/batch.py`
-- **AI Prompt Used:** `Manual Refactor`
-- **Rollback Plan:** Revert `frontend/` and `backend/` changes to last stable commit.
-
-#### 🛠️ Engineering Standards
-- **Approved Patterns:**
-  - **Frontend:** Expandable Ant Design tables, utility-based display formatting.
-  - **Backend:** Eager loading with `selectinload`, cascading deletes for relationships.
-- **Strict Anti-Patterns:**
-  - ❌ **No flat tables for nested data:** Use grouping where appropriate.
-- **Related Rules:**
-  - Refer to `Docs/Rules.md` for relationship standards.
-
+  - `backend/app/models/draw.py`
+  - `backend/app/schemas/draw.py`
+  - `frontend/src/pages/Draws.tsx`
+  - `frontend/src/types/draw.ts`
+- **AI Prompt Used:** `Docs/prompts/draws-T004-mod.md`
+- **Rollback Plan:** Revert `backend/` and `frontend/` changes to last stable commit.
 - **Definition of Done (DoD):**
-  - [x] Tests pass (`pytest backend/tests/test_batch.py`)
-  - [x] UI shows batches with expandable rows.
-  - [x] Ticket preview correctly handles shorthand formats.
-  - [x] Deleting a batch deletes all associated sales.
-- **Test Results:** ✅ Pass | All batch relationship tests passed.
-- **Notes/Blockers:** None
-- **Updated:** 2026-05-21
+  - [x] Database schema updated (add migration or alter table if needed).
+  - [x] Backend Pydantic models updated to include `house_holding_amount`.
+  - [x] Frontend type definition `Draw` updated.
+  - [x] UI Form updated with `InputNumber` for `house_holding_amount`.
+  - [x] Test cases updated in `backend/tests/test_draw.py` to cover the new field.
+  - [x] All tests passing.
+  - [x] Linting and type checking passing.
+- **Test Results:** ✅ Pass | All tests passed.
+- **Notes/Blockers:** Implementation complete and verified.
+- **Updated:** 2026-05-22

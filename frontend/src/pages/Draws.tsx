@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Table, Button, Modal, Form, Input, DatePicker, TimePicker, Tag, App, Popconfirm } from 'antd';
+import { Table, Button, Modal, Form, Input, InputNumber, DatePicker, TimePicker, Tag, App, Popconfirm } from 'antd';
 import { useDraws, useCreateDraw, useUpdateDraw, useDeleteDraw } from '../queries/useDraws.js';
 import { DrawStatus } from '../types/draw.js';
 import type { Draw } from '../types/draw.js';
@@ -24,6 +24,7 @@ export const DrawsPage = () => {
         await createDraw.mutateAsync({
           open_date: (values.open_date as dayjs.Dayjs).format('YYYY-MM-DDTHH:mm:ss'),
           cutoff_time: (values.cutoff_time as dayjs.Dayjs).format('HH:mm'),
+          house_holding_amount: values.house_holding_amount as number,
           note: values.note as string,
         });
         message.success('Draw created');
@@ -115,6 +116,9 @@ export const DrawsPage = () => {
           </Form.Item>
           <Form.Item name="cutoff_time" label="Cutoff Time" rules={[{ required: true }]}>
             <TimePicker format="HH:mm" />
+          </Form.Item>
+          <Form.Item name="house_holding_amount" label="House Holding Amount">
+            <InputNumber min={0} style={{ width: '100%' }} />
           </Form.Item>
           <Form.Item name="status" label="Status">
              <Input />
