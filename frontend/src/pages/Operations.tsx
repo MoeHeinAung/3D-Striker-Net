@@ -1,9 +1,7 @@
 import { useState, useRef } from 'react';
-import { Table, Button, Modal, Form, Input, InputNumber, App, Popconfirm, Card, Typography, Row, Col, Tabs } from 'antd';
+import { Table, Button, Modal, Form, Input, InputNumber, App, Popconfirm, Card, Typography, Row, Col } from 'antd';
 import { useBatches, useCreateBatch, useDeleteBatch } from '../queries/useBatches.js';
 import { useDraws } from '../queries/useDraws.js';
-import { useWinningTickets, useBlacklistTickets, useDeleteWinningTicket, useDeleteBlacklistTicket } from '../queries/useTickets.js';
-import { TicketModal } from '../components/TicketModal.js';
 import { parseTicketLine, formatParsedTicket, expandTicketPermutations, type ParsedTicket } from '../utils/ticketFormatter.js';
 import type { Batch } from '../queries/useBatches.js';
 
@@ -13,15 +11,10 @@ export const OperationsPage = () => {
   const { message } = App.useApp();
   const { data: batches, isLoading } = useBatches();
   const { data: draws } = useDraws();
-  const { data: winningTickets } = useWinningTickets(1); // Assuming 1 for now or active draw
-  const { data: blacklistTickets } = useBlacklistTickets();
-  const deleteWinning = useDeleteWinningTicket();
-  const deleteBlacklist = useDeleteBlacklistTicket();
   const createBatch = useCreateBatch();
   const deleteBatch = useDeleteBatch();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [ticketModalType, setTicketModalType] = useState<'winning' | 'blacklist' | null>(null);
   const [rawInput, setRawInput] = useState('');
   const [formattedSales, setFormattedSales] = useState<(ParsedTicket | null)[]>([]);
   const [warnings, setWarnings] = useState<string[]>([]);
@@ -132,44 +125,22 @@ export const OperationsPage = () => {
 
   return (
     <div style={{ padding: '1rem' }}>
-      <Tabs defaultActiveKey="1" items={[
-        { label: 'Batch Sales', key: '1', children: (
-          <Card 
-            title={
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span>Operations: Batch Sales</span>
-                <Button type="primary" onClick={() => setIsModalVisible(true)} disabled={!activeDraw}>New Bulk Sale</Button>
-              </div>
-            }
-          >
-            <Table 
-              dataSource={Array.isArray(batches) ? batches : []} 
-              columns={columns} 
-              rowKey="id" 
-              loading={isLoading}
-              expandable={{ expandedRowRender }}
-            />
-          </Card>
-        )},
-        { label: 'Winning Tickets', key: '2', children: (
-          <Card title="Winning Tickets" extra={<Button type="primary" onClick={() => setTicketModalType('winning')}>Add Winning</Button>}>
-            <Table dataSource={winningTickets} rowKey="id" columns={[
-                { title: 'Ticket', dataIndex: 'ticket' },
-                { title: 'Amount', dataIndex: 'amount' },
-                { title: 'Action', render: (_:any, r:any) => <Button danger onClick={() => deleteWinning.mutate(r.id)}>Delete</Button> }
-            ]} />
-          </Card>
-        )},
-        { label: 'Blacklist', key: '3', children: (
-          <Card title="Blacklist" extra={<Button type="primary" onClick={() => setTicketModalType('blacklist')}>Add Blacklisted</Button>}>
-             <Table dataSource={blacklistTickets} rowKey="id" columns={[
-                { title: 'Ticket', dataIndex: 'ticket' },
-                { title: 'Reason', dataIndex: 'reason' },
-                { title: 'Action', render: (_:any, r:any) => <Button danger onClick={() => deleteBlacklist.mutate(r.id)}>Delete</Button> }
-            ]} />
-          </Card>
-        )}
-      ]} />
+      <Card 
+        title={
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span>Operations: Batch Sales</span>
+            <Button type="primary" onClick={() => setIsModalVisible(true)} disabled={!activeDraw}>New Bulk Sale</Button>
+          </div>
+        }
+      >
+        <Table 
+          dataSource={Array.isArray(batches) ? batches : []} 
+          columns={columns} 
+          rowKey="id" 
+          loading={isLoading}
+          expandable={{ expandedRowRender }}
+        />
+      </Card>
 
       <Modal title="Create New Batch Sale" open={isModalVisible} onCancel={() => setIsModalVisible(false)} footer={null} width={1000}>
         <Form onFinish={handleFinish} layout="vertical" initialValues={{ draw_id: activeDraw?.id }}>
@@ -262,15 +233,6 @@ export const OperationsPage = () => {
             </div>
         </Form>
       </Modal>
-
-      {ticketModalType && (
-        <TicketModal 
-          visible={!!ticketModalType} 
-          onClose={() => setTicketModalType(null)} 
-          type={ticketModalType} 
-          drawId={activeDraw?.id}
-        />
-      )}
     </div>
   );
 };
