@@ -33,6 +33,12 @@ export const RiskPage = () => {
       key: 'total_amount',
       render: (amount?: number) => (amount ?? 0).toLocaleString(),
     },
+    {
+      title: 'Exceed Amount',
+      dataIndex: 'exceed_amount',
+      key: 'exceed_amount',
+      render: (amount?: number) => (amount ?? 0).toLocaleString(),
+    },
   ];
 
   if (isLoading) return <div>Loading...</div>;

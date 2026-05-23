@@ -15,7 +15,7 @@
 | T-011 | `✅ Done`      | Batch Grouping & Relationship Optimization | High     | Core         | 2026-05-21|
 | T-012 | `✅ Done`      | Add House Holding Amount to Draws | High     | Core         | 2026-05-23|
 | T-013 | `✅ Done`      | Add Holding column to Risk View | High     | Core         | 2026-05-23|
-| T-014 | `✅ Done`      | Offloaded Feature Implementation | High     | Core         | 2026-05-23|
+| T-016 | `âœ… Done`      | Add Exceed Amount to Risk View | High     | Core         | 2026-05-23|
 
 ---
 ## 📝 Task Log
