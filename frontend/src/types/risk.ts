@@ -3,4 +3,5 @@ export interface Risk {
   ticket: string;
   total_amount: number;
   holding: number;
+  offloaded: number;
 }

@@ -31,4 +31,4 @@ def delete_item(item_id: int, db: Session = Depends(get_db)):
 
 @router.get("/risk/{draw_id}", response_model=SuccessEnvelope[list[RiskSummary]])
 def get_risk_summary(draw_id: int, db: Session = Depends(get_db)):
-    return SuccessEnvelope(data=SaleService(db).get_draw_risk_summary(draw_id))
+    return SuccessEnvelope(data=SaleService(db).get_draw_risk_summary(draw_id), message="T-014-LIVE")

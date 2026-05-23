@@ -2,32 +2,39 @@ from sqlalchemy.orm import Session
 from sqlalchemy import select
 from app.models.sale import Sale
 from app.models.draw import Draw
-from app.models.risk import SalesByTicketPerDraw
+from app.models.risk import SalesByTicketPerDraw, OffloadedAmountByTicketPerDraw
 
 class SaleRepository:
     def __init__(self, db: Session):
         self.db = db
 
     def get_sales_by_ticket(self, draw_id: int):
-        # Join view with Draws model to get house_holding_amount
+        # Join view with Draws model to get house_holding_amount and OffloadedAmount view
         results = self.db.query(
             SalesByTicketPerDraw,
-            Draw.house_holding_amount
+            Draw.house_holding_amount,
+            OffloadedAmountByTicketPerDraw.total_offloaded
         ).join(
             Draw, SalesByTicketPerDraw.draw_id == Draw.id
+        ).outerjoin(
+            OffloadedAmountByTicketPerDraw,
+            (SalesByTicketPerDraw.draw_id == OffloadedAmountByTicketPerDraw.draw_id) &
+            (SalesByTicketPerDraw.ticket == OffloadedAmountByTicketPerDraw.ticket)
         ).filter(
             SalesByTicketPerDraw.draw_id == draw_id
         ).all()
 
         formatted_results = []
         for row in results:
-            view, house_holding = row
+            view, house_holding, total_offloaded = row
+            total_offloaded = total_offloaded or 0
             holding = min(house_holding, view.total_amount)
             formatted_results.append({
                 "draw_id": view.draw_id,
                 "ticket": view.ticket,
                 "total_amount": view.total_amount,
-                "holding": holding
+                "holding": holding,
+                "offloaded": total_offloaded
             })
         return formatted_results
 

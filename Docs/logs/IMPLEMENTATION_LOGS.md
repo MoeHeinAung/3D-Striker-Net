@@ -13,10 +13,47 @@
 | T-005| `✅ Done`      | Draws Table Rendering Fix | High     | Stabilization | 2026-05-20|
 | T-010 | `✅ Done`      | Advanced Ticket Formatting | High     | Core         | 2026-05-21|
 | T-011 | `✅ Done`      | Batch Grouping & Relationship Optimization | High     | Core         | 2026-05-21|
-| T-012 | `⏳ In-Progress`| Add House Holding Amount to Draws | High     | Core         | 2026-05-22|
+| T-012 | `✅ Done`      | Add House Holding Amount to Draws | High     | Core         | 2026-05-23|
+| T-013 | `✅ Done`      | Add Holding column to Risk View | High     | Core         | 2026-05-23|
+| T-014 | `✅ Done`      | Offloaded Feature Implementation | High     | Core         | 2026-05-23|
 
 ---
 ## 📝 Task Log
+
+### 🟦 T-014: Offloaded Feature Implementation
+- **Status:** `✅ Done`
+- **Priority:** High
+- **Phase:** Core
+- **Plain English Goal:** Implement tracking of offloaded amounts to Master Dealers across the full stack.
+- **Dependencies:** T-013
+- **Allowed Files:** 
+  - `backend/app/db/migrations/001_create_risk_view.sql`
+  - `backend/app/models/offloaded.py`
+  - `backend/app/models/risk.py`
+  - `backend/app/schemas/offloaded.py`
+  - `backend/app/schemas/risk.py`
+  - `backend/app/repositories/offloaded.py`
+  - `backend/app/repositories/sale.py`
+  - `backend/app/api/routes/offloaded.py`
+  - `backend/app/api/router.py`
+  - `frontend/src/pages/Risk.tsx`
+  - `frontend/src/types/offloaded.ts`
+  - `frontend/src/types/risk.ts`
+  - `Docs/Business_Logic.md`
+- **AI Prompt Used:** Generated during session
+- **Rollback Plan:** Revert changes to backend and frontend.
+- **Definition of Done (DoD):**
+  - [x] Database table `offloaded` and view `offloaded_amount_by_ticket_per_draw` created.
+  - [x] Backend models, schemas, and repositories implemented for offloaded data.
+  - [x] `SaleRepository.get_sales_by_ticket` updated to include offloaded amounts.
+  - [x] API routes registered and functional.
+  - [x] Frontend types updated.
+  - [x] Risk UI updated with "Offloaded" column.
+  - [x] Applied defensive rendering in `Risk.tsx` to handle missing fields and prevent crashes.
+  - [x] Business logic documented in `Docs/Business_Logic.md`.
+- **Test Results:** ✅ Pass | View creation and schema updates verified.
+- **Notes/Blockers:** Implementation complete.
+- **Updated:** 2026-05-23
 
 ### 🟦 T-013: Add Holding column to Risk View
 - **Status:** `✅ Done`

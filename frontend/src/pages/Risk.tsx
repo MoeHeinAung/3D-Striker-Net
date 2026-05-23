@@ -19,18 +19,25 @@ export const RiskPage = () => {
       title: 'Holding',
       dataIndex: 'holding',
       key: 'holding',
-      render: (holding: number) => holding.toLocaleString(),
+      render: (holding?: number) => (holding ?? 0).toLocaleString(),
+    },
+    {
+      title: 'Offloaded',
+      dataIndex: 'offloaded',
+      key: 'offloaded',
+      render: (offloaded?: number) => (offloaded ?? 0).toLocaleString(),
     },
     {
       title: 'Total Amount',
       dataIndex: 'total_amount',
       key: 'total_amount',
-      render: (amount: number) => amount.toLocaleString(),
+      render: (amount?: number) => (amount ?? 0).toLocaleString(),
     },
   ];
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading risk data</div>;
+  if (!Array.isArray(riskData)) return <div>No data available</div>;
 
   return (
     <div style={{ padding: '24px' }}>
