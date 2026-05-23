@@ -6,6 +6,7 @@ class RiskSummary(BaseModel):
     total_amount: float
     holding: float = Field(..., alias="holding")
     offloaded: float = 0.0
+    exceed_amount: float = 0.0
 
     class Config:
         from_attributes = True
