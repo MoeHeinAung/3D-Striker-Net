@@ -1,6 +1,7 @@
 import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.sql import func
 from app.db.base import Base
 from app.repositories.ticket import TicketRepository
 from app.models.winning_ticket import WinningTicket
@@ -33,27 +34,28 @@ def db_session():
 def test_create_winning_ticket(db_session):
     session, draw = db_session
     repo = TicketRepository(session)
-    data = {"ticket": "123", "amount": 100, "draw_id": draw.id}
+    data = {"ticket": "123", "type": "JACKPOT", "draw_id": draw.id}
     repo.create_winning(data)
     
     tickets = repo.get_all_winning()
     assert len(tickets) == 1
     assert tickets[0].ticket == "123"
-    assert tickets[0].amount == 100
+    assert tickets[0].type == "JACKPOT"
     assert tickets[0].draw_id == draw.id
 
 def test_delete_winning_ticket(db_session):
     session, draw = db_session
     repo = TicketRepository(session)
-    data = {"ticket": "123", "amount": 100, "draw_id": draw.id}
+    data = {"ticket": "123", "type": "JACKPOT", "draw_id": draw.id}
     ticket = repo.create_winning(data)
     
     assert repo.delete_winning(ticket.id) is True
     assert len(repo.get_all_winning()) == 0
 
 def test_create_blacklist_ticket(db_session):
-    repo = TicketRepository(db_session)
-    data = {"ticket": "999"}
+    session, draw = db_session
+    repo = TicketRepository(session)
+    data = {"ticket": "999", "type": "BLOCK", "draw_id": draw.id}
     repo.create_blacklist(data)
     
     tickets = repo.get_all_blacklist()
@@ -61,8 +63,9 @@ def test_create_blacklist_ticket(db_session):
     assert tickets[0].ticket == "999"
 
 def test_delete_blacklist_ticket(db_session):
-    repo = TicketRepository(db_session)
-    data = {"ticket": "999"}
+    session, draw = db_session
+    repo = TicketRepository(session)
+    data = {"ticket": "999", "type": "BLOCK", "draw_id": draw.id}
     ticket = repo.create_blacklist(data)
     
     assert repo.delete_blacklist(ticket.id) is True
