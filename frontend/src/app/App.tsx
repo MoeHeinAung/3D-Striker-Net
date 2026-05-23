@@ -35,7 +35,6 @@ function App() {
           },
           Table: {
             colorBgContainer: 'transparent',
-            colorHeaderBg: 'rgba(25, 33, 34, 0.3)',
             colorText: '#dce4e5',
             colorTextHeading: '#dce4e5',
           }

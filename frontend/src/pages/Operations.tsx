@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { Table, Button, Modal, Form, Input, InputNumber, App, Popconfirm, Card, Typography, Row, Col } from 'antd';
 import { useBatches, useCreateBatch, useDeleteBatch } from '../queries/useBatches.js';
 import { useDraws } from '../queries/useDraws.js';

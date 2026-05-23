@@ -1,8 +1,10 @@
-export enum DrawStatus {
-  OPEN = 'OPEN',
-  CLOSED = 'CLOSED',
-  SETTLED = 'SETTLED',
-}
+export const DrawStatus = {
+  OPEN: 'OPEN',
+  CLOSED: 'CLOSED',
+  SETTLED: 'SETTLED',
+} as const;
+
+export type DrawStatus = typeof DrawStatus[keyof typeof DrawStatus];
 
 export type Draw = {
   id: number;

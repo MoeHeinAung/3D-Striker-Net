@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { Risk } from '../types/risk';
+import type { Risk } from '../types/risk';
 
 describe('Risk type', () => {
   it('should have the required fields', () => {

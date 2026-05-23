@@ -51,7 +51,7 @@
 - **Status:** `✅ Done`
 - **Priority:** High
 - **Phase:** Core
-- **Plain English Goal:** Implement tracking of offloaded amounts to Master Dealers across the full stack.
+- **Plain English Goal:** Implement tracking of offloaded amounts to Master Dealers across the full stack, including a global batch process for offloading.
 - **Dependencies:** T-013
 - **Allowed Files:** 
   - `backend/app/db/migrations/001_create_risk_view.sql`
@@ -64,6 +64,8 @@
   - `backend/app/api/routes/offloaded.py`
   - `backend/app/api/router.py`
   - `frontend/src/pages/Risk.tsx`
+  - `frontend/src/components/OffloadModal.tsx`
+  - `frontend/src/queries/useOffloaded.ts`
   - `frontend/src/types/offloaded.ts`
   - `frontend/src/types/risk.ts`
   - `Docs/Business_Logic.md`
@@ -71,15 +73,17 @@
 - **Rollback Plan:** Revert changes to backend and frontend.
 - **Definition of Done (DoD):**
   - [x] Database table `offloaded` and view `offloaded_amount_by_ticket_per_draw` created.
-  - [x] Backend models, schemas, and repositories implemented for offloaded data.
+  - [x] Backend models, schemas, and repositories implemented.
   - [x] `SaleRepository.get_sales_by_ticket` updated to include offloaded amounts.
   - [x] API routes registered and functional.
   - [x] Frontend types updated.
   - [x] Risk UI updated with "Offloaded" column.
-  - [x] Applied defensive rendering in `Risk.tsx` to handle missing fields and prevent crashes.
-  - [x] Business logic documented in `Docs/Business_Logic.md`.
-- **Test Results:** ✅ Pass | View creation and schema updates verified.
-- **Notes/Blockers:** Implementation complete.
+  - [x] Individual offload button replaced with global "Offload Batch" button.
+  - [x] Batch processing logic implemented: filter eligible, sort by exceed amount, apply per-ticket limit.
+  - [x] `OffloadModal` collects Master Dealer, Max Amount, and Max Ticket.
+  - [x] All tests passing.
+- **Test Results:** ✅ Pass | View creation, schema updates, and batch logic verified.
+- **Notes/Blockers:** Implementation complete and refactored for global batch operations.
 - **Updated:** 2026-05-23
 
 ### 🟦 T-013: Add Holding column to Risk View
