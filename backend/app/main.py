@@ -41,6 +41,22 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 
 @app.on_event("startup")
 def startup_event():
+    import os
+    from alembic.config import Config
+    from alembic import command
+    
+    # Path to alembic.ini (it is in the project root, backend is a child)
+    base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    alembic_ini_path = os.path.join(base_dir, "alembic.ini")
+    
+    # Run the migrations
+    try:
+        alembic_cfg = Config(alembic_ini_path)
+        command.upgrade(alembic_cfg, "head")
+    except Exception as e:
+        import logging
+        logging.error(f"Failed to run alembic migrations on startup: {e}")
+    
     init_db()
 
 # Configure CORS

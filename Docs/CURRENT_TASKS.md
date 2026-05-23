@@ -3,7 +3,7 @@
 ## 🚨 Active Development
 
 ### T-016: Add Exceed Amount to Risk View
-- **Status:** `🛠 Blocked (Alembic Migration Required)`
+- **Status:** `✅ Complete`
 - **Priority:** High
 - **Phase:** Core
 - **Plain English Goal:** Add "Exceed Amount" column to the `Risk` page, calculated as `Total Amount - (Holding + Offloaded)`.
@@ -22,12 +22,12 @@
   - [x] Frontend `RiskPage` table columns updated.
   - [x] "Exceed Amount" calculation verified.
   - [x] Tests updated/passing.
-  - [ ] Database views managed via Alembic.
+  - [x] Database views managed via Alembic.
 
 ---
 
 ### T-017: Integrate Alembic for Database Migrations
-- **Status:** `🛠 In Progress`
+- **Status:** `✅ Complete`
 - **Priority:** High
 - **Phase:** Foundation/Core
 - **Plain English Goal:** Setup Alembic to manage database schema and views reliably.
@@ -39,9 +39,9 @@
 - **AI Prompt:** N/A
 - **Rollback Plan:** Restore manual `init_db` logic.
 - **Definition of Done (DoD):**
-  - [ ] Alembic initialized.
-  - [ ] Initial migration captures tables and views.
-  - [ ] Startup sequence uses `alembic upgrade head`.
+  - [x] Alembic initialized.
+  - [x] Initial migration captures tables and views.
+  - [x] Startup sequence uses `alembic upgrade head`.
 
 
 ---

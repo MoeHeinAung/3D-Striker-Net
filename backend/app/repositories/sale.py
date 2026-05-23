@@ -28,6 +28,7 @@ class SaleRepository:
         for row in results:
             view, house_holding, total_offloaded = row
             total_offloaded = total_offloaded or 0
+            house_holding = house_holding if house_holding is not None else 0.0
             holding = min(house_holding, view.total_amount)
             exceed_amount = view.total_amount - (holding + total_offloaded)
             formatted_results.append({

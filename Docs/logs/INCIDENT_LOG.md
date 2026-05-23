@@ -1,10 +1,40 @@
 # 🚨 INCIDENT_LOG.md
 
 ## I-001: Database View Initialization Failure
-- **Date:** 2026-05-23
+- **Status:** `📦 Closed`
 - **Severity:** High
-- **Description:** Application failed to start due to `sqlalchemy.exc.OperationalError: no such table: main.sales` and missing SQL views (`sales_by_ticket_per_draw`, `offloaded_amount_by_ticket_per_draw`). The manual database initialization (`Base.metadata.create_all()`) did not persist or create the views, and subsequent application runs failed because SQLAlchemy reflected the database state and found the views missing.
+- **Detected:** 2026-05-23
+- **Description:** Application failed to start due to `sqlalchemy.exc.OperationalError: no such table: main.sales` and missing SQL views. The manual database initialization did not create views, and subsequent runs failed because SQLAlchemy reflected the database state and found the views missing.
 - **Solution:** 
     1. Temporarily dropped and recreated views manually via `sqlite3` to restore service.
-    2. Decided to implement Alembic for robust schema/view management and migration automation.
-- **Status:** `✅ Resolved (Workaround) -> 🛠 In Progress (Permanent Alembic Fix)`
+    2. Implemented Alembic for robust schema/view management and migration automation.
+- **Updated:** 2026-05-23
+
+## I-002: Circular Import Dependency Crash
+- **Status:** `📦 Closed`
+- **Severity:** 🔴 Critical
+- **Detected:** 2026-05-23 20:30
+- **Plain English Description:** Application failed to start with an `ImportError` citing a circular import involving `app.models.draw` and `app.db.base`.
+- **Reproduction Steps:** 
+  1. Start `python main.py`.
+  2. Watch backend log for `ImportError`.
+- **Root Cause:** Added top-level model imports in `backend/app/db/base.py` to support Alembic autogenerate, which created a circular dependency with models that were trying to import `Base` from `app.db.base`.
+- **Immediate Containment:** Reverted top-level imports in `backend/app/db/base.py` to local imports in `init_db`.
+- **Permanent Fix:** Moved model imports into `backend/alembic/env.py` where they can be safely loaded for autogenerate without impacting the application startup path.
+- **New Tests Added:** Manual verification of server startup.
+- **Rules / SSOT Updated:** Confirmed importance of `init_db` pattern.
+- **Updated:** 2026-05-23
+
+## I-003: Database Migration Targeting Wrong File
+- **Status:** `📦 Closed`
+- **Severity:** 🟠 High
+- **Detected:** 2026-05-23 21:00
+- **Plain English Description:** Risk page remained empty despite existing code logic. Investigations revealed views existed in `backend/app.db` but the application was using `app.db` in the project root.
+- **Reproduction Steps:** 
+  1. Check database via `sqlite3` for missing views in root `app.db`.
+- **Root Cause:** Misconfiguration in `alembic.ini` pointed to `backend/app.db` instead of the project root `app.db`.
+- **Immediate Containment:** Redirected Alembic to the root `app.db` and manually applied missing view DDL.
+- **Permanent Fix:** Updated `alembic.ini` to use `./app.db` and wrote `fix_views.py` to ensure views exist in the primary database.
+- **Verification Result:** Pass | Views present in root `app.db`.
+- **Notes / Lessons:** Always verify the active database path before applying migrations or running SQL commands against `app.db`.
+- **Updated:** 2026-05-23

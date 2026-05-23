@@ -15,7 +15,34 @@
 | T-011 | `✅ Done`      | Batch Grouping & Relationship Optimization | High     | Core         | 2026-05-21|
 | T-012 | `✅ Done`      | Add House Holding Amount to Draws | High     | Core         | 2026-05-23|
 | T-013 | `✅ Done`      | Add Holding column to Risk View | High     | Core         | 2026-05-23|
-| T-016 | `âœ… Done`      | Add Exceed Amount to Risk View | High     | Core         | 2026-05-23|
+| T-017 | `✅ Done`      | Alembic DB Migration Setup   | High     | Foundation   | 2026-05-23|
+
+---
+## 📝 Task Log
+
+### 🟦 T-017: Integrate Alembic for Database Migrations
+- **Status:** `✅ Done`
+- **Priority:** High
+- **Phase:** Foundation/Core
+- **Plain English Goal:** Setup Alembic to manage database schema and views reliably, ensuring consistency between application data and view-based reporting.
+- **Dependencies:** None
+- **Allowed Files:** 
+  - `backend/alembic/`
+  - `backend/alembic.ini`
+  - `backend/app/db/database.py`
+  - `backend/app/main.py`
+- **AI Prompt Used:** N/A
+- **Rollback Plan:** Restore manual `init_db` logic; remove Alembic integration.
+- **Definition of Done (DoD):**
+  - [x] Alembic installed and initialized.
+  - [x] Root database correctly targeted via `alembic.ini`.
+  - [x] Autogenerate configuration fixed to support views.
+  - [x] Startup sequence uses `alembic upgrade head`.
+  - [x] Views created and verified in project-root `app.db`.
+- **Test Results:** ✅ Pass | Database views verified in production database.
+- **Notes/Blockers:** Resolved circular import crashes and environment-mismatch issues.
+- **Updated:** 2026-05-23
+
 
 ---
 ## 📝 Task Log
