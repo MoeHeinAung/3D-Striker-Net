@@ -33,5 +33,7 @@ The project is highly viable for long-term development due to its strict adheren
 - **Centralized Config**: Added `pydantic-settings` for `.env` support.
 - **Global Error Handling**: Standardized API error envelopes.
 - **Design System Implementation**: Applied grid overlays, HUD typography, and neon accents.
-- **State Management**: Introduced Zustand for global UI control.
-- **Code Quality**: Enforced linting and ESM import rules.
+- **State Management:** Introduced Zustand for global UI control.
+- **Code Quality:** Enforced linting and ESM import rules.
+- **Data Resilience:** Mandated defensive numeric formatting in UI components to prevent crashes on incomplete backend data flow.
+

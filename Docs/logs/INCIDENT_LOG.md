@@ -12,6 +12,7 @@
 | I-003 | `📦 Closed`  | 🔴 Critical | Backend startup & UI rendering failure | 2026-05-20 | 2026-05-20 |
 | I-004 | `📦 Closed`  | 🟡 Medium | Sales Table empty & Batch API 400 | 2026-05-21 | 2026-05-21 |
 | I-005 | `✅ Verified` | 🟡 Medium | Risk View Empty (Table vs View Mismatch) | 2026-05-22 | 2026-05-22 |
+| I-006 | `📦 Closed`  | 🔴 Critical | Risk.tsx UI Crash (undefined .toLocaleString) | 2026-05-23 | 2026-05-23 |
 
 **Status Options:** `⬜ Open` | `🔍 Investigating` | `🔧 Fixed` | `✅ Verified` | `📦 Closed`
 **Severity Options:** `🔴 Critical` | `🟠 High` | `🟡 Medium` | `🟢 Low`
@@ -43,3 +44,22 @@
 - **Verification Result:** ✅ Verified | Querying `sales_by_ticket_per_draw` now returns aggregated data.
 - **Notes / Lessons:** Always use `{'info': {'is_view': True}}` for SQL views to prevent SQLAlchemy DDL interference.
 - **Updated:** 2026-05-22
+
+### 🔴 I-006: Risk.tsx UI Crash (undefined .toLocaleString)
+- **Status:** `📦 Closed`
+- **Severity:** 🔴 Critical
+- **Detected:** 2026-05-23 13:30
+- **Plain English Description:** The Risk page crashed with an "Uncaught TypeError: Cannot read properties of undefined" error immediately after implementing the Offloaded feature. The UI attempted to format a missing number field using `.toLocaleString()`.
+- **Reproduction Steps:** 
+  1. Access the Risk page while the backend is returning records missing the `offloaded` or `holding` fields.
+  2. The Ant Design table attempts to render the row.
+  3. The `render` function calls `val.toLocaleString()` on an undefined value.
+- **Root Cause:** Violation of `Rules.md § 3` (Data Safety). The code assumed the presence of numeric data and called a method on it without checking if it existed. Contributed by the desktop runner's `reload=False` setting, which kept an old backend version alive while the frontend was updated.
+- **Immediate Containment:** Applied defensive rendering to all numeric columns in `Risk.tsx`: `(val ?? 0).toLocaleString()`.
+- **Permanent Fix:** Updated `Rules.md` to mandate null-safe numeric formatting across all UI components. Added the missing `Array.isArray(data)` check to the Risk page.
+- **New Tests Added:** Manual verification of UI stability with partial backend data.
+- **Rules / SSOT Updated:** `Rules.md § 3` updated to enforce defensive formatting for numbers.
+- **AI Prompt Used:** None (Surgical fix)
+- **Verification Result:** ✅ Verified | Risk page loads correctly even with missing backend fields.
+- **Notes / Lessons:** Never assume a backend field is present in the UI render layer. Always use nullish coalescing for formatting methods.
+- **Updated:** 2026-05-23

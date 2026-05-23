@@ -63,7 +63,7 @@ Responsible for window lifecycle, backend bootstrap, and frontend load only. No 
 - No hidden business logic in React components.
 - No imports crossing layer boundaries.
 - **Frontend Logic:** Always use standard ESM imports (e.g., `import dayjs from 'dayjs'`) instead of `require()`.
-- **Data Safety:** UI Tables must always include an `Array.isArray(data)` check before rendering to prevent crashes on `undefined` or object responses.
+- **Data Safety:** UI Tables must always include an `Array.isArray(data)` check before rendering to prevent crashes on `undefined` or object responses. Numeric fields must use null-safe formatting (e.g., `(val ?? 0).toLocaleString()`) to prevent crashes on missing or malformed data flow.
 - **Service Layer Awareness:** Frontend services must match the Axios response interceptor behavior (avoid double-unwrapping the `SuccessEnvelope`).
 
 ## 4. Code Quality Gates
