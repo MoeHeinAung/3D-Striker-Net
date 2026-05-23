@@ -4,4 +4,5 @@ export interface Risk {
   total_amount: number;
   holding: number;
   offloaded: number;
+  exceed_amount: number;
 }
