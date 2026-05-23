@@ -2,47 +2,24 @@
 
 ## 🚨 Active Development
 
-### T-016: Add Exceed Amount to Risk View
-- **Status:** `✅ Complete`
-- **Priority:** High
-- **Phase:** Core
-- **Plain English Goal:** Add "Exceed Amount" column to the `Risk` page, calculated as `Total Amount - (Holding + Offloaded)`.
-- **Dependencies:** T-014, I-001 (Alembic Setup)
+### 🟦 T-018: Global Table Sorting
+- **Status:** `⬜ Not Started`
+- **Priority:** Medium
+- **Phase:** UX/Core
+- **Plain English Goal:** Implement a global sorting feature for all data tables, allowing users to sort columns in ascending/descending order with visual indicators.
+- **Dependencies:** None
 - **Allowed Files:**
-  - `backend/app/repositories/sale.py`
-  - `backend/app/schemas/risk.py`
-  - `frontend/src/pages/Risk.tsx`
-  - `frontend/src/types/risk.ts`
+  - `frontend/src/components/` (or common table components)
+  - `backend/app/services/` (if server-side)
+  - `backend/app/repositories/` (if server-side)
   - `Docs/Business_Logic.md`
-- **AI Prompt:** Generated during session.
-- **Rollback Plan:** Revert `backend/` and `frontend/` changes to last stable commit.
+- **AI Prompt:** To be generated.
+- **Rollback Plan:** Revert UI changes to table components.
 - **Definition of Done (DoD):**
-  - [x] Repository `get_sales_by_ticket` calculation updated.
-  - [x] `RiskSummary` Pydantic model updated.
-  - [x] Frontend `RiskPage` table columns updated.
-  - [x] "Exceed Amount" calculation verified.
-  - [x] Tests updated/passing.
-  - [x] Database views managed via Alembic.
-
----
-
-### T-017: Integrate Alembic for Database Migrations
-- **Status:** `✅ Complete`
-- **Priority:** High
-- **Phase:** Foundation/Core
-- **Plain English Goal:** Setup Alembic to manage database schema and views reliably.
-- **Dependencies:** I-001
-- **Allowed Files:**
-  - `backend/alembic/`
-  - `backend/alembic.ini`
-  - `backend/app/db/database.py`
-- **AI Prompt:** N/A
-- **Rollback Plan:** Restore manual `init_db` logic.
-- **Definition of Done (DoD):**
-  - [x] Alembic initialized.
-  - [x] Initial migration captures tables and views.
-  - [x] Startup sequence uses `alembic upgrade head`.
-
+  - [ ] All tables support sortable column headers.
+  - [ ] Visual indicators (arrows) reflect sort state (None, Asc, Desc).
+  - [ ] Performance strategy (Client-side vs Server-side) implemented per table size.
+  - [ ] UI Safety checks (Array.isArray, Null-safety) maintained.
 
 ---
 

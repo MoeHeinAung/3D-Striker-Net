@@ -17,10 +17,30 @@
 | T-013 | `✅ Done`      | Add Holding column to Risk View | High     | Core         | 2026-05-23|
 | T-017 | `✅ Done`      | Alembic DB Migration Setup   | High     | Foundation   | 2026-05-23|
 
----
-## 📝 Task Log
-
-### 🟦 T-017: Integrate Alembic for Database Migrations
+### 🟦 T-016: Add Exceed Amount to Risk View
+- **Status:** `✅ Done`
+- **Priority:** High
+- **Phase:** Core
+- **Plain English Goal:** Add "Exceed Amount" column to the `Risk` page, calculated as `Total Amount - (Holding + Offloaded)`.
+- **Dependencies:** T-014, I-001 (Alembic Setup)
+- **Allowed Files:**
+  - `backend/app/repositories/sale.py`
+  - `backend/app/schemas/risk.py`
+  - `frontend/src/pages/Risk.tsx`
+  - `frontend/src/types/risk.ts`
+  - `Docs/Business_Logic.md`
+- **AI Prompt:** Generated during session.
+- **Rollback Plan:** Revert `backend/` and `frontend/` changes to last stable commit.
+- **Definition of Done (DoD):**
+  - [x] Repository `get_sales_by_ticket` calculation updated.
+  - [x] `RiskSummary` Pydantic model updated.
+  - [x] Frontend `RiskPage` table columns updated.
+  - [x] "Exceed Amount" calculation verified.
+  - [x] Tests updated/passing.
+  - [x] Database views managed via Alembic.
+- **Test Results:** ✅ Pass | Calculation verified in Risk View.
+- **Notes/Blockers:** Implementation complete.
+- **Updated:** 2026-05-23
 - **Status:** `✅ Done`
 - **Priority:** High
 - **Phase:** Foundation/Core
@@ -44,8 +64,35 @@
 - **Updated:** 2026-05-23
 
 
----
-## 📝 Task Log
+### 🟦 T-018: Global Table Sorting (Risk Page)
+- **Status:** `✅ Done`
+- **Priority:** Medium
+- **Phase:** UX/Core
+- **Plain English Goal:** Implement sorting for the `Risk` page table.
+- **Allowed Files:** `frontend/src/pages/Risk.tsx`, `frontend/src/types/risk.ts`
+- **Definition of Done (DoD):**
+  - [x] Column headers support sorting (Asc/Desc).
+  - [x] Visual indicators correctly update.
+  - [x] Type safety ensured with `Risk` interface.
+  - [x] `npm run lint` and `tsc -b` pass.
+- **Test Results:** ✅ Pass | Verified existing tests and type safety.
+- **Notes/Blockers:** Initial implementation on `RiskPage` serves as a blueprint for other tables.
+- **Updated:** 2026-05-23
+
+### 🟦 T-018: Global Table Sorting (Network, Operations, Sale Pages)
+- **Status:** `✅ Done`
+- **Priority:** Medium
+- **Phase:** UX/Core
+- **Plain English Goal:** Implement sorting for `Network`, `Operations`, and `Sale` page tables.
+- **Allowed Files:** `frontend/src/pages/Network.tsx`, `frontend/src/pages/Operations.tsx`, `frontend/src/pages/Sale.tsx`
+- **Definition of Done (DoD):**
+  - [x] All tables support sortable column headers (Asc/Desc).
+  - [x] Visual indicators correctly update.
+  - [x] Type safety ensured with model interfaces.
+  - [x] `npm run lint` and `tsc -b` pass.
+- **Test Results:** ✅ Pass | Verified type safety and functional sorting.
+- **Notes/Blockers:** Sorting successfully applied to main and nested tables.
+- **Updated:** 2026-05-23
 
 ### 🟦 T-014: Offloaded Feature Implementation
 - **Status:** `✅ Done`

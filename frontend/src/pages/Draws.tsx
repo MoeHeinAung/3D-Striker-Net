@@ -44,14 +44,15 @@ export const DrawsPage = () => {
   };
 
   const columns = [
-    { title: 'ID', dataIndex: 'id', key: 'id' },
-    { title: 'Open Date', dataIndex: 'open_date', key: 'open_date' },
-    { title: 'Cutoff', dataIndex: 'cutoff_time', key: 'cutoff_time' },
-    { title: 'Note', dataIndex: 'note', key: 'note' },
+    { title: 'ID', dataIndex: 'id', key: 'id', sorter: (a: Draw, b: Draw) => a.id - b.id },
+    { title: 'Open Date', dataIndex: 'open_date', key: 'open_date', sorter: (a: Draw, b: Draw) => new Date(a.open_date).getTime() - new Date(b.open_date).getTime() },
+    { title: 'Cutoff', dataIndex: 'cutoff_time', key: 'cutoff_time', sorter: (a: Draw, b: Draw) => a.cutoff_time.localeCompare(b.cutoff_time) },
+    { title: 'Note', dataIndex: 'note', key: 'note', sorter: (a: Draw, b: Draw) => (a.note || '').localeCompare(b.note || '') },
     {
       title: 'Status',
       dataIndex: 'status',
       key: 'status',
+      sorter: (a: Draw, b: Draw) => a.status.localeCompare(b.status),
       render: (status: DrawStatus) => (
         <Tag color={status === 'OPEN' ? 'green' : status === 'CLOSED' ? 'orange' : 'blue'}>
           {status}

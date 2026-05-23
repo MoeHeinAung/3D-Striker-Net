@@ -48,8 +48,8 @@ export const NetworkPage = () => {
   };
 
   const columns = [
-    { title: 'ID', dataIndex: 'id', key: 'id' },
-    { title: 'Name', dataIndex: 'name', key: 'name' },
+    { title: 'ID', dataIndex: 'id', key: 'id', sorter: (a: Agent | MasterDealer, b: Agent | MasterDealer) => a.id.localeCompare(b.id) },
+    { title: 'Name', dataIndex: 'name', key: 'name', sorter: (a: Agent | MasterDealer, b: Agent | MasterDealer) => a.name.localeCompare(b.name) },
   ];
 
   return (

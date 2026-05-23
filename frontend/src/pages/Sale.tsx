@@ -47,10 +47,10 @@ export const SalePage = () => {
   };
 
   const columns = [
-    { title: 'Batch #', dataIndex: 'id', key: 'id', render: (id: number) => `BATCH-${id}` },
-    { title: 'Draw ID', dataIndex: 'draw_id', key: 'draw_id' },
-    { title: 'Agent', dataIndex: 'agent_id', key: 'agent_id' },
-    { title: 'Total', dataIndex: 'total_amount', key: 'total_amount', render: (amt: number) => `฿${amt.toLocaleString()}` },
+    { title: 'Batch #', dataIndex: 'id', key: 'id', render: (id: number) => `BATCH-${id}`, sorter: (a: Batch, b: Batch) => a.id - b.id },
+    { title: 'Draw ID', dataIndex: 'draw_id', key: 'draw_id', sorter: (a: Batch, b: Batch) => a.draw_id - b.draw_id },
+    { title: 'Agent', dataIndex: 'agent_id', key: 'agent_id', sorter: (a: Batch, b: Batch) => a.agent_id.localeCompare(b.agent_id) },
+    { title: 'Total', dataIndex: 'total_amount', key: 'total_amount', render: (amt: number) => `฿${amt.toLocaleString()}`, sorter: (a: Batch, b: Batch) => a.total_amount - b.total_amount },
     {
       title: 'Action',
       key: 'action',

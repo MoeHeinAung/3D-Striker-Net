@@ -89,9 +89,9 @@ export const OperationsPage = () => {
 
   const expandedRowRender = (batch: Batch) => {
     const saleColumns = [
-      { title: 'Ticket', dataIndex: 'ticket', key: 'ticket' },
-      { title: 'Amount', dataIndex: 'amount', key: 'amount', render: (amt: number) => `฿${amt.toLocaleString()}` },
-      { title: 'Created At', dataIndex: 'created_at', key: 'created_at', render: (date: string) => new Date(date).toLocaleString() },
+      { title: 'Ticket', dataIndex: 'ticket', key: 'ticket', sorter: (a: any, b: any) => a.ticket.localeCompare(b.ticket) },
+      { title: 'Amount', dataIndex: 'amount', key: 'amount', render: (amt: number) => `฿${amt.toLocaleString()}`, sorter: (a: any, b: any) => a.amount - b.amount },
+      { title: 'Created At', dataIndex: 'created_at', key: 'created_at', render: (date: string) => new Date(date).toLocaleString(), sorter: (a: any, b: any) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime() },
     ];
 
     return (
@@ -106,12 +106,12 @@ export const OperationsPage = () => {
   };
 
   const columns = [
-    { title: 'Batch ID', dataIndex: 'id', key: 'id' },
-    { title: 'Draw ID', dataIndex: 'draw_id', key: 'draw_id' },
-    { title: 'Agent', dataIndex: 'agent_id', key: 'agent_id' },
-    { title: 'Total Amount', dataIndex: 'total_amount', key: 'total_amount', render: (amt: number) => <Text strong>฿{amt.toLocaleString()}</Text> },
-    { title: 'Tickets Count', key: 'count', render: (_: any, record: Batch) => record.sales?.length || 0 },
-    { title: 'Date', dataIndex: 'created_at', key: 'created_at', render: (date: string) => new Date(date).toLocaleString() },
+    { title: 'Batch ID', dataIndex: 'id', key: 'id', sorter: (a: Batch, b: Batch) => a.id - b.id },
+    { title: 'Draw ID', dataIndex: 'draw_id', key: 'draw_id', sorter: (a: Batch, b: Batch) => a.draw_id - b.draw_id },
+    { title: 'Agent', dataIndex: 'agent_id', key: 'agent_id', sorter: (a: Batch, b: Batch) => a.agent_id.localeCompare(b.agent_id) },
+    { title: 'Total Amount', dataIndex: 'total_amount', key: 'total_amount', render: (amt: number) => <Text strong>฿{amt.toLocaleString()}</Text>, sorter: (a: Batch, b: Batch) => a.total_amount - b.total_amount },
+    { title: 'Tickets Count', key: 'count', render: (_: any, record: Batch) => record.sales?.length || 0, sorter: (a: Batch, b: Batch) => (a.sales?.length || 0) - (b.sales?.length || 0) },
+    { title: 'Date', dataIndex: 'created_at', key: 'created_at', render: (date: string) => new Date(date).toLocaleString(), sorter: (a: Batch, b: Batch) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime() },
     {
       title: 'Action',
       key: 'action',
