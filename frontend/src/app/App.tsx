@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Layout, ConfigProvider, theme, App as AntApp } from 'antd';
+import { ConfigProvider, theme, App as AntApp } from 'antd';
 import { Navbar } from '../components/Navbar.js';
 import { DashboardPage } from '../pages/Dashboard.js';
 import { DrawsPage } from '../pages/Draws.js';
@@ -9,9 +9,7 @@ import { RiskPage } from '../pages/Risk.js';
 import { ReportPage } from '../pages/Report.js';
 import { SettingsPage } from '../pages/Settings.js';
 import { useUIStore } from '../store/uiStore.js';
-import styles from '../styles/Layout.module.scss';
-
-const { Content } = Layout;
+import layoutStyles from '../styles/layout.module.scss';
 
 function App() {
   const { theme: appTheme } = useUIStore();
@@ -43,20 +41,20 @@ function App() {
     >
       <AntApp>
         <Router>
-          <Layout className={styles.layout}>
+          <div className={layoutStyles.viewportContainer}>
             <Navbar />
-            <Content className={styles.content}>
+            <main className={layoutStyles.mainContent}>
               <Routes>
-                <Route path="/" element={<div className={styles.bentoItem}><DashboardPage /></div>} />
-                <Route path="/draws" element={<div className={styles.bentoItem}><DrawsPage /></div>} />
-                <Route path="/partners" element={<div className={styles.bentoItem}><NetworkPage /></div>} />
-                <Route path="/sale" element={<div className={styles.bentoItem}><SalesPage /></div>} />
-                <Route path="/risk" element={<div className={styles.bentoItem}><RiskPage /></div>} />
-                <Route path="/report" element={<div className={styles.bentoItem}><ReportPage /></div>} />
-                <Route path="/settings" element={<div className={styles.bentoItem}><SettingsPage /></div>} />
+                <Route path="/" element={<DashboardPage />} />
+                <Route path="/draws" element={<DrawsPage />} />
+                <Route path="/partners" element={<NetworkPage />} />
+                <Route path="/sale" element={<SalesPage />} />
+                <Route path="/risk" element={<RiskPage />} />
+                <Route path="/report" element={<ReportPage />} />
+                <Route path="/settings" element={<SettingsPage />} />
               </Routes>
-            </Content>
-          </Layout>
+            </main>
+          </div>
         </Router>
       </AntApp>
     </ConfigProvider>
