@@ -90,9 +90,9 @@ export const SalesPage = () => {
 
   const expandedRowRender = (batch: Batch) => {
     const saleColumns = [
-      { title: 'Ticket', dataIndex: 'ticket', key: 'ticket', sorter: (a: any, b: any) => a.ticket.localeCompare(b.ticket) },
-      { title: 'Amount', dataIndex: 'amount', key: 'amount', render: (amt: number) => `฿${amt.toLocaleString()}`, sorter: (a: any, b: any) => a.amount - b.amount },
-      { title: 'Created At', dataIndex: 'created_at', key: 'created_at', render: (date: string) => new Date(date).toLocaleString(), sorter: (a: any, b: any) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime() },
+      { title: 'Ticket', dataIndex: 'ticket', key: 'ticket' },
+      { title: 'Amount', dataIndex: 'amount', key: 'amount', render: (amt: number) => `฿${amt.toLocaleString()}` },
+      { title: 'Created At', dataIndex: 'created_at', key: 'created_at', render: (date: string) => new Date(date).toLocaleString() },
     ];
 
     return (
@@ -107,12 +107,12 @@ export const SalesPage = () => {
   };
 
   const columns = [
-    { title: 'Batch ID', dataIndex: 'id', key: 'id', sorter: (a: Batch, b: Batch) => a.id - b.id },
-    { title: 'Draw ID', dataIndex: 'draw_id', key: 'draw_id', sorter: (a: Batch, b: Batch) => a.draw_id - b.draw_id },
-    { title: 'Agent', dataIndex: 'agent_id', key: 'agent_id', sorter: (a: Batch, b: Batch) => a.agent_id.localeCompare(b.agent_id) },
-    { title: 'Total Amount', dataIndex: 'total_amount', key: 'total_amount', render: (amt: number) => <Text strong>฿{amt.toLocaleString()}</Text>, sorter: (a: Batch, b: Batch) => a.total_amount - b.total_amount },
-    { title: 'Tickets Count', key: 'count', render: (_: any, record: Batch) => record.sales?.length || 0, sorter: (a: Batch, b: Batch) => (a.sales?.length || 0) - (b.sales?.length || 0) },
-    { title: 'Date', dataIndex: 'created_at', key: 'created_at', render: (date: string) => new Date(date).toLocaleString(), sorter: (a: Batch, b: Batch) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime() },
+    { title: 'Batch ID', dataIndex: 'id', key: 'id' },
+    { title: 'Draw ID', dataIndex: 'draw_id', key: 'draw_id' },
+    { title: 'Agent', dataIndex: 'agent_id', key: 'agent_id' },
+    { title: 'Total Amount', dataIndex: 'total_amount', key: 'total_amount', render: (amt: number) => <Text strong>฿{amt.toLocaleString()}</Text> },
+    { title: 'Tickets Count', key: 'count', render: (_: any, record: Batch) => record.sales?.length || 0 },
+    { title: 'Date', dataIndex: 'created_at', key: 'created_at', render: (date: string) => new Date(date).toLocaleString() },
     {
       title: 'Action',
       key: 'action',
@@ -127,6 +127,7 @@ export const SalesPage = () => {
   return (
     <div className={layoutStyles.pageContent}>
       <Card 
+        style={{ gridColumn: '1 / -1', gridRow: '1 / span 8' }}
         title={
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <span>Sales: Batch Sales</span>
@@ -140,6 +141,8 @@ export const SalesPage = () => {
           rowKey="id" 
           loading={isLoading}
           expandable={{ expandedRowRender }}
+          pagination={{ pageSize: 10 }}
+          scroll={{ y: 'calc(100vh - 350px)' }}
         />
       </Card>
 
@@ -160,14 +163,13 @@ export const SalesPage = () => {
                     background: '#000',
                     position: 'relative'
                 }}>
-                    {/* Input Side */}
                     <textarea 
                         ref={textAreaRef}
                         value={rawInput}
                         onChange={(e) => runFormatter(e.target.value)}
                         onScroll={handleScroll}
                         spellCheck={false}
-                        placeholder="123 = 1000\n123 R 1000\n123 = 2000/1000"
+                        placeholder="123 = 1000\n123 R 1000"
                         style={{ 
                             flex: 1, 
                             border: 'none', 
@@ -184,11 +186,7 @@ export const SalesPage = () => {
                             overflow: 'auto'
                         }}
                     />
-
-                    {/* Separator Line */}
                     <div style={{ width: '1px', background: 'rgba(255,255,255,0.1)', height: '100%', zIndex: 3 }}></div>
-
-                    {/* Preview/Warning Side */}
                     <div 
                         ref={previewRef}
                         style={{ 

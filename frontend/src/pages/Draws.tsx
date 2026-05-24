@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Table, Button, Modal, Form, Input, InputNumber, DatePicker, TimePicker, Tag, App, Popconfirm } from 'antd';
+import { Table, Button, Modal, Form, Input, InputNumber, DatePicker, TimePicker, Tag, App, Popconfirm, Card } from 'antd';
 import { useDraws, useCreateDraw, useUpdateDraw, useDeleteDraw } from '../queries/useDraws.js';
 import { DrawStatus } from '../types/draw.js';
 import type { Draw } from '../types/draw.js';
@@ -84,22 +84,26 @@ export const DrawsPage = () => {
 
   return (
     <div className={layoutStyles.pageContent}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '1rem' }}>
-        <h2>Draws: Draws</h2>
-        <Button type="primary" className="btn-special" onClick={() => {
-          setEditingDraw(null);
-          form.resetFields();
-          setIsModalVisible(true);
-        }}>Create Draw</Button>
-      </div>
-      
-      <Table 
-        dataSource={Array.isArray(data) ? data : []} 
-        columns={columns} 
-        rowKey="id" 
-        loading={isLoading}
-        pagination={false}
-      />
+      <Card 
+        title="Draws: Draws" 
+        style={{ gridColumn: '1 / -1', gridRow: '1 / span 8' }}
+        extra={
+          <Button type="primary" className="btn-special" onClick={() => {
+            setEditingDraw(null);
+            form.resetFields();
+            setIsModalVisible(true);
+          }}>Create Draw</Button>
+        }
+      >
+        <Table 
+          dataSource={Array.isArray(data) ? data : []} 
+          columns={columns} 
+          rowKey="id" 
+          loading={isLoading}
+          pagination={false}
+          scroll={{ y: 'calc(100vh - 300px)' }}
+        />
+      </Card>
 
       <Modal 
         title={editingDraw ? "Edit Draw" : "Create New Draw"} 
@@ -112,12 +116,11 @@ export const DrawsPage = () => {
           onFinish={handleFinish} 
           layout="vertical"
         >
-
           <Form.Item name="open_date" label="Open Date" rules={[{ required: true }]}>
-            <DatePicker />
+            <DatePicker style={{ width: '100%' }} />
           </Form.Item>
           <Form.Item name="cutoff_time" label="Cutoff Time" rules={[{ required: true }]}>
-            <TimePicker format="HH:mm" />
+            <TimePicker format="HH:mm" style={{ width: '100%' }} />
           </Form.Item>
           <Form.Item name="house_holding_amount" label="House Holding Amount">
             <InputNumber min={0} style={{ width: '100%' }} />

@@ -1,11 +1,10 @@
 import { useState } from 'react';
-import { Layout, Tabs, Table, Button, Modal, Form, Input, InputNumber, App, Popconfirm } from 'antd';
+import { Tabs, Table, Button, Modal, Form, Input, InputNumber, App, Popconfirm, Card } from 'antd';
 import { useAgents, useCreateAgent, useUpdateAgent, useDeleteAgent } from '../queries/useAgents.js';
 import { useMasterDealers, useCreateMasterDealer, useUpdateMasterDealer, useDeleteMasterDealer } from '../queries/useMasterDealers.js';
 import type { Agent } from '../queries/useAgents.js';
 import type { MasterDealer } from '../queries/useMasterDealers.js';
-
-const { Sider, Content } = Layout;
+import layoutStyles from '../styles/layout.module.scss';
 
 export const NetworkPage = () => {
   const { message } = App.useApp();
@@ -53,54 +52,64 @@ export const NetworkPage = () => {
   ];
 
   return (
-    <Layout style={{ height: '100%', background: 'transparent' }}>
-      <Sider width="40%" style={{ background: 'transparent', paddingRight: '1rem' }}>
-        <Tabs 
-          activeKey={activeTab} 
-          onChange={setActiveTab}
-          items={[
-            { key: 'agents', label: 'Agents' },
-            { key: 'dealers', label: 'Master Dealers' }
-          ]}
-        />
-        <Button block type="primary" style={{ marginBottom: '1rem' }} onClick={() => { setSelectedEntity(null); setIsModalVisible(true); }}>
-          Create New {isAgent ? 'Agent' : 'Dealer'}
-        </Button>
+    <div className={layoutStyles.pageContent}>
+      <Card 
+        style={{ gridColumn: '1 / span 5', gridRow: '1 / span 8' }}
+        title={
+          <Tabs 
+            activeKey={activeTab} 
+            onChange={setActiveTab}
+            items={[
+              { key: 'agents', label: 'Agents' },
+              { key: 'dealers', label: 'Master Dealers' }
+            ]}
+          />
+        }
+        extra={<Button type="primary" onClick={() => { setSelectedEntity(null); setIsModalVisible(true); }}>New</Button>}
+      >
         <Table 
           dataSource={data} 
           columns={columns} 
           rowKey="id" 
+          pagination={{ pageSize: 8 }}
           onRow={(record) => ({ onClick: () => setSelectedEntity(record as Agent | MasterDealer) })}
         />
-      </Sider>
-      <Content style={{ padding: '1rem', background: 'rgba(25, 33, 34, 0.3)' }}>
+      </Card>
+
+      <Card 
+        style={{ gridColumn: '6 / span 7', gridRow: '1 / span 8' }}
+        title="Entity Details"
+      >
         {selectedEntity ? (
           <div>
             <h3>{selectedEntity.name} ({selectedEntity.id})</h3>
             <p>Commission: {selectedEntity.commission}</p>
             <p>JP Factor: {selectedEntity.jp_factor}</p>
             <p>SP Factor: {selectedEntity.sp_factor}</p>
-            <Button onClick={() => { form.setFieldsValue(selectedEntity); setIsModalVisible(true); }}>Edit</Button>
-            <Popconfirm title="Delete?" onConfirm={() => {
-                if (isAgent) deleteAgent.mutate(selectedEntity.id);
-                else deleteDealer.mutate(selectedEntity.id);
-                setSelectedEntity(null);
-            }}>
-                <Button danger>Delete</Button>
-            </Popconfirm>
+            <div style={{ display: 'flex', gap: '10px' }}>
+                <Button onClick={() => { form.setFieldsValue(selectedEntity); setIsModalVisible(true); }}>Edit</Button>
+                <Popconfirm title="Delete?" onConfirm={() => {
+                    if (isAgent) deleteAgent.mutate(selectedEntity.id);
+                    else deleteDealer.mutate(selectedEntity.id);
+                    setSelectedEntity(null);
+                }}>
+                    <Button danger>Delete</Button>
+                </Popconfirm>
+            </div>
           </div>
         ) : <p>Select an item to view details</p>}
-      </Content>
+      </Card>
+
       <Modal open={isModalVisible} onCancel={() => setIsModalVisible(false)} footer={null}>
         <Form form={form} onFinish={handleFinish} layout="vertical">
             <Form.Item name="id" label="ID" rules={[{ required: true, len: 3, pattern: /^[a-zA-Z]+$/ }]}><Input /></Form.Item>
             <Form.Item name="name" label="Name" rules={[{ required: true }]}><Input /></Form.Item>
-            <Form.Item name="commission" label="Commission" rules={[{ required: true }]}><InputNumber /></Form.Item>
-            <Form.Item name="jp_factor" label="JP Factor" rules={[{ required: true }]}><InputNumber /></Form.Item>
-            <Form.Item name="sp_factor" label="SP Factor" rules={[{ required: true }]}><InputNumber /></Form.Item>
+            <Form.Item name="commission" label="Commission" rules={[{ required: true }]}><InputNumber style={{ width: '100%' }} /></Form.Item>
+            <Form.Item name="jp_factor" label="JP Factor" rules={[{ required: true }]}><InputNumber style={{ width: '100%' }} /></Form.Item>
+            <Form.Item name="sp_factor" label="SP Factor" rules={[{ required: true }]}><InputNumber style={{ width: '100%' }} /></Form.Item>
             <Button type="primary" htmlType="submit">Submit</Button>
         </Form>
       </Modal>
-    </Layout>
+    </div>
   );
 };

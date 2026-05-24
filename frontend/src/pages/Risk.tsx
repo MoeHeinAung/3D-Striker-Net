@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { Table, Button, Space } from 'antd';
-import { useDrawRisk } from '../queries/useRisk';
-import { useOffload } from '../queries/useOffloaded';
-import { useUIStore } from '../store/uiStore';
-import { OffloadModal } from '../components/OffloadModal';
-import { type Risk } from '../types/risk';
+import { useDrawRisk } from '../queries/useRisk.js';
+import { useOffload } from '../queries/useOffloaded.js';
+import { useUIStore } from '../store/uiStore.js';
+import { OffloadModal } from '../components/OffloadModal.js';
+import { type Risk } from '../types/risk.js';
+import layoutStyles from '../styles/layout.module.scss';
 
 const formatTicket = (ticket: string) => ticket;
 
@@ -19,15 +20,12 @@ export const RiskPage = () => {
   const handleBatchOffload = (values: { masterDealerId: string; maxAmount: number; maxTicket: number }) => {
     if (!riskData) return;
 
-    // 1. Identify eligible tickets
     const eligibleTickets = riskData
       .filter((r: Risk) => r.exceed_amount > 0)
       .sort((a: Risk, b: Risk) => b.exceed_amount - a.exceed_amount);
 
-    // 2. Select subset up to maxTicket
     const selectedTickets = eligibleTickets.slice(0, values.maxTicket);
 
-    // 3. Execute offload for each
     selectedTickets.forEach((ticketData: Risk) => {
       const offloadAmount = Math.min(ticketData.exceed_amount, values.maxAmount);
       
@@ -57,20 +55,22 @@ export const RiskPage = () => {
   if (error) return <div>Error loading risk data</div>;
 
   return (
-    <div style={{ padding: '24px' }}>
-      <Space style={{ marginBottom: 16, width: '100%', justifyContent: 'space-between' }}>
-        <h1>Risk Data for Draw {drawId}</h1>
+    <div className={layoutStyles.pageContent}>
+      <Space style={{ gridColumn: '1 / -1', marginBottom: 16, width: '100%', justifyContent: 'space-between' }}>
+        <h1 style={{ margin: 0 }}>Risk Data for Draw {drawId}</h1>
         <Button type="primary" size="large" onClick={() => setModalOpen(true)}>
           Offload Batch
         </Button>
       </Space>
       
-      <Table 
-        dataSource={riskData} 
-        columns={columns} 
-        rowKey="ticket" 
-        pagination={{ pageSize: 10 }}
-      />
+      <div style={{ gridColumn: '1 / -1', gridRow: '2 / 9', overflow: 'auto' }}>
+        <Table 
+          dataSource={riskData} 
+          columns={columns} 
+          rowKey="ticket" 
+          pagination={{ pageSize: 10 }}
+        />
+      </div>
       <OffloadModal 
         isOpen={modalOpen} 
         onClose={() => setModalOpen(false)} 
