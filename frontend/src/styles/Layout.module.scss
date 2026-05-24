@@ -1,18 +1,16 @@
 .viewportContainer {
-  position: relative;
+  display: grid;
+  grid-template-rows: 48px 1fr;
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-  background: #0d1516; /* Theme background */
+  background: #0d1516;
 }
 
 .mainContent {
-  position: absolute;
-  top: 48px; /* Below Navbar */
-  left: 0;
-  right: 0;
-  bottom: 0;
+  grid-row: 2;
   overflow-y: auto;
+  height: 100%;
 }
 
 .pageContent {
@@ -21,6 +19,6 @@
   grid-template-rows: repeat(8, 1fr);
   gap: 24px;
   padding: 24px;
-  min-height: calc(100vh - 48px);
+  height: 100%;
   width: 100%;
 }

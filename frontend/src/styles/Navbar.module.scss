@@ -1,10 +1,7 @@
 @use 'theme' as *;
 
 .navbar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
+  grid-row: 1;
   height: 48px;
   display: flex;
   align-items: center;
@@ -15,6 +12,7 @@
   line-height: 48px;
   z-index: 1000;
 }
+
 
 .logoContainer {
   position: absolute;
