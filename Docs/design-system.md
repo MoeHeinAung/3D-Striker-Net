@@ -26,11 +26,42 @@ Use a "Deep Space" palette with "Hyper-Link" accents.
 ---
 
 ## 3. Typography
-Focus on readability with a "Data-Driven" feel.
+Focus on "Futuristic Precision" with a high-readability modular scale (Ratio 1.25). 
 
-- **Primary Font:** `Inter` or `Roboto` (Professional, clean).
-- **Secondary (Monospace):** `JetBrains Mono` or `Fira Code` (Used for IDs, data values, and tech labels).
-- **Headings:** All-caps with increased letter spacing for a "HUD" feel.
+- **Titles:** `Tektur` (Geometric, HUD-ready)
+- **Body Text:** `Instrument Sans` (Humanist, high legibility)
+- **Code/Numbers:** `JetBrains Mono` (High-precision monospace)
+
+### 3.1 Typographic Scale
+Base: 16px. Line Height: 1.5.
+
+| Element | Tag | Size | Weight | Line H | Tracking | Case |
+|:---|:---|:---|:---|:---|:---|:---|
+| **H1** | H1 | 48px | 700 | 1.1 | 0.05em | Uppercase |
+| **H2** | H2 | 38px | 600 | 1.2 | 0.04em | Uppercase |
+| **H3** | H3 | 30px | 600 | 1.2 | 0.03em | Uppercase |
+| **H4** | H4 | 24px | 500 | 1.3 | 0.02em | Uppercase |
+| **H5** | H5 | 19px | 500 | 1.4 | 0.01em | Normal |
+| **H6** | H6 | 16px | 600 | 1.4 | 0.0em | Normal |
+| **Body (L)**| - | 20px | 400 | 1.5 | 0.0em | Normal |
+| **Body (M)**| P | 16px | 400 | 1.5 | 0.0em | Normal |
+| **Body (S)**| - | 14px | 400 | 1.5 | 0.01em | Normal |
+| **Data/Code**| Code | 14px | 500 | 1.4 | 0.02em | Normal |
+| **Label** | Label | 12px | 700 | 1.2 | 0.1em | Uppercase |
+
+### 3.2 Application Rules
+- **Semantic Mapping:** `Tektur` is for structural headers only. `Instrument Sans` is the workhorse for narrative text. `JetBrains Mono` is reserved exclusively for numeric telemetry, IDs, timestamps, and programmatic code.
+- **Alignment:** Narrative text is left-aligned. Numeric data is right-aligned or tabular-aligned for scanning consistency.
+- **State & Color Management:**
+    - **Default:** `#dce4e5`
+    - **Hover:** `#00e5ff`
+    - **Active/Focus:** Neon glow effect (0 0 8px #00e5ff)
+    - **Disabled:** `#bac9cc` (40% opacity)
+
+### 3.3 UI Pattern Specification
+- **Page Titles vs. Card Titles:** Page Titles occupy H1-H2 (Uppercase tracking). Card Titles use H4-H5 (Normal case), maintaining legibility within restricted container boundaries.
+- **Metadata:** Pair Labels (12px, 0.1em tracking) with context-specific icons. Maintain a strict color contrast with parent body text using `#bac9cc`.
+- **Spatial Layout:** Maintain a 4px vertical rhythm grid for all text elements. Ensure headers have 1.5x padding relative to sibling body elements to define spatial hierarchy.
 
 ---
 
