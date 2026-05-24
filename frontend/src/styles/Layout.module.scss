@@ -3,21 +3,24 @@
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-  padding-top: 48px; /* Height of Navbar */
+  background: #0d1516; /* Theme background */
 }
 
 .mainContent {
+  position: absolute;
+  top: 48px; /* Below Navbar */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow-y: auto;
+}
+
+.pageContent {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   grid-template-rows: repeat(8, 1fr);
   gap: 24px;
-  width: 100%;
-  height: 100%;
-  overflow-y: auto;
   padding: 24px;
-}
-
-.pageContent {
-  grid-column: 1 / -1;
-  grid-row: 1 / -1;
+  min-height: calc(100vh - 48px);
+  width: 100%;
 }

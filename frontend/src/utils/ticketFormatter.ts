@@ -35,10 +35,10 @@ export const parseTicketLine = (line: string): ParsedTicket | null => {
 
   // 1. Extract Prefix (Ticket)
   const prefix = text.substring(0, 3);
-  const body = text.substring(3).replace(/[/\~\+\.\=\s]+$/, '');
+  const body = text.substring(3).replace(/[/~+.= \s]+$/, '');
 
   // 2. Dual Mapping (123 = 2000/1000)
-  const dualMatch = body.match(/(\d+)[Rr\/\s\=\-\.\+\~]+(\d+)/);
+  const dualMatch = body.match(/(\d+)[Rr/ \s=\-.~+]+(\d+)/);
   if (dualMatch) {
     return {
       ticket: prefix,

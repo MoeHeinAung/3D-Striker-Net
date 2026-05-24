@@ -2,17 +2,16 @@
 
 ## 📅 Backlog
 
-### 🟦 T-017: Ticket Model and API Refactor
+### 🟦 T-018: Layout Refactor (Viewport Containment & Grid)
 - **Status:** `⬜ Not Started`
 - **Priority:** High
-- **Phase:** Core
-- **Plain English Goal:** Refactor winning/blacklist ticket models/schemas and standardize API routes.
+- **Phase:** UI/UX
+- **Plain English Goal:** Refactor app layout for strict viewport containment (100vh/100vw) and implement a 12x8 CSS Grid system.
 - **Dependencies:** None
 - **Allowed Files:**
-  - `backend/app/models/winning_ticket.py`
-  - `backend/app/models/blacklist_ticket.py`
-  - `backend/app/schemas/winning_ticket.py`
-  - `backend/app/schemas/blacklist_ticket.py`
-  - `backend/app/api/routes/`
-- **AI Prompt Used:** `Docs/prompts/backend-implementation-refactor.md`
-- **Rollback Plan:** Restore model/schema files and revert route changes to previous state.
+  - `frontend/src/app/App.tsx`
+  - `frontend/src/styles/`
+  - `frontend/src/components/`
+  - `frontend/src/pages/`
+- **AI Prompt Used:** `Docs/prompts/frontend-implementation.md`
+- **Rollback Plan:** Revert CSS and App component structural changes to pre-grid state.
