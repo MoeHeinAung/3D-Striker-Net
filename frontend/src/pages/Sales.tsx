@@ -7,7 +7,7 @@ import type { Batch } from '../queries/useBatches.js';
 
 const { Text } = Typography;
 
-export const OperationsPage = () => {
+export const SalesPage = () => {
   const { message } = App.useApp();
   const { data: batches, isLoading } = useBatches();
   const { data: draws } = useDraws();
@@ -128,7 +128,7 @@ export const OperationsPage = () => {
       <Card 
         title={
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span>Operations: Batch Sales</span>
+            <span>Sales: Batch Sales</span>
             <Button type="primary" onClick={() => setIsModalVisible(true)} disabled={!activeDraw}>New Bulk Sale</Button>
           </div>
         }

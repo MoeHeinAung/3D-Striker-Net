@@ -3,8 +3,8 @@ import { Layout, ConfigProvider, theme, App as AntApp } from 'antd';
 import { Navbar } from '../components/Navbar.js';
 import { DashboardPage } from '../pages/Dashboard.js';
 import { DrawsPage } from '../pages/Draws.js';
+import { SalesPage } from '../pages/Sales.js';
 import { NetworkPage } from '../pages/Network.js';
-import { OperationsPage } from '../pages/Operations.js';
 import { RiskPage } from '../pages/Risk.js';
 import { ReportPage } from '../pages/Report.js';
 import { SettingsPage } from '../pages/Settings.js';
@@ -49,8 +49,8 @@ function App() {
               <Routes>
                 <Route path="/" element={<div className={styles.bentoItem}><DashboardPage /></div>} />
                 <Route path="/draws" element={<div className={styles.bentoItem}><DrawsPage /></div>} />
-                <Route path="/network" element={<div className={styles.bentoItem}><NetworkPage /></div>} />
-                <Route path="/sale" element={<div className={styles.bentoItem}><OperationsPage /></div>} />
+                <Route path="/partners" element={<div className={styles.bentoItem}><NetworkPage /></div>} />
+                <Route path="/sale" element={<div className={styles.bentoItem}><SalesPage /></div>} />
                 <Route path="/risk" element={<div className={styles.bentoItem}><RiskPage /></div>} />
                 <Route path="/report" element={<div className={styles.bentoItem}><ReportPage /></div>} />
                 <Route path="/settings" element={<div className={styles.bentoItem}><SettingsPage /></div>} />

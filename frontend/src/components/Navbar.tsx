@@ -5,16 +5,15 @@ export const Navbar = () => {
   const location = useLocation();
 
   const leftItems = [
-    { key: '/', label: 'Overview' },
-    { key: '/draws', label: 'Operations' },
-    { key: '/network', label: 'Network' },
+    { key: '/draws', label: 'Draws' },
+    { key: '/partners', label: 'Partners' },
+    { key: '/sale', label: 'Sales' },
   ];
 
   const rightItems = [
-    { key: '/sale', label: 'Sale' },
     { key: '/risk', label: 'Risk' },
     { key: '/report', label: 'Report' },
-    { key: '/settings', label: 'System' },
+    { key: '/settings', label: 'Settings' },
   ];
 
   return (
@@ -32,7 +31,9 @@ export const Navbar = () => {
       </nav>
 
       <div className={styles.logoContainer}>
-        <h1 className={styles.logo}>3D-STRIKER-NET</h1>
+        <Link to="/">
+          <h1 className={styles.logo}>3D-STRIKER-NET</h1>
+        </Link>
       </div>
 
       <nav className={`${styles.navSection} ${styles.right}`}>
