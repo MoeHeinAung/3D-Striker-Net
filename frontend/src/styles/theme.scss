@@ -12,9 +12,15 @@ $on-surface-variant: #bac9cc;
 $outline: #849396;
 $surface-tint: #00daf3;
 
-$font-header: 'Inter', sans-serif;
-$font-data: 'Space Grotesk', sans-serif;
-$font-body: 'Inter', sans-serif;
+$font-header: 'Tektur', sans-serif;
+$font-body: 'Instrument Sans', sans-serif;
+$font-data: 'JetBrains Mono', monospace;
+
+@mixin hud-text {
+  font-family: $font-header;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
 
 @mixin glass-panel {
   background: rgba(10, 21, 37, 0.4);
@@ -130,6 +136,5 @@ $font-body: 'Inter', sans-serif;
 // Legacy mixins for compatibility during migration
 @mixin sci-fi-border { @include corner-accent; @include glass-panel; }
 @mixin glassmorphism { @include glass-panel; }
-@mixin hud-text { font-family: $font-header; text-transform: uppercase; letter-spacing: 0.1em; }
 @mixin neon-glow($color) { text-shadow: 0 0 5px rgba($color, 0.5), 0 0 10px rgba($color, 0.2); }
 @mixin scanner-animation { @include hologram-effect; }
