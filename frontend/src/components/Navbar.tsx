@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import styles from '../styles/Navbar.module.scss';
+import typography from '../styles/typography.module.scss';
 
 export const Navbar = () => {
   const location = useLocation();
@@ -32,7 +33,7 @@ export const Navbar = () => {
 
       <div className={styles.logoContainer}>
         <Link to="/">
-          <h1 className={styles.logo}>3D-STRIKER-NET</h1>
+          <h1 className={`${typography.logo} ${styles.logo}`}>3D-STRIKER-NET</h1>
         </Link>
       </div>
 
