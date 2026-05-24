@@ -24,6 +24,7 @@ def upgrade() -> None:
     sa.Column('draw_id', sa.Integer(), nullable=False),
     sa.Column('ticket', sa.String(length=3), nullable=False),
     sa.Column('type', sa.String(), nullable=False),
+    sa.Column('created_at', sa.DateTime(), server_default=sa.func.now(), nullable=True),
     sa.ForeignKeyConstraint(['draw_id'], ['draws.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
@@ -34,6 +35,7 @@ def upgrade() -> None:
     sa.Column('draw_id', sa.Integer(), nullable=False),
     sa.Column('ticket', sa.String(length=3), nullable=False),
     sa.Column('type', sa.String(), nullable=False),
+    sa.Column('created_at', sa.DateTime(), server_default=sa.func.now(), nullable=True),
     sa.ForeignKeyConstraint(['draw_id'], ['draws.id'], ),
     sa.PrimaryKeyConstraint('id')
     )

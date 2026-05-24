@@ -38,3 +38,27 @@
 - **Verification Result:** Pass | Views present in root `app.db`.
 - **Notes / Lessons:** Always verify the active database path before applying migrations or running SQL commands against `app.db`.
 - **Updated:** 2026-05-23
+
+## I-004: API Endpoint Routing and Schema Mismatch
+- **Status:** `📦 Closed`
+- **Severity:** 🟠 High
+- **Detected:** 2026-05-24
+- **Plain English Description:** Frontend received 404 and 500 errors when fetching ticket data due to incorrect endpoint pathing and missing database columns.
+- **Reproduction Steps:** 
+  1. Open the application.
+  2. Observe console errors for `GET /api/winning-tickets/` and `GET /api/blacklist-tickets/`.
+  3. Observe CORS and 500 errors after path fix.
+- **Root Cause:** 
+    1. Frontend requested `/api/winning-tickets/` while backend served `/api/tickets/winning`.
+    2. Missing `created_at` column in `winning_tickets` and `blacklist_tickets` tables despite migration history.
+- **Immediate Containment:** 
+    1. Updated frontend `useTickets.ts` to use correct API paths.
+    2. Manually added missing `created_at` column to SQLite tables.
+- **Permanent Fix:** 
+    1. Corrected frontend endpoint definitions.
+    2. Updated `backend/alembic/versions/59c025d4895f_create_ticket_tables.py` to include `created_at` column and re-ran migration.
+- **New Tests Added:** Backend unit tests verified via `pytest`.
+- **Rules / SSOT Updated:** None.
+- **Verification Result:** Pass | Verified API 200 OK responses.
+- **Notes / Lessons:** Ensure endpoint paths match between frontend and backend router prefixing; verify table schemas post-migration.
+- **Updated:** 2026-05-24
