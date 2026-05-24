@@ -1,0 +1,5 @@
+@use 'theme.scss' as *;
+
+.h1 { font-family: $font-header; font-size: 48px; font-weight: 700; line-height: 1.1; letter-spacing: 0.05em; text-transform: uppercase; }
+.body-m { font-family: $font-body; font-size: 16px; font-weight: 400; line-height: 1.5; }
+.data { font-family: $font-data; font-size: 14px; font-weight: 500; line-height: 1.4; }
