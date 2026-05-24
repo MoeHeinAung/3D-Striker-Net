@@ -4,6 +4,7 @@ import { useDraws, useCreateDraw, useUpdateDraw, useDeleteDraw } from '../querie
 import { DrawStatus } from '../types/draw.js';
 import type { Draw } from '../types/draw.js';
 import dayjs from 'dayjs';
+import layoutStyles from '../styles/layout.module.scss';
 
 export const DrawsPage = () => {
   const { message } = App.useApp();
@@ -82,7 +83,7 @@ export const DrawsPage = () => {
   ];
 
   return (
-    <div>
+    <div className={layoutStyles.pageContent}>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '1rem' }}>
         <h2>Draws: Draws</h2>
         <Button type="primary" className="btn-special" onClick={() => {

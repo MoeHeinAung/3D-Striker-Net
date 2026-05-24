@@ -4,6 +4,7 @@ import { useBatches, useCreateBatch, useDeleteBatch } from '../queries/useBatche
 import { useDraws } from '../queries/useDraws.js';
 import { parseTicketLine, formatParsedTicket, expandTicketPermutations, type ParsedTicket } from '../utils/ticketFormatter.js';
 import type { Batch } from '../queries/useBatches.js';
+import layoutStyles from '../styles/layout.module.scss';
 
 const { Text } = Typography;
 
@@ -124,7 +125,7 @@ export const SalesPage = () => {
   ];
 
   return (
-    <div style={{ padding: '1rem' }}>
+    <div className={layoutStyles.pageContent}>
       <Card 
         title={
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

@@ -1,70 +1,20 @@
-@use 'theme' as *;
-
-:global(body), :global(#root) {
-  margin: 0;
-  padding: 0;
+.viewportContainer {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: repeat(8, 1fr);
   width: 100vw;
   height: 100vh;
   overflow: hidden;
 }
 
-:global(body) {
-  background-image:
-    linear-gradient(rgba(0, 218, 243, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 218, 243, 0.05) 1px, transparent 1px);
-  background-size: 32px 32px;
-  background-color: $background;
-  color: $on-background;
-  font-family: $font-body;
-}
-
-.layout {
-  height: 100vh;
-  width: 100vw;
-  background: transparent;
-  display: flex;
-  flex-direction: column;
-}
-
-.content {
-  flex: 1;
-  padding: 1rem;
+.mainContent {
+  grid-column: 1 / -1;
+  grid-row: 1 / -1;
   overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  height: calc(100vh - 48px);
-  margin-top: 48px;
 }
 
-.bentoItem {
-  @include glass-panel;
-  @include corner-accent;
-  padding: 1.5rem;
-
-  h2 {
-    @include hud-text;
-    @include neon-glow($surface-tint);
-    margin-bottom: 1.5rem;
-    color: $primary;
-    font-size: 1.25rem;
-  }
-}
-
-.ant-table {
-  color: $on-background !important;
-
-  .ant-table-thead > tr > th {
-    color: $on-background !important;
-    background: rgba(25, 33, 34, 0.5) !important;
-  }
-
-  .ant-table-tbody > tr > td {
-    color: $on-background !important;
-    border-color: rgba(255, 255, 255, 0.1) !important;
-  }
-
-  .ant-table-tbody > tr:hover > td {
-    background: rgba(0, 218, 243, 0.1) !important;
-  }
+.pageContent {
+  grid-column: span 12;
+  grid-row: 2 / 9;
+  padding: 1rem;
 }
