@@ -1,12 +1,7 @@
 // Version: 1.0.1
 import { api } from './api.js';
 import type { Draw, DrawCreate } from '../types/draw.js';
-
-export interface SuccessEnvelope<T> {
-  success: boolean;
-  data: T;
-  message: string;
-}
+import type { SuccessEnvelope } from '../types/base.js';
 
 export const drawService = {
   list: async () => {

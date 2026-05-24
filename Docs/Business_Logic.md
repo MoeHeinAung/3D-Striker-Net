@@ -1,20 +1,19 @@
-# Business Logic - Navigation Redesign
+# Business Logic Documentation
 
-## Navigation Structure
-The application navigation has been restructured for improved usability and intuitive access to features.
+## Overview
+This document outlines the business rules and domain model requirements for the ticket system.
 
-| New Label | Mapping | Former Label |
-| :--- | :--- | :--- |
-| **Draws** | `/draws` | Operations |
-| **Partners** | `/network` | Network |
-| **Sales** | `/sale` | Sale |
-| **Dashboard** | `/` (Logo) | Overview |
-| **Risk** | `/risk` | Risk |
-| **Report** | `/report` | Report |
-| **Settings** | `/settings` | System |
+## Ticket System Rules
 
-## Requirements
-1. **Logo Interaction**: The main logo is the primary navigation to the `Dashboard` (`/`). The CSS must be updated to enable pointer events.
-2. **Naming Consistency**: All references (routes, API endpoints, file naming, and UI labels) must be updated to reflect the new labels (Draws, Partners, Settings, etc.) to maintain consistency across the entire codebase.
-3. **Functionality Preservation**: The refactoring must not alter existing business logic, data flow, or API contract expectations.
-4. **Architectural Integrity**: All changes must respect the established layer boundaries (Frontend -> API -> Services -> Repositories -> Models).
+### Winning Tickets
+1. **Primary Identifier**: Winning tickets are categorized by their `type`, which must be either `JACKPOT` or `MINOR`.
+2. **Amount**: The `amount` field is restricted to reporting and query purposes. It must not be used as a primary identifier for ticket types.
+
+### Blacklist Tickets
+1. **Structure**: Blacklist tickets must include a `draw_id` and a `type` for identification.
+2. **Schema Restrictions**: The `reason` field is deprecated and must be removed from the schema.
+3. **Consistency**: `draw_id` must be present in both the SQLAlchemy ORM model and the Pydantic schema.
+
+## API Routing Requirements
+1. **Consistency**: All subresource endpoints must follow the standard RESTful pattern: `/resource/{id}/subresource/`.
+2. **Standardization**: Non-standard endpoints like `/tickets/winning` and `/tickets/blacklisted` must be migrated to follow the consistent resource-based routing structure.

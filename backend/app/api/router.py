@@ -9,4 +9,4 @@ api_router.include_router(master_dealer.router, prefix="/master-dealers", tags=[
 api_router.include_router(sale.router, prefix="/sales", tags=["Sales"])
 api_router.include_router(batch.router, prefix="/batches", tags=["Batches"])
 api_router.include_router(offloaded.router, prefix="/offloaded", tags=["Offloaded"])
-api_router.include_router(tickets.router, prefix="/tickets", tags=["Tickets"])
+api_router.include_router(tickets.router, tags=["Tickets"])

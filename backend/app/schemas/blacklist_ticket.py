@@ -1,9 +1,14 @@
 from pydantic import BaseModel, Field
-from typing import Optional
+from enum import Enum
+
+class BlacklistTicketType(str, Enum):
+    HALF = "HALF"
+    BLOCK = "BLOCK"
 
 class BlacklistTicketBase(BaseModel):
+    draw_id: int
     ticket: str = Field(..., pattern=r"^\d{3}$")
-    reason: Optional[str] = None
+    type: BlacklistTicketType
 
 class BlacklistTicketCreate(BlacklistTicketBase):
     pass

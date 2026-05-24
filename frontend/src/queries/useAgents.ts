@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '../services/api.js';
+import type { SuccessEnvelope } from '../types/base.js';
 
 export interface Agent {
   id: string;
@@ -15,8 +16,8 @@ export const useAgents = () => {
   return useQuery({
     queryKey: ['agents'],
     queryFn: async () => {
-      const res = await api.get('/agents/');
-      return res.data;
+      const res = await api.get<any, SuccessEnvelope<Agent[]>>('/agents/');
+      return res.data || [];
     },
   });
 };

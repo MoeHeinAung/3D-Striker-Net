@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '../services/api.js';
+import type { SuccessEnvelope } from '../types/base.js';
 
 export interface MasterDealer {
   id: string;
@@ -15,8 +16,8 @@ export const useMasterDealers = () => {
   return useQuery({
     queryKey: ['master-dealers'],
     queryFn: async () => {
-      const res = await api.get('/master-dealers/');
-      return res.data;
+      const res = await api.get<any, SuccessEnvelope<MasterDealer[]>>('/master-dealers/');
+      return res.data || [];
     },
   });
 };

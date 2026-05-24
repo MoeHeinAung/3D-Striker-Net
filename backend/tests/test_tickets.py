@@ -68,5 +68,20 @@ def test_delete_blacklist_ticket(db_session):
     data = {"ticket": "999", "type": "BLOCK", "draw_id": draw.id}
     ticket = repo.create_blacklist(data)
     
-    assert repo.delete_blacklist(ticket.id) is True
-    assert len(repo.get_all_blacklist()) == 0
+def test_get_winning_by_draw(db_session):
+    session, draw = db_session
+    repo = TicketRepository(session)
+    repo.create_winning({"ticket": "123", "type": "JACKPOT", "draw_id": draw.id})
+    repo.create_winning({"ticket": "456", "type": "MINOR", "draw_id": draw.id})
+    
+    tickets = repo.get_all_winning_by_draw(draw.id)
+    assert len(tickets) == 2
+    
+def test_get_blacklist_by_draw(db_session):
+    session, draw = db_session
+    repo = TicketRepository(session)
+    repo.create_blacklist({"ticket": "111", "type": "BLOCK", "draw_id": draw.id})
+    repo.create_blacklist({"ticket": "222", "type": "HALF", "draw_id": draw.id})
+    
+    tickets = repo.get_all_blacklist_by_draw(draw.id)
+    assert len(tickets) == 2

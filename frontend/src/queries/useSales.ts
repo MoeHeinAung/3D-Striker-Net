@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '../services/api.js';
+import type { SuccessEnvelope } from '../types/base.js';
 
 export interface Sale {
   id: number;
@@ -15,8 +16,8 @@ export const useSales = () => {
   return useQuery({
     queryKey: ['sales'],
     queryFn: async () => {
-      const res = await api.get('/sales/');
-      return res.data.data;
+      const res = await api.get<any, SuccessEnvelope<Sale[]>>('/sales/');
+      return res.data || [];
     },
   });
 };

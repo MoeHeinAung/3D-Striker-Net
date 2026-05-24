@@ -30,8 +30,17 @@ The following patterns are **always forbidden**:
 - Duplicate logic: Same business logic in more than one layer
 - DB outside repository: SQLAlchemy or raw SQL used outside `backend/app/repositories/`
 
-### 1.5 Documentation First
-Agents and humans must read the latest official documentation for every library, framework, or package before writing code. If a new version or feature is utilized, the documentation must be referenced to avoid deprecated patterns, unnecessary overhead, or common pitfalls.
+### 1.5 Database Path Consistency
+- **Absolute Root Target**: All backend configuration, migrations (Alembic), and CLI scripts MUST target the central `app.db` located in the project root.
+- **Config Rule**: Use `PROJECT_ROOT` based pathing in `backend/app/core/config.py`. Never use relative paths that might resolve differently based on the execution directory.
+
+### 1.6 ESM & TypeScript Integrity
+- **Named Interface Imports**: NEVER use `import { InterfaceName }` for modules that only contain TypeScript interfaces. You MUST use `import type { InterfaceName }` to prevent runtime `SyntaxError` (module does not provide export).
+- **Module Persistence**: Every `.ts` file in the frontend MUST contain at least one concrete runtime export (e.g., `export const VERSION = '1.0.0'`) if it also exports interfaces, to ensure the transpiled JS file is not empty.
+
+### 1.7 UI State Sanitization
+- **Form Resets**: All Ant Design `Modal` forms MUST use `destroyOnClose` and `preserve={false}`. 
+- **Explicit Cleanup**: Use a `useEffect` hook to call `form.resetFields()` when a modal becomes visible to ensure no stale state from previous operations (e.g., deleted fields) is included in the submission payload.
 
 ## 2. Layer Behavior Rules
 

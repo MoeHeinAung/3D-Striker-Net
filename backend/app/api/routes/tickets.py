@@ -8,28 +8,30 @@ from app.db.database import get_db
 
 router = APIRouter()
 
-# Winning Tickets
-@router.get("/winning", response_model=SuccessEnvelope[list[WinningTicketResponse]])
-def list_winning_tickets(db: Session = Depends(get_db)):
-    return SuccessEnvelope(data=TicketService(db).list_winning())
+# Winning Tickets (under draws)
+@router.get("/draws/{draw_id}/winning-tickets", response_model=SuccessEnvelope[list[WinningTicketResponse]])
+def list_winning_tickets(draw_id: int, db: Session = Depends(get_db)):
+    return SuccessEnvelope(data=TicketService(db).list_winning(draw_id=draw_id))
 
-@router.post("/winning", response_model=SuccessEnvelope[WinningTicketResponse])
-def create_winning_ticket(in_data: WinningTicketCreate, db: Session = Depends(get_db)):
+@router.post("/draws/{draw_id}/winning-tickets", response_model=SuccessEnvelope[WinningTicketResponse])
+def create_winning_ticket(draw_id: int, in_data: WinningTicketCreate, db: Session = Depends(get_db)):
+    in_data.draw_id = draw_id
     return SuccessEnvelope(data=TicketService(db).create_winning(in_data))
 
-@router.delete("/winning/{ticket_id}", response_model=SuccessEnvelope[bool])
-def delete_winning_ticket(ticket_id: int, db: Session = Depends(get_db)):
+@router.delete("/draws/{draw_id}/winning-tickets/{ticket_id}", response_model=SuccessEnvelope[bool])
+def delete_winning_ticket(draw_id: int, ticket_id: int, db: Session = Depends(get_db)):
     return SuccessEnvelope(data=TicketService(db).delete_winning(ticket_id))
 
-# Blacklist Tickets
-@router.get("/blacklist", response_model=SuccessEnvelope[list[BlacklistTicketResponse]])
-def list_blacklist_tickets(db: Session = Depends(get_db)):
-    return SuccessEnvelope(data=TicketService(db).list_blacklist())
+# Blacklist Tickets (under draws)
+@router.get("/draws/{draw_id}/blacklist-tickets", response_model=SuccessEnvelope[list[BlacklistTicketResponse]])
+def list_blacklist_tickets(draw_id: int, db: Session = Depends(get_db)):
+    return SuccessEnvelope(data=TicketService(db).list_blacklist(draw_id=draw_id))
 
-@router.post("/blacklist", response_model=SuccessEnvelope[BlacklistTicketResponse])
-def create_blacklist_ticket(in_data: BlacklistTicketCreate, db: Session = Depends(get_db)):
+@router.post("/draws/{draw_id}/blacklist-tickets", response_model=SuccessEnvelope[BlacklistTicketResponse])
+def create_blacklist_ticket(draw_id: int, in_data: BlacklistTicketCreate, db: Session = Depends(get_db)):
+    in_data.draw_id = draw_id
     return SuccessEnvelope(data=TicketService(db).create_blacklist(in_data))
 
-@router.delete("/blacklist/{ticket_id}", response_model=SuccessEnvelope[bool])
-def delete_blacklist_ticket(ticket_id: int, db: Session = Depends(get_db)):
+@router.delete("/draws/{draw_id}/blacklist-tickets/{ticket_id}", response_model=SuccessEnvelope[bool])
+def delete_blacklist_ticket(draw_id: int, ticket_id: int, db: Session = Depends(get_db)):
     return SuccessEnvelope(data=TicketService(db).delete_blacklist(ticket_id))

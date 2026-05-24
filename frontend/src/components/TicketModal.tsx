@@ -1,4 +1,5 @@
-import { Modal, Form, Input, InputNumber, Button } from 'antd';
+import { useEffect } from 'react';
+import { Modal, Form, Input, InputNumber, Button, Select } from 'antd';
 import { useCreateWinningTicket, useCreateBlacklistTicket } from '../queries/useTickets';
 
 interface TicketModalProps {
@@ -13,32 +14,70 @@ export const TicketModal = ({ visible, onClose, type, drawId }: TicketModalProps
   const createWinning = useCreateWinningTicket();
   const createBlacklist = useCreateBlacklistTicket();
 
-  const handleFinish = async (values: any) => {
-    if (type === 'winning') {
-      await createWinning.mutateAsync({ ...values, draw_id: drawId });
-    } else {
-      await createBlacklist.mutateAsync(values);
+  useEffect(() => {
+    if (visible) {
+      form.resetFields();
     }
-    form.resetFields();
-    onClose();
+  }, [visible, form]);
+
+  const handleFinish = async (values: any) => {
+    if (!drawId) {
+      console.error("No drawId provided to TicketModal");
+      return;
+    }
+
+    const payload = { ...values, draw_id: drawId };
+    console.log("Submitting payload:", payload);
+
+    try {
+      if (type === 'winning') {
+        await createWinning.mutateAsync(payload);
+      } else {
+        await createBlacklist.mutateAsync(payload);
+      }
+      form.resetFields();
+      onClose();
+    } catch (error) {
+      console.error("Failed to create ticket:", error);
+    }
   };
 
   return (
-    <Modal title={`Add ${type === 'winning' ? 'Winning' : 'Blacklist'} Ticket`} open={visible} onCancel={onClose} footer={null}>
-      <Form form={form} onFinish={handleFinish} layout="vertical">
+    <Modal 
+      title={`Add ${type === 'winning' ? 'Winning' : 'Blacklist'} Ticket`} 
+      open={visible} 
+      onCancel={onClose} 
+      footer={null}
+      destroyOnClose
+    >
+      <Form form={form} onFinish={handleFinish} layout="vertical" preserve={false}>
         <Form.Item name="ticket" label="Ticket (3 digits)" rules={[{ required: true, pattern: /^\d{3}$/ }]}>
           <Input maxLength={3} />
         </Form.Item>
+        
         {type === 'winning' && (
-          <Form.Item name="amount" label="Amount" rules={[{ required: true }]}>
-            <InputNumber style={{ width: '100%' }} />
-          </Form.Item>
+          <>
+            <Form.Item name="type" label="Type" rules={[{ required: true }]}>
+              <Select placeholder="Select type">
+                <Select.Option value="JACKPOT">JACKPOT</Select.Option>
+                <Select.Option value="MINOR">MINOR</Select.Option>
+              </Select>
+            </Form.Item>
+            <Form.Item name="amount" label="Amount (Optional)">
+              <InputNumber style={{ width: '100%' }} />
+            </Form.Item>
+          </>
         )}
+
         {type === 'blacklist' && (
-          <Form.Item name="reason" label="Reason">
-            <Input />
+          <Form.Item name="type" label="Type" rules={[{ required: true }]}>
+            <Select placeholder="Select type">
+              <Select.Option value="HALF">HALF</Select.Option>
+              <Select.Option value="BLOCK">BLOCK</Select.Option>
+            </Select>
           </Form.Item>
         )}
+
         <Button type="primary" htmlType="submit" block>Submit</Button>
       </Form>
     </Modal>

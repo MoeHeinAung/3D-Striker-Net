@@ -9,8 +9,8 @@ class TicketService:
         self.repository = TicketRepository(db)
 
     # Winning Ticket
-    def list_winning(self):
-        return self.repository.get_all_winning()
+    def list_winning(self, draw_id: int):
+        return self.repository.get_all_winning_by_draw(draw_id)
 
     def create_winning(self, in_data: WinningTicketCreate):
         return self.repository.create_winning(in_data.model_dump())
@@ -21,8 +21,8 @@ class TicketService:
         return True
 
     # Blacklist Ticket
-    def list_blacklist(self):
-        return self.repository.get_all_blacklist()
+    def list_blacklist(self, draw_id: int):
+        return self.repository.get_all_blacklist_by_draw(draw_id)
 
     def create_blacklist(self, in_data: BlacklistTicketCreate):
         return self.repository.create_blacklist(in_data.model_dump())

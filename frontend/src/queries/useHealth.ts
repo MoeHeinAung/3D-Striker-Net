@@ -1,16 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 import { api } from '../services/api.js';
+import type { SuccessEnvelope } from '../types/base.js';
 
 export interface HealthStatus {
   status: string;
   version: string;
   database: string;
-}
-
-export interface SuccessEnvelope<T> {
-  success: boolean;
-  data: T;
-  message: string;
 }
 
 export const useHealth = () => {

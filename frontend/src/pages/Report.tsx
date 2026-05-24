@@ -7,8 +7,9 @@ const { Title } = Typography;
 
 export const ReportPage = () => {
   const [ticketModalType, setTicketModalType] = useState<'winning' | 'blacklist' | null>(null);
-  const { data: winningTickets } = useWinningTickets(1); // Assuming 1 for active draw
-  const { data: blacklistTickets } = useBlacklistTickets();
+  const activeDrawId = 1; // Assuming 1 for active draw
+  const { data: winningTickets } = useWinningTickets(activeDrawId);
+  const { data: blacklistTickets } = useBlacklistTickets(activeDrawId);
   const deleteWinning = useDeleteWinningTicket();
   const deleteBlacklist = useDeleteBlacklistTicket();
 
@@ -22,7 +23,7 @@ export const ReportPage = () => {
             { title: 'Ticket', dataIndex: 'ticket' },
             { title: 'Type', dataIndex: 'type' },
             { title: 'Amount', dataIndex: 'amount' },
-            { title: 'Action', render: (_:any, r:any) => <Button danger onClick={() => deleteWinning.mutate(r.id)}>Delete</Button> }
+            { title: 'Action', render: (_:any, r:any) => <Button danger onClick={() => deleteWinning.mutate({ draw_id: activeDrawId, id: r.id })}>Delete</Button> }
           ]} />
         </Card>
 
@@ -30,7 +31,7 @@ export const ReportPage = () => {
           <Table dataSource={blacklistTickets} rowKey="id" columns={[
             { title: 'Ticket', dataIndex: 'ticket' },
             { title: 'Type', dataIndex: 'type' },
-            { title: 'Action', render: (_:any, r:any) => <Button danger onClick={() => deleteBlacklist.mutate(r.id)}>Delete</Button> }
+            { title: 'Action', render: (_:any, r:any) => <Button danger onClick={() => deleteBlacklist.mutate({ draw_id: activeDrawId, id: r.id })}>Delete</Button> }
           ]} />
         </Card>
       </div>
@@ -40,7 +41,7 @@ export const ReportPage = () => {
           visible={!!ticketModalType} 
           onClose={() => setTicketModalType(null)} 
           type={ticketModalType} 
-          drawId={1}
+          drawId={activeDrawId}
         />
       )}
     </div>
