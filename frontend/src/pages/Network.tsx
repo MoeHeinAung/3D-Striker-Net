@@ -54,6 +54,7 @@ export const NetworkPage = () => {
   return (
     <div className={layoutStyles.pageContent}>
       <Card 
+        className={layoutStyles.card}
         style={{ gridColumn: '1 / span 5', gridRow: '1 / span 8' }}
         title={
           <Tabs 
@@ -77,6 +78,7 @@ export const NetworkPage = () => {
       </Card>
 
       <Card 
+        className={layoutStyles.card}
         style={{ gridColumn: '6 / span 7', gridRow: '1 / span 8' }}
         title="Entity Details"
       >

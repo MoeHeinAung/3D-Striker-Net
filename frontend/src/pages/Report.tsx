@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Table, Button, Card, Typography } from 'antd';
+import { Table, Button, Card } from 'antd';
 import { useWinningTickets, useBlacklistTickets, useDeleteWinningTicket, useDeleteBlacklistTicket } from '../queries/useTickets.js';
 import { TicketModal } from '../components/TicketModal.js';
 import layoutStyles from '../styles/layout.module.scss';
@@ -16,6 +16,7 @@ export const ReportPage = () => {
     <div className={layoutStyles.pageContent}>
       <Card 
         title="Winning Tickets" 
+        className={layoutStyles.card}
         style={{ gridColumn: '1 / span 6', gridRow: '1 / span 8' }}
         extra={<Button type="primary" onClick={() => setTicketModalType('winning')}>Add Winning</Button>}
       >
@@ -29,6 +30,7 @@ export const ReportPage = () => {
 
       <Card 
         title="Blacklist" 
+        className={layoutStyles.card}
         style={{ gridColumn: '7 / span 6', gridRow: '1 / span 8' }}
         extra={<Button type="primary" onClick={() => setTicketModalType('blacklist')}>Add Blacklisted</Button>}
       >

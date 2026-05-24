@@ -127,6 +127,7 @@ export const SalesPage = () => {
   return (
     <div className={layoutStyles.pageContent}>
       <Card 
+        className={layoutStyles.card}
         style={{ gridColumn: '1 / -1', gridRow: '1 / span 8' }}
         title={
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

@@ -5,13 +5,15 @@ export const DashboardPage = () => (
   <div className={layoutStyles.pageContent}>
     <Card 
       title="Dashboard" 
+      className={layoutStyles.card}
       style={{ gridColumn: '1 / span 4', gridRow: '1 / span 2' }}
     >
       <p>System operational. All sensors nominal.</p>
     </Card>
     
-    <Card 
+<Card 
       title="Recent Activity" 
+      className={layoutStyles.card}
       style={{ gridColumn: '5 / span 8', gridRow: '1 / span 4' }}
     >
       <p>No recent activity detected.</p>
@@ -19,6 +21,7 @@ export const DashboardPage = () => (
 
     <Card 
       title="System Status" 
+      className={layoutStyles.card}
       style={{ gridColumn: '1 / span 4', gridRow: '3 / span 2' }}
     >
       <p>CPU: 12%</p>

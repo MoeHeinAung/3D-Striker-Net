@@ -1,3 +1,5 @@
+@use 'theme' as *;
+
 .viewportContainer {
   display: grid;
   grid-template-rows: 48px 1fr;
@@ -21,4 +23,13 @@
   padding: 24px;
   height: 100%;
   width: 100%;
+}
+
+.card {
+  @include sci-fi-border;
+  background: inherit;
+}
+
+.btn-special {
+  @include btn-special;
 }

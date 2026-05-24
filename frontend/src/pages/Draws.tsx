@@ -86,9 +86,10 @@ export const DrawsPage = () => {
     <div className={layoutStyles.pageContent}>
       <Card 
         title="Draws: Draws" 
+        className={layoutStyles.card}
         style={{ gridColumn: '1 / -1', gridRow: '1 / span 8' }}
         extra={
-          <Button type="primary" className="btn-special" onClick={() => {
+          <Button type="primary" className={layoutStyles.btnSpecial} onClick={() => {
             setEditingDraw(null);
             form.resetFields();
             setIsModalVisible(true);

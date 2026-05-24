@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Table, Button, Space } from 'antd';
+import { Table, Button, Space, Card } from 'antd';
 import { useDrawRisk } from '../queries/useRisk.js';
 import { useOffload } from '../queries/useOffloaded.js';
 import { useUIStore } from '../store/uiStore.js';
@@ -63,13 +63,16 @@ export const RiskPage = () => {
         </Button>
       </Space>
       
-      <div style={{ gridColumn: '1 / -1', gridRow: '2 / 9', overflow: 'auto' }}>
-        <Table 
-          dataSource={riskData} 
-          columns={columns} 
-          rowKey="ticket" 
-          pagination={{ pageSize: 10 }}
-        />
+      <div style={{ gridColumn: '1 / -1', gridRow: '2 / -1' }}>
+        <Card className={layoutStyles.card} style={{ height: '100%' }}>
+          <Table 
+            dataSource={riskData} 
+            columns={columns} 
+            rowKey="ticket" 
+            pagination={{ pageSize: 10, position: ['bottomLeft'] }}
+            scroll={{ y: 'calc(100vh - 300px)' }}
+          />
+        </Card>
       </div>
       <OffloadModal 
         isOpen={modalOpen} 
