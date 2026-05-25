@@ -13,7 +13,7 @@
 
 .countdownTimer {
   grid-column: 1 / 4;
-  grid-row: 7 / 8;
+  grid-row: 7 / 9;
   background: rgba(20, 25, 40, 0.8);
   border: 1px solid rgba(0, 240, 255, 0.2);
   border-radius: 8px;
@@ -21,12 +21,67 @@
   align-items: center;
   justify-content: center;
   color: #fff;
-  padding: 1rem;
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: #00F0FF;
+    box-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+  }
+}
+
+.timerContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.timerLabel {
+  font-family: 'Tektur', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  color: #bac9cc;
+  opacity: 0.8;
+}
+
+.timerDisplay {
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+}
+
+.timerSegment {
+  display: flex;
+  align-items: baseline;
+  gap: 0.1rem;
 }
 
 .timerValue {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 2.5rem;
+  font-size: 3rem;
   color: #00F0FF;
-  text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+  text-shadow: 0 0 15px rgba(0, 240, 255, 0.6);
+  font-weight: 700;
+}
+
+.timerUnit {
+  font-family: 'Tektur', sans-serif;
+  font-size: 0.8rem;
+  color: #8A2BE2;
+  font-weight: 600;
+}
+
+.timerSeparator {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 2rem;
+  color: rgba(255, 255, 255, 0.2);
+  margin: 0 0.25rem;
 }

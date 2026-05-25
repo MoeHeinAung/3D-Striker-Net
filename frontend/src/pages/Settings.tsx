@@ -1,4 +1,4 @@
-import layoutStyles from '../styles/layout.module.scss';
+import layoutStyles from '../styles/Layout.module.scss';
 
 export const SettingsPage = () => (
   <div className={layoutStyles.pageContent}>
