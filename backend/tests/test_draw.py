@@ -3,9 +3,21 @@ from fastapi.testclient import TestClient
 from app.main import app
 from app.db.database import engine, Base
 
+# Ensure all models are imported so Base is aware of them
+from app.models.agent import Agent
+from app.models.batch import Batch
+from app.models.draw import Draw
+from app.models.master_dealer import MasterDealer
+from app.models.sale import Sale
+from app.models.winning_ticket import WinningTicket
+from app.models.blacklist_ticket import BlacklistTicket
+from app.models.offloaded import Offloaded
+
+from app.db.base import init_db
+
 @pytest.fixture(scope="module", autouse=True)
 def setup_db():
-    Base.metadata.create_all(bind=engine)
+    init_db(engine)
     yield
     Base.metadata.drop_all(bind=engine)
 
@@ -14,7 +26,8 @@ def clean_db():
     # Clear tables before each test
     with engine.connect() as conn:
         for table in Base.metadata.sorted_tables:
-            conn.execute(table.delete())
+            if not table.info.get('is_view'):
+                conn.execute(table.delete())
         conn.commit()
 
 client = TestClient(app)

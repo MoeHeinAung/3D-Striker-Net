@@ -21,7 +21,7 @@ def db():
     session = TestingSessionLocal()
     
     # Create required entities
-    draw = Draw(id=1, status=DrawStatus.OPEN.value, cutoff_time="23:59", open_date=date(2026, 5, 21))
+    draw = Draw(id=1, status=DrawStatus.OPEN.value, cutoff_time="23:59", open_date=date(2027, 5, 21))
     agent = Agent(id="ABC", name="Agent ABC", commission=0.1, jp_factor=1.0, sp_factor=1.0)
     session.add(draw)
     session.add(agent)
