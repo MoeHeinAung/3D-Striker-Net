@@ -2,29 +2,35 @@
 
 ## 📅 Backlog
 
-### 🟦 T-018: Layout Refactor (Viewport Containment & Grid)
-- **Status:** `✅ Done`
+### 🟦 T-019-V2: Real Dashboard Components Implementation
+- **Status:** `⬜ Not Started`
 - **Priority:** High
-- **Phase:** UI/UX
-- **Plain English Goal:** Refactor app layout for strict viewport containment (100vh/100vw) and implement a 12x8 CSS Grid system.
-- **Dependencies:** None
-- **Allowed Files:**
-  - `frontend/src/app/App.tsx`
-  - `frontend/src/styles/`
-  - `frontend/src/components/`
-  - `frontend/src/pages/`
-- **AI Prompt Used:** `Docs/prompts/frontend-implementation.md`
-- **Rollback Plan:** Revert CSS and App component structural changes to pre-grid state.
+- **Phase:** UX
+- **Plain English Goal:** Replace placeholder Nightingale chart and Countdown timer with real, data-driven components using ECharts and a new backend metrics endpoint.
+- **Dependencies:** T-019-R
+- **Allowed Files:** 
+  - `backend/app/api/routes/dashboard.py`
+  - `backend/app/services/dashboard.py`
+  - `frontend/src/components/NightingaleChart.tsx`
+  - `frontend/src/components/CountdownTimer.tsx`
+  - `frontend/src/queries/dashboardQueries.ts`
+- **AI Prompt Used:** `Docs/prompts/dashboard-dashboard-components-v2.md`
+- **Rollback Plan:** Revert to placeholders if implementation fails.
 
 #### 🛠️ Engineering Standards
-- **Approved Patterns:** Design System 12x8 Grid, `.card` components, `.scroll-container` pattern.
-- **Strict Anti-Patterns:** Body-level overflow, manual layout calculations in pages.
-
+- **Approved Patterns:**
+  - **Frontend:** Apache ECharts for Rose chart, TanStack Query for data, dayjs for time.
+  - **Backend:** aggregate RiskSummary in Service layer, SuccessEnvelope in API.
+- **Strict Anti-Patterns:**
+  - ❌ No inline styles.
+  - ❌ No logic in frontend components.
+  - ❌ No raw SQL in Service.
 - **Definition of Done (DoD):**
-  - [x] Tests pass (`npm run build`)
-  - [x] UI utilizes grid-based layout
-  - [x] Viewport overflow eliminated
-  - [x] Ant Design deprecations resolved
-- **Test Results:** Pass | Build logs: `npm run build` verified.
-- **Notes/Blockers:** Resolved viewport overflow in `Risk.tsx` using flex-based `.scroll-container` and resolved AntD deprecation warnings.
+  - [ ] Backend `/api/dashboard/metrics` returns aggregated risk data.
+  - [ ] Nightingale Chart renders with real-time distribution.
+  - [ ] Countdown Timer displays time to next draw cutoff.
+  - [ ] Visuals match professional high-tech sci-fi aesthetic.
+  - [ ] All components pass mounting tests.
+- **Test Results:** ⬜ Pending
+- **Notes/Blockers:** Requires adding `echarts` and `echarts-for-react` to frontend.
 - **Updated:** 2026-05-25

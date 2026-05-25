@@ -1,25 +1,37 @@
-# Business Logic — Rules and Requirements
+# Business Logic
 
-This file documents the business logic constraints and rules extracted from the project requirements.
+This document outlines the core business rules and calculations for the 3D-Striker-Net system.
 
-## 1. Core Principles
-- The application logic resides in the `backend/app/services/` layer.
-- Routes in `backend/app/api/` perform no business logic; they only delegate to services.
-- Data access is handled exclusively in `backend/app/repositories/`.
-- Validation is enforced via Pydantic schemas in `backend/app/schemas/`.
+## 1. Sales and Risk Management
 
-## 2. Layout and Structural Rules
-- **Viewport Constraints**: The application layout must be strictly contained within the browser viewport (100vh and 100vw).
-- **Overflow Management**: Body-level overflow is forbidden. All content exceeding the 100vh/100vw area must be managed through internal scrollable containers or pagination.
-- **Main Layout Grid**: The main content area must use a CSS Grid system with 12 columns and 8 rows.
-- **Component Integration**: Components (especially tables) must be optimized to span appropriate grid columns and rows.
+### 1.1 Ticket Parsing Rules
+- **Standard Entry**: `123 = 1000` (Ticket 123, Amount 1000)
+- **Dual Mapping**: `123 = 2000/1000` (Ticket 123 gets 2000, all other permutations of 123 get 1000)
+- **R Indicator**: `123 R 1000` (Ticket 123 and all its permutations get 1000)
 
-## 3. Data Integrity
-- UI tables must include `Array.isArray(data)` checks before rendering.
-- Numeric fields must use null-safe formatting (e.g., `(val ?? 0).toLocaleString()`).
-- All API interactions follow the standard `SuccessEnvelope` / `ErrorEnvelope` format defined in `SSOT.md`.
+### 1.2 Risk Calculations
+- **Total Sale Amount**: The sum of all sales for a specific ticket in a specific draw.
+- **House Holding Limit**: Each draw has a `house_holding_amount`. This is the maximum amount the house will keep for any single ticket.
+- **House Holding Amount**: `min(house_holding_amount, Total Sale Amount)`.
+- **Offloaded Amount**: The sum of amounts for a specific ticket that have been offloaded to another dealer.
+- **Pending Amount (Exceed Amount)**: `Total Sale Amount - (House Holding Amount + Offloaded Amount)`. This is the amount that exceeds the house limit and has not yet been offloaded.
 
-## 4. Operational Rules
-- All backend paths target `app.db` at the project root using `PROJECT_ROOT` pathing.
-- React forms must use `destroyOnClose` and `preserve={false}` on Modals.
-- Forms must reset fields on visibility change to clear stale state.
+## 2. Draw Lifecycle
+
+### 2.1 Cutoff Time
+- Each draw has an `open_date` and a `cutoff_time`.
+- Sales are strictly prohibited after the `cutoff_datetime` (Draw Date + Cutoff Time).
+- The system must prevent creating or updating sales for a draw once the current time exceeds the cutoff.
+
+## 3. Dashboard Metrics
+
+### 3.1 Nightingale Chart Data
+The chart visualizes the distribution of total volume for the active/latest draw:
+- **Total Sale Amount**: Aggregate of all tickets.
+- **Total House Holding Amount**: Aggregate of held portions across all tickets.
+- **Pending Amount**: Aggregate of exceed portions across all tickets.
+- **Offloaded Amount**: Aggregate of offloaded portions across all tickets.
+
+### 3.2 Countdown Timer
+- Displays the time remaining until the next draw's `cutoff_datetime`.
+- Should handle states where no active draw is found or when the cutoff has passed.

@@ -1,0 +1,27 @@
+.nightingaleChart {
+  grid-column: 4 / 10;
+  grid-row: 1 / 7;
+  background: rgba(20, 25, 40, 0.8);
+  border: 1px solid rgba(0, 255, 255, 0.2);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  padding: 1rem;
+}
+
+.countdownTimer {
+  grid-column: 1 / 4;
+  grid-row: 7 / 8;
+  background: rgba(20, 25, 40, 0.8);
+  border: 1px solid rgba(255, 0, 255, 0.2);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-family: 'Monospace', sans-serif;
+  font-size: 1.5rem;
+  padding: 1rem;
+}
