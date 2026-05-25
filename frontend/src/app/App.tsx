@@ -9,7 +9,7 @@ import { RiskPage } from '../pages/Risk.js';
 import { ReportPage } from '../pages/Report.js';
 import { SettingsPage } from '../pages/Settings.js';
 import { useUIStore } from '../store/uiStore.js';
-import layoutStyles from '../styles/layout.module.scss';
+import '../styles/design-system-core.scss';
 
 function App() {
   const { theme: appTheme } = useUIStore();
@@ -19,17 +19,17 @@ function App() {
       theme={{
         algorithm: appTheme === 'dark' ? theme.darkAlgorithm : theme.defaultAlgorithm,
         token: {
-          colorPrimary: '#00daf3',
-          colorBgBase: '#0d1516',
-          colorBgContainer: '#192122',
+          colorPrimary: '#00F0FF',
+          colorBgBase: '#0A0B0E',
+          colorBgContainer: '#14161C',
           colorTextBase: '#dce4e5',
           borderRadius: 0,
-          fontFamily: 'Inter, sans-serif',
+          fontFamily: "'Instrument Sans', sans-serif",
         },
         components: {
           Button: {
             borderRadius: 0,
-            colorPrimary: '#00daf3',
+            colorPrimary: '#00F0FF',
           },
           Table: {
             colorBgContainer: 'transparent',
@@ -41,9 +41,9 @@ function App() {
     >
       <AntApp>
         <Router>
-          <div className={layoutStyles.viewportContainer}>
+          <div className="page-layout">
             <Navbar />
-            <main className={layoutStyles.mainContent}>
+            <main className="main-content">
               <Routes>
                 <Route path="/" element={<DashboardPage />} />
                 <Route path="/draws" element={<DrawsPage />} />

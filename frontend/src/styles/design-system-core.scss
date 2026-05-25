@@ -1,0 +1,59 @@
+/* Global Design System Overrides */
+:root {
+  --void-black: #0A0B0E;
+  --obsidian: #14161C;
+  --striker-blue: #00F0FF;
+  --neural-violet: #8A2BE2;
+  --alert-red: #FF0055;
+  --success-emerald: #00FF9D;
+  --steel-grey: #2D323E;
+  --on-surface: #dce4e5;
+  --on-surface-variant: #bac9cc;
+}
+
+body {
+  background-color: var(--void-black) !important;
+  color: var(--on-surface) !important;
+  font-family: 'Instrument Sans', sans-serif !important;
+}
+
+/* Enforce Strict Viewport */
+html, body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+/* Grid Layout Logic */
+.page-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.main-content {
+  flex-grow: 1;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-template-rows: repeat(8, calc((100% - (7 * 24px)) / 8));
+  gap: 24px;
+  padding: 24px;
+}
+
+/* Card Styling */
+.card {
+  background: var(--obsidian);
+  border: 1px solid var(--steel-grey);
+  padding: 16px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Typography Overrides */
+h1, h2, h3, h4 {
+  font-family: 'Tektur', sans-serif;
+  text-transform: uppercase;
+}

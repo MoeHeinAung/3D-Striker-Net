@@ -1,11 +1,10 @@
 import { useState } from 'react';
-import { Table, Button, Space, Card } from 'antd';
+import { Table, Button, Card } from 'antd';
 import { useDrawRisk } from '../queries/useRisk.js';
 import { useOffload } from '../queries/useOffloaded.js';
 import { useUIStore } from '../store/uiStore.js';
 import { OffloadModal } from '../components/OffloadModal.js';
 import { type Risk } from '../types/risk.js';
-import layoutStyles from '../styles/layout.module.scss';
 
 const formatTicket = (ticket: string) => ticket;
 
@@ -55,22 +54,30 @@ export const RiskPage = () => {
   if (error) return <div>Error loading risk data</div>;
 
   return (
-    <div className={layoutStyles.pageContent}>
-      <Space style={{ gridColumn: '1 / -1', marginBottom: 16, width: '100%', justifyContent: 'space-between' }}>
+    <>
+      <div style={{ gridColumn: '1 / span 8' }}>
         <h1 style={{ margin: 0 }}>Risk Data for Draw {drawId}</h1>
+      </div>
+      <div style={{ gridColumn: '9 / span 4', display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
         <Button type="primary" size="large" onClick={() => setModalOpen(true)}>
           Offload Batch
         </Button>
-      </Space>
+      </div>
       
-      <div style={{ gridColumn: '1 / -1', gridRow: '2 / -1' }}>
-        <Card className={layoutStyles.card} style={{ height: '100%' }}>
+      <div style={{ gridColumn: '1 / -1', gridRow: '2 / span 7', display: 'flex', flexDirection: 'column', minHeight: 0 }}>
+        <Card 
+          className="card" 
+          style={{ height: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden' }} 
+          styles={{ body: { flexGrow: 1, display: 'flex', flexDirection: 'column', minHeight: 0, padding: 0 } }}
+        >
           <Table 
+            className="scroll-container"
             dataSource={riskData} 
             columns={columns} 
             rowKey="ticket" 
+            size="small"
             pagination={{ pageSize: 10, position: ['bottomLeft'] }}
-            scroll={{ y: 'calc(100vh - 300px)' }}
+            style={{ flexGrow: 1, overflow: 'auto' }}
           />
         </Card>
       </div>
@@ -79,6 +86,6 @@ export const RiskPage = () => {
         onClose={() => setModalOpen(false)} 
         onConfirm={handleBatchOffload}
       />
-    </div>
+    </>
   );
 };
