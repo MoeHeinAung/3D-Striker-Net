@@ -4,7 +4,7 @@ import { useBatches, useCreateBatch, useDeleteBatch } from '../queries/useBatche
 import { useDraws } from '../queries/useDraws.js';
 import { parseTicketLine, formatParsedTicket, expandTicketPermutations, type ParsedTicket } from '../utils/ticketFormatter.js';
 import type { Batch } from '../queries/useBatches.js';
-import layoutStyles from '../styles/layout.module.scss';
+import layoutStyles from '../styles/Layout.module.scss';
 
 const { Text } = Typography;
 

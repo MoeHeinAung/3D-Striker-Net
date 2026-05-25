@@ -4,7 +4,7 @@ import { useAgents, useCreateAgent, useUpdateAgent, useDeleteAgent } from '../qu
 import { useMasterDealers, useCreateMasterDealer, useUpdateMasterDealer, useDeleteMasterDealer } from '../queries/useMasterDealers.js';
 import type { Agent } from '../queries/useAgents.js';
 import type { MasterDealer } from '../queries/useMasterDealers.js';
-import layoutStyles from '../styles/layout.module.scss';
+import layoutStyles from '../styles/Layout.module.scss';
 
 export const NetworkPage = () => {
   const { message } = App.useApp();

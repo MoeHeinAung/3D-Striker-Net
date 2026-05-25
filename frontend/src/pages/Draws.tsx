@@ -4,7 +4,7 @@ import { useDraws, useCreateDraw, useUpdateDraw, useDeleteDraw } from '../querie
 import { DrawStatus } from '../types/draw.js';
 import type { Draw } from '../types/draw.js';
 import dayjs from 'dayjs';
-import layoutStyles from '../styles/layout.module.scss';
+import layoutStyles from '../styles/Layout.module.scss';
 
 export const DrawsPage = () => {
   const { message } = App.useApp();

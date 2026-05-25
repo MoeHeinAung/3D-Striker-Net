@@ -29,9 +29,29 @@ export const CountdownTimer: React.FC = () => {
     return () => clearInterval(interval);
   }, [nextDraw]);
 
+  const [hours, minutes, seconds] = timeLeft.split(':');
+
   return (
     <div className={styles.countdownTimer}>
-      <span className={styles.timerValue}>{timeLeft}</span>
+      <div className={styles.timerContainer}>
+        <div className={styles.timerLabel}>NEXT DRAW IN</div>
+        <div className={styles.timerDisplay}>
+          <div className={styles.timerSegment}>
+            <span className={styles.timerValue}>{hours}</span>
+            <span className={styles.timerUnit}>H</span>
+          </div>
+          <span className={styles.timerSeparator}>:</span>
+          <div className={styles.timerSegment}>
+            <span className={styles.timerValue}>{minutes}</span>
+            <span className={styles.timerUnit}>M</span>
+          </div>
+          <span className={styles.timerSeparator}>:</span>
+          <div className={styles.timerSegment}>
+            <span className={styles.timerValue}>{seconds}</span>
+            <span className={styles.timerUnit}>S</span>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

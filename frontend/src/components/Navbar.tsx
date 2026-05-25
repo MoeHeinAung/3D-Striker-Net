@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import styles from '../styles/Navbar.module.scss';
-import typography from '../styles/typography.module.scss';
+import typography from '../styles/Typography.module.scss';
 
 export const Navbar = () => {
   const location = useLocation();

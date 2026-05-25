@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Table, Button, Card } from 'antd';
 import { useWinningTickets, useBlacklistTickets, useDeleteWinningTicket, useDeleteBlacklistTicket } from '../queries/useTickets.js';
 import { TicketModal } from '../components/TicketModal.js';
-import layoutStyles from '../styles/layout.module.scss';
+import layoutStyles from '../styles/Layout.module.scss';
 
 export const ReportPage = () => {
   const [ticketModalType, setTicketModalType] = useState<'winning' | 'blacklist' | null>(null);
