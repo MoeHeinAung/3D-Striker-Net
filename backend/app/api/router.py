@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from app.api.routes import health, draw, agent, master_dealer, sale, batch, offloaded, tickets
+from app.api.routes import health, draw, agent, master_dealer, sale, batch, offloaded, tickets, dashboard
 
 api_router = APIRouter()
 api_router.include_router(health.router, prefix="/health", tags=["Health"])
@@ -10,3 +10,4 @@ api_router.include_router(sale.router, prefix="/sales", tags=["Sales"])
 api_router.include_router(batch.router, prefix="/batches", tags=["Batches"])
 api_router.include_router(offloaded.router, prefix="/offloaded", tags=["Offloaded"])
 api_router.include_router(tickets.router, tags=["Tickets"])
+api_router.include_router(dashboard.router, prefix="/dashboard", tags=["Dashboard"])

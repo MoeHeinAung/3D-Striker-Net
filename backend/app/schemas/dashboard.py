@@ -1,14 +1,10 @@
 from pydantic import BaseModel
-from typing import Optional
 
-class DashboardMetrics(BaseModel):
+class RiskMetrics(BaseModel):
     totalSaleAmount: float
     totalHouseHoldingAmount: float
     pendingAmount: float
     offloadedAmount: float
 
-class ActiveDrawResponse(BaseModel):
-    id: int
-    cutoff_time: str
-    status: str
-    note: Optional[str] = None
+class NextDraw(BaseModel):
+    cutoffDatetime: str

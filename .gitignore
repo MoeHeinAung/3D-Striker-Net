@@ -25,3 +25,9 @@ dist-ssr/
 app.db
 *.log
 .DS_Store
+
+# GitNexus indexes
+.gitnexus/
+
+# Gemini settings (optional - if you prefer local only)
+.gemini/settings.json

@@ -5,6 +5,12 @@ It is read-only: no constraints, no enforcement rules, no process guidance.
 
 ---
 
+## Codebase Intelligence
+This project uses GitNexus for code knowledge graph. Key commands:
+- `gitnexus analyze --drop-embeddings` - Re-index codebase
+- `gitnexus query "search term"` - Search knowledge graph
+- `gitnexus context SymbolName` - Get symbol context
+
 ## 1. Stack
 
 ### Frontend

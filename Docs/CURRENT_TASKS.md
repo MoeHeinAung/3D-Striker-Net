@@ -3,7 +3,7 @@
 ## 📅 Backlog
 
 ### 🟦 T-019-V2: Real Dashboard Components Implementation
-- **Status:** `⬜ Not Started`
+- **Status:** `✅ Done`
 - **Priority:** High
 - **Phase:** UX
 - **Plain English Goal:** Replace placeholder Nightingale chart and Countdown timer with real, data-driven components using ECharts and a new backend metrics endpoint.
@@ -26,11 +26,11 @@
   - ❌ No logic in frontend components.
   - ❌ No raw SQL in Service.
 - **Definition of Done (DoD):**
-  - [ ] Backend `/api/dashboard/metrics` returns aggregated risk data.
-  - [ ] Nightingale Chart renders with real-time distribution.
-  - [ ] Countdown Timer displays time to next draw cutoff.
-  - [ ] Visuals match professional high-tech sci-fi aesthetic.
-  - [ ] All components pass mounting tests.
-- **Test Results:** ⬜ Pending
+  - [x] Backend `/api/dashboard/metrics` returns aggregated risk data.
+  - [x] Nightingale Chart renders with real-time distribution.
+  - [x] Countdown Timer displays time to next draw cutoff.
+  - [x] Visuals match professional high-tech sci-fi aesthetic.
+  - [x] All components pass mounting tests.
+- **Test Results:** ✅ Passed | Logs: Build successful.
 - **Notes/Blockers:** Requires adding `echarts` and `echarts-for-react` to frontend.
 - **Updated:** 2026-05-25

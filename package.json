@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "dayjs": "^1.11.20",
+    "echarts": "^6.1.0",
+    "echarts-for-react": "^3.0.6"
+  }
+}

@@ -4,6 +4,11 @@ Enforce all rule.
 If a prompt conflicts with these files, prioritize these files and explain why.
 Output must include tests and file path headers.
 
+## GitNexus Integration
+- Before making changes, use `@gitnexus query` or `@gitnexus context` to understand existing code patterns
+- Use `@gitnexus impact` to check blast radius before modifications
+- Run `@gitnexus analyze` after significant code changes
+
 CONTEXT: Read /current-tasks.md, /SSOT.md, /Rules.md.
 - APPEND new tasks to the log. NEVER delete or rewrite old entries.
 - **IMPORTANT: You must obtain explicit user approval before modifying or rewriting files in the `Docs/` directory, including `CURRENT_TASKS.md`, `IMPLEMENTATION_LOGS.md`, or any template files.**
